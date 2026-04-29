@@ -3,6 +3,7 @@ import { ArrowLeft, Star, Clock, Users, PlayCircle, FileText, CheckCircle2, Lock
 import { getCourse, discountPct, formatINR } from "@/data/courses";
 import { useApp } from "@/store/useApp";
 import { useProgress } from "@/lib/progress";
+import ResourceVault from "@/components/ResourceVault";
 
 export default function CourseDetail() {
   const { slug } = useParams();
@@ -117,6 +118,8 @@ export default function CourseDetail() {
             ))}
           </div>
         </div>
+
+        <ResourceVault courseId={course.id} />
 
         {!user && (
           <Link
