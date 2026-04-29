@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon } from "lucide-react";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
 import { courses } from "@/data/courses";
-import { useProgress } from "@/lib/progress";
+
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
@@ -21,7 +21,10 @@ export default function Account() {
   }
 
   const completedCount = Object.values(completed).filter(Boolean).length;
-  const certificates = courses.filter((c) => useProgress(c).pct === 100);
+  const certificates = courses.filter((c) => {
+    const lessons = c.modules.flatMap((m) => m.lessons);
+    return lessons.length > 0 && lessons.every((l) => completed[`${c.id}:${l.id}`]);
+  });
 
   return (
     <div className="space-y-5 px-4 py-5">
