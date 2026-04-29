@@ -169,9 +169,15 @@ const monthOptions = (() => {
 })();
 
 function PracticalClassesSection() {
-  const { user, practicalBookings, bookPractical } = useApp();
+  const { user, practicalBookings, bookPractical, purchases } = useApp();
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState(monthOptions[0].value);
+  const [showBundleDialog, setShowBundleDialog] = useState(false);
+
+  const hasBundle = useMemo(
+    () => courses.every((c) => purchases[c.id]),
+    [purchases]
+  );
 
   const seatsTaken = useMemo(
     () => practicalBookings.filter((b) => b.month === month).length,
@@ -186,6 +192,10 @@ function PracticalClassesSection() {
 
   const handleRegister = () => {
     if (!user) return;
+    if (!hasBundle) {
+      setShowBundleDialog(true);
+      return;
+    }
     if (alreadyBooked) {
       toast.info("You are already registered for this month.");
       return;
