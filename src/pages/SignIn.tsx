@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft } from "lucide-react";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
+import { useApp, ADMIN_EMAIL, DEMO_STUDENT } from "@/store/useApp";
 import { toast } from "sonner";
 import logo from "@/assets/gilm-logo.png";
 
@@ -18,11 +18,23 @@ export default function SignIn() {
     e.preventDefault();
     if (!email.includes("@")) return toast.error("Enter a valid email");
     if (!name.trim()) return toast.error("Enter your name");
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    // Fixed OTP for the demo student so testing is friction-free
+    const code =
+      email.trim().toLowerCase() === DEMO_STUDENT.email
+        ? DEMO_STUDENT.otp
+        : Math.floor(100000 + Math.random() * 900000).toString();
     setSentOtp(code);
     setStep("otp");
-    // Demo only — show OTP in toast (real OTP requires backend)
     toast.success(`Demo OTP: ${code}`, { duration: 8000 });
+  };
+
+  const useDemoStudent = () => {
+    setName(DEMO_STUDENT.name);
+    setEmail(DEMO_STUDENT.email);
+    setSentOtp(DEMO_STUDENT.otp);
+    setOtp("");
+    setStep("otp");
+    toast.success(`Demo OTP: ${DEMO_STUDENT.otp}`, { duration: 8000 });
   };
 
   const verify = (e: React.FormEvent) => {
@@ -64,8 +76,19 @@ export default function SignIn() {
           <button type="submit" className="mt-3 w-full rounded-full gradient-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-elevated">
             Send OTP
           </button>
+
+          <button
+            type="button"
+            onClick={useDemoStudent}
+            className="w-full rounded-full border border-primary/30 bg-primary/5 py-3 text-xs font-semibold text-primary"
+          >
+            Use demo student → {DEMO_STUDENT.name}
+          </button>
+
           <p className="text-center text-[11px] text-muted-foreground">
-            Tip: use <b>{ADMIN_EMAIL}</b> for admin access
+            Demo student: <b>{DEMO_STUDENT.email}</b> · OTP <b>{DEMO_STUDENT.otp}</b>
+            <br />
+            Admin: <b>{ADMIN_EMAIL}</b>
           </p>
         </form>
       ) : (
