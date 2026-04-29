@@ -21,7 +21,10 @@ export default function Account() {
   }
 
   const completedCount = Object.values(completed).filter(Boolean).length;
-  const certificates = courses.filter((c) => useProgress(c).pct === 100);
+  const certificates = courses.filter((c) => {
+    const lessons = c.modules.flatMap((m) => m.lessons);
+    return lessons.length > 0 && lessons.every((l) => completed[`${c.id}:${l.id}`]);
+  });
 
   return (
     <div className="space-y-5 px-4 py-5">
