@@ -76,8 +76,19 @@ export default function SignIn() {
           <button type="submit" className="mt-3 w-full rounded-full gradient-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-elevated">
             Send OTP
           </button>
+
+          <button
+            type="button"
+            onClick={useDemoStudent}
+            className="w-full rounded-full border border-primary/30 bg-primary/5 py-3 text-xs font-semibold text-primary"
+          >
+            Use demo student → {DEMO_STUDENT.name}
+          </button>
+
           <p className="text-center text-[11px] text-muted-foreground">
-            Tip: use <b>{ADMIN_EMAIL}</b> for admin access
+            Demo student: <b>{DEMO_STUDENT.email}</b> · OTP <b>{DEMO_STUDENT.otp}</b>
+            <br />
+            Admin: <b>{ADMIN_EMAIL}</b>
           </p>
         </form>
       ) : (
