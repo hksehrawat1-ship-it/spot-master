@@ -3,6 +3,23 @@ import { persist } from "zustand/middleware";
 
 type User = { name: string; email: string; role: "student" | "admin" } | null;
 
+// Designate the master admin email here
+export const ADMIN_EMAIL = "admin@gilm.in";
+
+// GILM contact info
+export const GILM_CONTACT = {
+  email: "support@gilm.in",
+  phone: "+91 98765 43210",
+  whatsapp: "+91 98765 43210",
+};
+
+// Demo student account (one-tap sign in on the SignIn screen)
+export const DEMO_STUDENT = {
+  name: "Himanshu Sehrawat",
+  email: "gilm@google.com",
+  otp: "123456",
+};
+
 export type VaultItem = {
   id: string;
   courseId: string;
@@ -110,12 +127,5 @@ export const useApp = create<State>()(
   )
 );
 
-// Designate the master admin email here
-export const ADMIN_EMAIL = "admin@gilm.in";
-
-// Demo student account (one-tap sign in on the SignIn screen)
-export const DEMO_STUDENT = {
-  name: "Himanshu Sehrawat",
-  email: "gilm@google.com",
-  otp: "123456",
-};
+// Practical-class capacity per month
+export const PRACTICAL_SEATS_PER_MONTH = 25;
