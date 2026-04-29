@@ -75,11 +75,19 @@ export const useApp = create<State>()(
       practicalBookings: [],
       setUser: (user) =>
         set((s) => {
-          // Auto-grant demo student ownership of course c1 with a sample invoice
+          // Auto-grant demo student ownership of course c1 with sample invoice + vault
           if (user?.email === DEMO_STUDENT.email && !s.purchases["c1"]) {
+            const demoVault: VaultItem[] = [
+              { id: "v-demo-1", courseId: "c1", name: "Laundry Store Setup Checklist.pdf", kind: "pdf", size: 320_000, url: "#", addedAt: Date.now() },
+              { id: "v-demo-2", courseId: "c1", name: "Equipment Costing Sheet.xlsx", kind: "xlsx", size: 48_000, url: "#", addedAt: Date.now() },
+              { id: "v-demo-3", courseId: "c1", name: "Pricing Strategy Guide.pdf", kind: "pdf", size: 640_000, url: "#", addedAt: Date.now() },
+            ];
+            const existingIds = new Set(s.vault.map((v) => v.id));
+            const mergedVault = [...demoVault.filter((v) => !existingIds.has(v.id)), ...s.vault];
             return {
               user,
               purchases: { ...s.purchases, c1: true },
+              vault: mergedVault,
               invoices: [
                 {
                   id: "INV-DEMO-0001",
@@ -88,7 +96,7 @@ export const useApp = create<State>()(
                   amount: 25500,
                   date: Date.now(),
                 },
-                ...s.invoices,
+                ...s.invoices.filter((i) => i.id !== "INV-DEMO-0001"),
               ],
             };
           }
