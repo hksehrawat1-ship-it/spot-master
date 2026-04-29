@@ -84,7 +84,21 @@ export default function StainMaster() {
               More stains in this category coming soon.
             </Card>
           ) : (
-            categoryStains.map((s) => <StainCard key={s.id} stain={s} />)
+            (() => {
+              const groups = categoryStains.reduce<Record<string, typeof categoryStains>>((acc, s) => {
+                const k = s.subgroup || "All";
+                (acc[k] ||= []).push(s);
+                return acc;
+              }, {});
+              return Object.entries(groups).map(([group, items]) => (
+                <div key={group} className="space-y-2">
+                  {group !== "All" && (
+                    <h3 className="pt-2 text-sm font-semibold text-primary">{group}</h3>
+                  )}
+                  {items.map((s) => <StainCard key={s.id} stain={s} />)}
+                </div>
+              ));
+            })()
           )}
         </div>
       )}
