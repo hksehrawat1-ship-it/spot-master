@@ -3,6 +3,23 @@ import { persist } from "zustand/middleware";
 
 type User = { name: string; email: string; role: "student" | "admin" } | null;
 
+// Designate the master admin email here
+export const ADMIN_EMAIL = "admin@gilm.in";
+
+// GILM contact info
+export const GILM_CONTACT = {
+  email: "support@gilm.in",
+  phone: "+91 98765 43210",
+  whatsapp: "+91 98765 43210",
+};
+
+// Demo student account (one-tap sign in on the SignIn screen)
+export const DEMO_STUDENT = {
+  name: "Himanshu Sehrawat",
+  email: "gilm@google.com",
+  otp: "123456",
+};
+
 export type VaultItem = {
   id: string;
   courseId: string;
@@ -13,16 +30,38 @@ export type VaultItem = {
   addedAt: number;
 };
 
+export type Invoice = {
+  id: string;
+  courseId: string;
+  courseTitle: string;
+  amount: number;
+  date: number; // ms
+};
+
+export type PracticalBooking = {
+  id: string;
+  email: string;
+  name: string;
+  month: string; // e.g. "2026-05"
+  bookedAt: number;
+};
+
 type State = {
   user: User;
   // lessonId -> completed
   completed: Record<string, boolean>;
   vault: VaultItem[];
+  // courseId -> owned
+  purchases: Record<string, boolean>;
+  invoices: Invoice[];
+  practicalBookings: PracticalBooking[];
   setUser: (u: User) => void;
   signOut: () => void;
   toggleLesson: (id: string, value: boolean) => void;
   addVaultItems: (items: VaultItem[]) => void;
   removeVaultItem: (id: string) => void;
+  purchaseCourse: (p: { courseId: string; courseTitle: string; amount: number }) => void;
+  bookPractical: (b: Omit<PracticalBooking, "id" | "bookedAt">) => void;
 };
 
 export const useApp = create<State>()(
@@ -31,7 +70,38 @@ export const useApp = create<State>()(
       user: null,
       completed: {},
       vault: [],
-      setUser: (user) => set({ user }),
+      purchases: {},
+      invoices: [],
+      practicalBookings: [],
+      setUser: (user) =>
+        set((s) => {
+          // Auto-grant demo student ownership of course c1 with sample invoice + vault
+          if (user?.email === DEMO_STUDENT.email && !s.purchases["c1"]) {
+            const demoVault: VaultItem[] = [
+              { id: "v-demo-1", courseId: "c1", name: "Laundry Store Setup Checklist.pdf", kind: "pdf", size: 320_000, url: "#", addedAt: Date.now() },
+              { id: "v-demo-2", courseId: "c1", name: "Equipment Costing Sheet.xlsx", kind: "xlsx", size: 48_000, url: "#", addedAt: Date.now() },
+              { id: "v-demo-3", courseId: "c1", name: "Pricing Strategy Guide.pdf", kind: "pdf", size: 640_000, url: "#", addedAt: Date.now() },
+            ];
+            const existingIds = new Set(s.vault.map((v) => v.id));
+            const mergedVault = [...demoVault.filter((v) => !existingIds.has(v.id)), ...s.vault];
+            return {
+              user,
+              purchases: { ...s.purchases, c1: true },
+              vault: mergedVault,
+              invoices: [
+                {
+                  id: "INV-DEMO-0001",
+                  courseId: "c1",
+                  courseTitle: "Complete Guide to Start Laundry Store",
+                  amount: 25500,
+                  date: Date.now(),
+                },
+                ...s.invoices.filter((i) => i.id !== "INV-DEMO-0001"),
+              ],
+            };
+          }
+          return { user };
+        }),
       signOut: () => set({ user: null }),
       toggleLesson: (id, value) =>
         set((s) => ({ completed: { ...s.completed, [id]: value } })),
@@ -39,17 +109,31 @@ export const useApp = create<State>()(
         set((s) => ({ vault: [...items, ...s.vault] })),
       removeVaultItem: (id) =>
         set((s) => ({ vault: s.vault.filter((v) => v.id !== id) })),
+      purchaseCourse: ({ courseId, courseTitle, amount }) =>
+        set((s) => ({
+          purchases: { ...s.purchases, [courseId]: true },
+          invoices: [
+            {
+              id: `INV-${Date.now().toString(36).toUpperCase()}`,
+              courseId,
+              courseTitle,
+              amount,
+              date: Date.now(),
+            },
+            ...s.invoices,
+          ],
+        })),
+      bookPractical: (b) =>
+        set((s) => ({
+          practicalBookings: [
+            { ...b, id: `PRC-${Date.now().toString(36).toUpperCase()}`, bookedAt: Date.now() },
+            ...s.practicalBookings,
+          ],
+        })),
     }),
     { name: "gilm-store" }
   )
 );
 
-// Designate the master admin email here
-export const ADMIN_EMAIL = "admin@gilm.in";
-
-// Demo student account (one-tap sign in on the SignIn screen)
-export const DEMO_STUDENT = {
-  name: "Himanshu Sehrawat",
-  email: "gilm@google.com",
-  otp: "123456",
-};
+// Practical-class capacity per month
+export const PRACTICAL_SEATS_PER_MONTH = 25;
