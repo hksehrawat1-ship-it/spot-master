@@ -85,7 +85,7 @@ export const courses: Course[] = [
     tagline: "Scale, systemise and run a world-class laundry",
     description:
       "Built for owners ready to level up — SOPs, quality systems, hotel & B2B contracts, RFID, finance dashboards and team leadership for multi-store growth.",
-    level: "Intermediate",
+    level: "Advanced",
     hours: 12,
     students: 642,
     rating: 4.9,
@@ -114,7 +114,7 @@ export const courses: Course[] = [
     tagline: "Get more customers and grow profits — fast",
     description:
       "A practical marketing playbook for laundry owners — local SEO, Google & Meta ads, WhatsApp marketing, retention loops and proven offers that boost monthly profit.",
-    level: "Advanced",
+    level: "Intermediate",
     hours: 10,
     students: 921,
     rating: 4.9,
