@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { Upload, Users, BookOpen, FileText, Video, Plus } from "lucide-react";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
+import { Upload, Users, FileText, Video, Plus, Vault, Trash2, Download } from "lucide-react";
+import { useApp, ADMIN_EMAIL, type VaultItem } from "@/store/useApp";
 import { courses } from "@/data/courses";
 import { toast } from "sonner";
 
