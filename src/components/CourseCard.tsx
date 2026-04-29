@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Course } from "@/data/courses";
+import { Course, discountPct, formatINR } from "@/data/courses";
 import { Star, Clock, Users } from "lucide-react";
 
 export default function CourseCard({ course }: { course: Course }) {
