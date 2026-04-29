@@ -31,7 +31,7 @@ export default function Admin() {
       </header>
 
       <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
-        {(["upload", "courses", "students"] as const).map((t) => (
+        {(["upload", "vault", "courses", "students"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -39,12 +39,13 @@ export default function Admin() {
               tab === t ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
             }`}
           >
-            {t}
+            {t === "vault" ? "Resource Vault" : t}
           </button>
         ))}
       </div>
 
       {tab === "upload" && <UploadTab />}
+      {tab === "vault" && <VaultTab />}
       {tab === "students" && <StudentsTab />}
       {tab === "courses" && <CoursesTab />}
     </div>
