@@ -8,6 +8,11 @@ import {
 import { useApp, ADMIN_EMAIL, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
 import { courses, formatINR } from "@/data/courses";
 import { toast } from "sonner";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Lock } from "lucide-react";
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
