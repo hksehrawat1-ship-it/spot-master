@@ -18,11 +18,23 @@ export default function SignIn() {
     e.preventDefault();
     if (!email.includes("@")) return toast.error("Enter a valid email");
     if (!name.trim()) return toast.error("Enter your name");
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    // Fixed OTP for the demo student so testing is friction-free
+    const code =
+      email.trim().toLowerCase() === DEMO_STUDENT.email
+        ? DEMO_STUDENT.otp
+        : Math.floor(100000 + Math.random() * 900000).toString();
     setSentOtp(code);
     setStep("otp");
-    // Demo only — show OTP in toast (real OTP requires backend)
     toast.success(`Demo OTP: ${code}`, { duration: 8000 });
+  };
+
+  const useDemoStudent = () => {
+    setName(DEMO_STUDENT.name);
+    setEmail(DEMO_STUDENT.email);
+    setSentOtp(DEMO_STUDENT.otp);
+    setOtp("");
+    setStep("otp");
+    toast.success(`Demo OTP: ${DEMO_STUDENT.otp}`, { duration: 8000 });
   };
 
   const verify = (e: React.FormEvent) => {
