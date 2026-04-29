@@ -3,7 +3,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
+
+import MobileShell from "@/layouts/MobileShell";
+import Home from "@/pages/Home";
+import Courses from "@/pages/Courses";
+import CourseDetail from "@/pages/CourseDetail";
+import LessonPlayer from "@/pages/LessonPlayer";
+import MyLearning from "@/pages/MyLearning";
+import Certificate from "@/pages/Certificate";
+import SignIn from "@/pages/SignIn";
+import Account from "@/pages/Account";
+import Admin from "@/pages/Admin";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -12,11 +22,20 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner position="top-center" />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route element={<MobileShell />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:slug" element={<CourseDetail />} />
+            <Route path="/courses/:slug/lesson/:lessonId" element={<LessonPlayer />} />
+            <Route path="/courses/:slug/certificate" element={<Certificate />} />
+            <Route path="/learning" element={<MyLearning />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/admin" element={<Admin />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
