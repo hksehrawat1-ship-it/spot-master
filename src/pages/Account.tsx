@@ -1,8 +1,13 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon } from "lucide-react";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
-import { courses } from "@/data/courses";
-
+import {
+  LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon,
+  FileText, Download, LifeBuoy, Mail, Phone, MessageCircle,
+  GraduationCap, Calendar, Users, CheckCircle2,
+} from "lucide-react";
+import { useApp, ADMIN_EMAIL, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
+import { courses, formatINR } from "@/data/courses";
+import { toast } from "sonner";
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
@@ -27,7 +32,8 @@ export default function Account() {
   });
 
   return (
-    <div className="space-y-5 px-4 py-5">
+    <div className="space-y-5 px-4 py-5 pb-8">
+      {/* Profile header */}
       <div className="rounded-2xl gradient-primary p-5 text-primary-foreground shadow-elevated">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background/20 font-serif text-xl font-bold backdrop-blur">
@@ -44,6 +50,7 @@ export default function Account() {
         </div>
       </div>
 
+      {/* Quick links */}
       <div className="space-y-2">
         <Row to="/learning" icon={BookOpen} label="My courses" />
         {certificates.length > 0 && (
@@ -52,13 +59,24 @@ export default function Account() {
         {user.email === ADMIN_EMAIL && (
           <Row to="/admin" icon={Shield} label="Admin dashboard" />
         )}
-        <button
-          onClick={signOut}
-          className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left text-sm font-semibold text-destructive shadow-soft"
-        >
-          <LogOut className="h-4 w-4" /> Sign out
-        </button>
       </div>
+
+      {/* Invoices */}
+      <InvoicesSection />
+
+      {/* Practical classes */}
+      <PracticalClassesSection />
+
+      {/* Help & contact */}
+      <HelpSection />
+
+      {/* Sign out */}
+      <button
+        onClick={signOut}
+        className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left text-sm font-semibold text-destructive shadow-soft"
+      >
+        <LogOut className="h-4 w-4" /> Sign out
+      </button>
     </div>
   );
 }
@@ -81,5 +99,231 @@ function Row({ to, icon: Icon, label }: { to: string; icon: any; label: string }
       <span className="flex-1 text-sm font-semibold">{label}</span>
       <ChevronRight className="h-4 w-4 text-muted-foreground" />
     </Link>
+  );
+}
+
+/* ---------------- Invoices ---------------- */
+
+function InvoicesSection() {
+  const { invoices } = useApp();
+
+  return (
+    <section className="rounded-2xl bg-card p-4 shadow-soft">
+      <header className="mb-3 flex items-center gap-2">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <FileText className="h-4 w-4" />
+        </span>
+        <div className="flex-1">
+          <h2 className="font-serif text-base font-bold">Invoices</h2>
+          <p className="text-[11px] text-muted-foreground">All your course purchase receipts</p>
+        </div>
+      </header>
+
+      {invoices.length === 0 ? (
+        <p className="rounded-xl bg-secondary/60 px-3 py-4 text-center text-xs text-muted-foreground">
+          No invoices yet.
+        </p>
+      ) : (
+        <ul className="space-y-2">
+          {invoices.map((inv) => (
+            <li key={inv.id} className="flex items-center gap-3 rounded-xl bg-secondary/50 p-3">
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold">{inv.courseTitle}</p>
+                <p className="text-[11px] text-muted-foreground">
+                  {inv.id} · {new Date(inv.date).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+                </p>
+              </div>
+              <p className="text-sm font-bold text-primary">{formatINR(inv.amount)}</p>
+              <button
+                onClick={() => toast.success(`Invoice ${inv.id} downloaded`)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground"
+                aria-label="Download invoice"
+              >
+                <Download className="h-4 w-4" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+/* ---------------- Practical Classes ---------------- */
+
+const monthOptions = (() => {
+  const out: { value: string; label: string }[] = [];
+  const now = new Date();
+  for (let i = 0; i < 6; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    const label = d.toLocaleDateString("en-IN", { month: "long", year: "numeric" });
+    out.push({ value, label });
+  }
+  return out;
+})();
+
+function PracticalClassesSection() {
+  const { user, practicalBookings, bookPractical } = useApp();
+  const [open, setOpen] = useState(false);
+  const [month, setMonth] = useState(monthOptions[0].value);
+
+  const seatsTaken = useMemo(
+    () => practicalBookings.filter((b) => b.month === month).length,
+    [practicalBookings, month]
+  );
+  const seatsLeft = Math.max(0, PRACTICAL_SEATS_PER_MONTH - seatsTaken);
+  const fillPct = Math.round((seatsTaken / PRACTICAL_SEATS_PER_MONTH) * 100);
+
+  const alreadyBooked = !!user && practicalBookings.some(
+    (b) => b.email === user.email && b.month === month
+  );
+
+  const handleRegister = () => {
+    if (!user) return;
+    if (alreadyBooked) {
+      toast.info("You are already registered for this month.");
+      return;
+    }
+    if (seatsLeft <= 0) {
+      toast.error("This month is fully booked. Please choose another.");
+      return;
+    }
+    bookPractical({ email: user.email, name: user.name, month });
+    toast.success(`Registered for ${monthOptions.find((m) => m.value === month)?.label} practical class!`);
+  };
+
+  return (
+    <section className="rounded-2xl bg-card p-4 shadow-soft">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center gap-3 text-left"
+      >
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <GraduationCap className="h-4 w-4" />
+        </span>
+        <div className="flex-1">
+          <h2 className="font-serif text-base font-bold">Register for practical classes</h2>
+          <p className="text-[11px] text-muted-foreground">In-person hands-on training (max 25 / month)</p>
+        </div>
+        <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform ${open ? "rotate-90" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="mt-4 space-y-4">
+          {/* Month dropdown */}
+          <label className="block">
+            <span className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <Calendar className="h-3 w-3" /> Choose month
+            </span>
+            <select
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="w-full rounded-xl border border-input bg-background px-3 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {monthOptions.map((m) => (
+                <option key={m.value} value={m.value}>{m.label}</option>
+              ))}
+            </select>
+          </label>
+
+          {/* Seat availability */}
+          <div className="rounded-xl bg-secondary/50 p-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="flex items-center gap-1.5 font-semibold">
+                <Users className="h-3.5 w-3.5 text-primary" /> Seat availability
+              </span>
+              <span className={`font-bold ${seatsLeft === 0 ? "text-destructive" : "text-emerald-600"}`}>
+                {seatsLeft} / {PRACTICAL_SEATS_PER_MONTH} left
+              </span>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-background">
+              <div
+                className={`h-full rounded-full transition-all ${fillPct >= 100 ? "bg-destructive" : "bg-emerald-500"}`}
+                style={{ width: `${fillPct}%` }}
+              />
+            </div>
+            <p className="mt-1.5 text-[11px] text-muted-foreground">
+              {seatsTaken} of {PRACTICAL_SEATS_PER_MONTH} seats booked
+            </p>
+          </div>
+
+          <button
+            onClick={handleRegister}
+            disabled={alreadyBooked || seatsLeft === 0}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-elevated disabled:opacity-50"
+          >
+            {alreadyBooked ? (
+              <><CheckCircle2 className="h-4 w-4" /> Already registered</>
+            ) : seatsLeft === 0 ? (
+              "Fully booked"
+            ) : (
+              "Confirm registration"
+            )}
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ---------------- Help ---------------- */
+
+function HelpSection() {
+  return (
+    <section className="rounded-2xl bg-card p-4 shadow-soft">
+      <header className="mb-3 flex items-center gap-2">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <LifeBuoy className="h-4 w-4" />
+        </span>
+        <div className="flex-1">
+          <h2 className="font-serif text-base font-bold">Help & support</h2>
+          <p className="text-[11px] text-muted-foreground">We're here Mon–Sat, 10am–7pm</p>
+        </div>
+      </header>
+
+      <div className="space-y-2">
+        <ContactRow
+          icon={Mail}
+          label="Email support"
+          value={GILM_CONTACT.email}
+          href={`mailto:${GILM_CONTACT.email}`}
+        />
+        <ContactRow
+          icon={Phone}
+          label="GILM contact"
+          value={GILM_CONTACT.phone}
+          href={`tel:${GILM_CONTACT.phone.replace(/\s/g, "")}`}
+        />
+        <ContactRow
+          icon={MessageCircle}
+          label="WhatsApp"
+          value={GILM_CONTACT.whatsapp}
+          href={`https://wa.me/${GILM_CONTACT.whatsapp.replace(/[^0-9]/g, "")}`}
+        />
+      </div>
+    </section>
+  );
+}
+
+function ContactRow({
+  icon: Icon, label, value, href,
+}: { icon: any; label: string; value: string; href: string }) {
+  return (
+    <a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel="noreferrer"
+      className="flex items-center gap-3 rounded-xl bg-secondary/50 p-3"
+    >
+      <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <Icon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
+        <p className="truncate text-sm font-semibold">{value}</p>
+      </div>
+      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+    </a>
   );
 }
