@@ -23,8 +23,16 @@ export type Course = {
   students: number;
   rating: number;
   cover: string; // gradient class
+  price: number; // current price in INR
+  originalPrice: number; // MRP in INR
   modules: Module[];
 };
+
+export const discountPct = (c: Course) =>
+  Math.round(((c.originalPrice - c.price) / c.originalPrice) * 100);
+
+export const formatINR = (n: number) =>
+  "₹" + n.toLocaleString("en-IN");
 
 const sampleVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
 
