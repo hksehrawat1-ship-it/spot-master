@@ -8,6 +8,11 @@ import {
 import { useApp, ADMIN_EMAIL, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
 import { courses, formatINR } from "@/data/courses";
 import { toast } from "sonner";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Lock } from "lucide-react";
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
@@ -164,9 +169,15 @@ const monthOptions = (() => {
 })();
 
 function PracticalClassesSection() {
-  const { user, practicalBookings, bookPractical } = useApp();
+  const { user, practicalBookings, bookPractical, purchases } = useApp();
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState(monthOptions[0].value);
+  const [showBundleDialog, setShowBundleDialog] = useState(false);
+
+  const hasBundle = useMemo(
+    () => courses.every((c) => purchases[c.id]),
+    [purchases]
+  );
 
   const seatsTaken = useMemo(
     () => practicalBookings.filter((b) => b.month === month).length,
@@ -181,6 +192,10 @@ function PracticalClassesSection() {
 
   const handleRegister = () => {
     if (!user) return;
+    if (!hasBundle) {
+      setShowBundleDialog(true);
+      return;
+    }
     if (alreadyBooked) {
       toast.info("You are already registered for this month.");
       return;
@@ -248,12 +263,24 @@ function PracticalClassesSection() {
             </p>
           </div>
 
+          {!hasBundle && (
+            <div className="flex items-start gap-2 rounded-xl border border-amber-300/60 bg-amber-50 p-3 text-[11px] text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+              <Lock className="mt-0.5 h-3.5 w-3.5 flex-none" />
+              <p>
+                Practical classes are exclusive to <strong>Laundry Mastery Bundle</strong> students
+                (all 3 courses). Talk to customer care for more info.
+              </p>
+            </div>
+          )}
+
           <button
             onClick={handleRegister}
-            disabled={alreadyBooked || seatsLeft === 0}
+            disabled={hasBundle && (alreadyBooked || seatsLeft === 0)}
             className="inline-flex w-full items-center justify-center gap-2 rounded-full gradient-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-elevated disabled:opacity-50"
           >
-            {alreadyBooked ? (
+            {!hasBundle ? (
+              <><Lock className="h-4 w-4" /> Bundle members only</>
+            ) : alreadyBooked ? (
               <><CheckCircle2 className="h-4 w-4" /> Already registered</>
             ) : seatsLeft === 0 ? (
               "Fully booked"
@@ -263,6 +290,36 @@ function PracticalClassesSection() {
           </button>
         </div>
       )}
+
+      <AlertDialog open={showBundleDialog} onOpenChange={setShowBundleDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Lock className="h-6 w-6" />
+            </div>
+            <AlertDialogTitle className="text-center font-serif">
+              Laundry Mastery Bundle required
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center">
+              Practical classes are an exclusive perk for students who opted for the
+              <strong className="text-foreground"> Laundry Mastery Bundle</strong> (access to all 3 courses).
+              <br /><br />
+              Talk to customer care for more info on upgrading.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center">
+            <a
+              href={`tel:${GILM_CONTACT.phone.replace(/\s/g, "")}`}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold"
+            >
+              <Phone className="h-4 w-4" /> Call care
+            </a>
+            <AlertDialogAction onClick={() => setShowBundleDialog(false)}>
+              Got it
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 }
