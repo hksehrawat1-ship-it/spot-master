@@ -14,7 +14,7 @@ const mockStudents = [
 
 export default function Admin() {
   const { user } = useApp();
-  const [tab, setTab] = useState<"upload" | "students" | "courses">("upload");
+  const [tab, setTab] = useState<"upload" | "vault" | "students" | "courses">("upload");
 
   if (!user || user.email !== ADMIN_EMAIL) return <Navigate to="/" replace />;
 
