@@ -46,3 +46,10 @@ export const useApp = create<State>()(
 
 // Designate the master admin email here
 export const ADMIN_EMAIL = "admin@gilm.in";
+
+// Demo student account (one-tap sign in on the SignIn screen)
+export const DEMO_STUDENT = {
+  name: "Himanshu Sehrawat",
+  email: "gilm@google.com",
+  otp: "123456",
+};
