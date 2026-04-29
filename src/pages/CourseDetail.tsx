@@ -119,6 +119,8 @@ export default function CourseDetail() {
           </div>
         </div>
 
+        <ResourceVault courseId={course.id} />
+
         {!user && (
           <Link
             to="/sign-in"
