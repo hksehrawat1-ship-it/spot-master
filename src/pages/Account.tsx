@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon } from "lucide-react";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
 import { courses } from "@/data/courses";
-import { useProgress } from "@/lib/progress";
+
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
