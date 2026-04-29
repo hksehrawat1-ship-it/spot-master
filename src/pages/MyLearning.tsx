@@ -121,7 +121,8 @@ export default function MyLearning() {
 
 function PurchasedCourseCard({ course }: { course: typeof courses[number] }) {
   const p = useProgress(course);
-  const nextLesson = p.lessons.find((l) => !useApp.getState().completed[`${course.id}:${l.id}`]) || p.lessons[0];
+  const { completed } = useApp();
+  const nextLesson = p.lessons.find((l) => !completed[`${course.id}:${l.id}`]) || p.lessons[0];
 
   return (
     <article className="space-y-3 rounded-2xl bg-card p-4 shadow-soft">
