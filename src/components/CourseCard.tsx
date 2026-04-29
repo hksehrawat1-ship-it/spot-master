@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Course } from "@/data/courses";
+import { Course, discountPct, formatINR } from "@/data/courses";
 import { Star, Clock, Users } from "lucide-react";
 
 export default function CourseCard({ course }: { course: Course }) {
@@ -30,6 +30,13 @@ export default function CourseCard({ course }: { course: Course }) {
           </span>
           <span className="flex items-center gap-1">
             <Users className="h-3 w-3" /> {course.students.toLocaleString()}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 pt-1">
+          <span className="font-serif text-base font-bold text-primary">{formatINR(course.price)}</span>
+          <span className="text-[11px] text-muted-foreground line-through">{formatINR(course.originalPrice)}</span>
+          <span className="ml-auto rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-bold text-success">
+            {discountPct(course)}% OFF
           </span>
         </div>
       </div>

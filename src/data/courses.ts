@@ -23,110 +23,116 @@ export type Course = {
   students: number;
   rating: number;
   cover: string; // gradient class
+  price: number; // current price in INR
+  originalPrice: number; // MRP in INR
   modules: Module[];
 };
+
+export const discountPct = (c: Course) =>
+  Math.round(((c.originalPrice - c.price) / c.originalPrice) * 100);
+
+export const formatINR = (n: number) =>
+  "₹" + n.toLocaleString("en-IN");
 
 const sampleVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
 
 export const courses: Course[] = [
   {
     id: "c1",
-    slug: "laundry-fundamentals",
-    title: "Laundry Operations Fundamentals",
-    tagline: "Master the basics of commercial laundry",
+    slug: "start-laundry-store",
+    title: "Complete Guide to Start Laundry Store",
+    tagline: "Launch your own laundry store, step by step",
     description:
-      "From fabric science to wash chemistry — build a rock-solid foundation in commercial laundry operations.",
+      "Everything you need to plan, set up and launch a profitable laundry store — location, machines, pricing, staffing, licences and your first 90 days of operations.",
     level: "Beginner",
-    hours: 6,
+    hours: 8,
     students: 1284,
     rating: 4.8,
     cover: "from-primary to-primary-glow",
+    price: 25500,
+    originalPrice: 45000,
     modules: [
       {
         id: "m1",
-        title: "Introduction to Commercial Laundry",
+        title: "Business Foundations",
         lessons: [
-          { id: "l1", title: "Welcome & course overview", duration: "04:12", videoUrl: sampleVideo, resources: [{ name: "Course syllabus.pdf", type: "pdf", url: "#" }] },
-          { id: "l2", title: "The laundry industry today", duration: "09:30", videoUrl: sampleVideo, resources: [] },
+          { id: "l1", title: "Welcome & how to use this course", duration: "04:12", videoUrl: sampleVideo, resources: [{ name: "Course syllabus.pdf", type: "pdf", url: "#" }] },
+          { id: "l2", title: "The Indian laundry opportunity", duration: "09:30", videoUrl: sampleVideo, resources: [] },
         ],
       },
       {
         id: "m2",
-        title: "Fabrics & Fibres",
+        title: "Setup & Equipment",
         lessons: [
-          { id: "l3", title: "Natural vs synthetic fibres", duration: "11:08", videoUrl: sampleVideo, resources: [{ name: "Fibre chart.png", type: "png", url: "#" }] },
-          { id: "l4", title: "Fabric care symbols", duration: "07:45", videoUrl: sampleVideo, resources: [{ name: "Care symbols.pdf", type: "pdf", url: "#" }] },
+          { id: "l3", title: "Choosing the right location", duration: "11:08", videoUrl: sampleVideo, resources: [{ name: "Location checklist.pdf", type: "pdf", url: "#" }] },
+          { id: "l4", title: "Machines, layout & investment plan", duration: "12:45", videoUrl: sampleVideo, resources: [{ name: "Equipment costing.xlsx", type: "xlsx", url: "#" }] },
         ],
       },
       {
         id: "m3",
-        title: "Wash Chemistry",
+        title: "Launch & First Customers",
         lessons: [
-          { id: "l5", title: "Detergents & builders", duration: "13:20", videoUrl: sampleVideo, resources: [{ name: "Chemicals.xlsx", type: "xlsx", url: "#" }] },
-          { id: "l6", title: "pH, water hardness & dosing", duration: "10:55", videoUrl: sampleVideo, resources: [] },
+          { id: "l5", title: "Pricing your services", duration: "10:20", videoUrl: sampleVideo, resources: [{ name: "Pricing sheet.xlsx", type: "xlsx", url: "#" }] },
+          { id: "l6", title: "Hiring & training your first team", duration: "10:55", videoUrl: sampleVideo, resources: [] },
         ],
       },
     ],
   },
   {
     id: "c2",
-    slug: "hotel-linen-management",
-    title: "Hotel Linen Management",
-    tagline: "Run a flawless hotel laundry",
+    slug: "laundry-business-excellence",
+    title: "Advanced – Laundry Business Excellence",
+    tagline: "Scale, systemise and run a world-class laundry",
     description:
-      "Linen par levels, RFID tracking, guest experience standards and quality control for 5-star properties.",
-    level: "Intermediate",
-    hours: 8,
+      "Built for owners ready to level up — SOPs, quality systems, hotel & B2B contracts, RFID, finance dashboards and team leadership for multi-store growth.",
+    level: "Advanced",
+    hours: 12,
     students: 642,
     rating: 4.9,
     cover: "from-[hsl(214_71%_28%)] to-accent",
+    price: 35500,
+    originalPrice: 75000,
     modules: [
-      { id: "m1", title: "Linen Lifecycle", lessons: [
-        { id: "l1", title: "Procurement to retirement", duration: "12:00", videoUrl: sampleVideo, resources: [] },
-        { id: "l2", title: "Par level calculations", duration: "09:14", videoUrl: sampleVideo, resources: [{ name: "Par calculator.xlsx", type: "xlsx", url: "#" }] },
+      { id: "m1", title: "Operations Excellence", lessons: [
+        { id: "l1", title: "Building bullet-proof SOPs", duration: "12:00", videoUrl: sampleVideo, resources: [{ name: "SOP template.pdf", type: "pdf", url: "#" }] },
+        { id: "l2", title: "Quality control systems", duration: "09:14", videoUrl: sampleVideo, resources: [{ name: "QC checklist.xlsx", type: "xlsx", url: "#" }] },
       ]},
-      { id: "m2", title: "Quality & Standards", lessons: [
-        { id: "l3", title: "Inspection workflows", duration: "08:40", videoUrl: sampleVideo, resources: [] },
+      { id: "m2", title: "B2B & Hotel Contracts", lessons: [
+        { id: "l3", title: "Winning hotel & hospital tenders", duration: "13:40", videoUrl: sampleVideo, resources: [] },
+        { id: "l4", title: "Pricing B2B contracts profitably", duration: "11:10", videoUrl: sampleVideo, resources: [] },
+      ]},
+      { id: "m3", title: "Finance & Scale", lessons: [
+        { id: "l5", title: "Reading your P&L like a pro", duration: "10:25", videoUrl: sampleVideo, resources: [{ name: "P&L template.xlsx", type: "xlsx", url: "#" }] },
+        { id: "l6", title: "Opening your second store", duration: "12:15", videoUrl: sampleVideo, resources: [] },
       ]},
     ],
   },
   {
     id: "c3",
-    slug: "stain-removal-masterclass",
-    title: "Stain Removal Masterclass",
-    tagline: "Tackle every stain with confidence",
+    slug: "marketing-profit-accelerator",
+    title: "Laundry Marketing & Profit Growth Accelerator",
+    tagline: "Get more customers and grow profits — fast",
     description:
-      "Identify, treat and remove 40+ stain types using safe, repeatable processes used by industry pros.",
-    level: "Advanced",
-    hours: 5,
-    students: 921,
-    rating: 4.7,
-    cover: "from-accent to-primary",
-    modules: [
-      { id: "m1", title: "Stain Science", lessons: [
-        { id: "l1", title: "Stain categories", duration: "07:25", videoUrl: sampleVideo, resources: [{ name: "Stain guide.pdf", type: "pdf", url: "#" }] },
-      ]},
-      { id: "m2", title: "Treatment Protocols", lessons: [
-        { id: "l2", title: "Protein stains", duration: "11:30", videoUrl: sampleVideo, resources: [] },
-        { id: "l3", title: "Tannin & oil stains", duration: "10:15", videoUrl: sampleVideo, resources: [] },
-      ]},
-    ],
-  },
-  {
-    id: "c4",
-    slug: "dry-cleaning-essentials",
-    title: "Dry Cleaning Essentials",
-    tagline: "Solvent care, machines, and finishing",
-    description:
-      "A complete guide to perc & hydrocarbon systems, machine cycles, finishing and customer-facing best practices.",
+      "A practical marketing playbook for laundry owners — local SEO, Google & Meta ads, WhatsApp marketing, retention loops and proven offers that boost monthly profit.",
     level: "Intermediate",
-    hours: 7,
-    students: 487,
-    rating: 4.6,
-    cover: "from-primary-glow to-accent",
+    hours: 10,
+    students: 921,
+    rating: 4.9,
+    cover: "from-accent to-primary",
+    price: 45500,
+    originalPrice: 99000,
     modules: [
-      { id: "m1", title: "Solvents & Machines", lessons: [
-        { id: "l1", title: "Solvent overview", duration: "09:40", videoUrl: sampleVideo, resources: [] },
+      { id: "m1", title: "Brand & Local Presence", lessons: [
+        { id: "l1", title: "Positioning your laundry brand", duration: "08:25", videoUrl: sampleVideo, resources: [{ name: "Brand workbook.pdf", type: "pdf", url: "#" }] },
+        { id: "l2", title: "Google Business Profile that ranks", duration: "11:30", videoUrl: sampleVideo, resources: [] },
+      ]},
+      { id: "m2", title: "Paid Ads & Lead Gen", lessons: [
+        { id: "l3", title: "Meta ads for laundry stores", duration: "14:10", videoUrl: sampleVideo, resources: [{ name: "Ad creatives.png", type: "png", url: "#" }] },
+        { id: "l4", title: "Google Search & Maps ads", duration: "12:15", videoUrl: sampleVideo, resources: [] },
+      ]},
+      { id: "m3", title: "Retention & Profit", lessons: [
+        { id: "l5", title: "WhatsApp marketing & retention", duration: "10:40", videoUrl: sampleVideo, resources: [{ name: "WA templates.pdf", type: "pdf", url: "#" }] },
+        { id: "l6", title: "Offers that boost monthly profit", duration: "11:20", videoUrl: sampleVideo, resources: [{ name: "Profit calculator.xlsx", type: "xlsx", url: "#" }] },
       ]},
     ],
   },

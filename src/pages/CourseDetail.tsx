@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Star, Clock, Users, PlayCircle, FileText, CheckCircle2, Lock } from "lucide-react";
-import { getCourse } from "@/data/courses";
+import { getCourse, discountPct, formatINR } from "@/data/courses";
 import { useApp } from "@/store/useApp";
 import { useProgress } from "@/lib/progress";
 
@@ -41,6 +41,17 @@ export default function CourseDetail() {
         </div>
 
         <p className="text-sm leading-relaxed text-foreground/80">{course.description}</p>
+
+        <div className="rounded-2xl border border-border bg-card p-4 shadow-soft">
+          <div className="flex items-baseline gap-2">
+            <span className="font-serif text-2xl font-bold text-primary">{formatINR(course.price)}</span>
+            <span className="text-sm text-muted-foreground line-through">{formatINR(course.originalPrice)}</span>
+            <span className="ml-auto rounded-full bg-success/15 px-2.5 py-1 text-xs font-bold text-success">
+              {discountPct(course)}% OFF
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">Lifetime access · Certificate on completion</p>
+        </div>
 
         {user && progress && (
           <div className="rounded-2xl bg-secondary p-4">
