@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Award, PlayCircle } from "lucide-react";
 import { courses } from "@/data/courses";
 import CourseCard from "@/components/CourseCard";
+import CertificatesSection from "@/components/CertificatesSection";
 import logo from "@/assets/gilm-logo.png";
 
 export default function Home() {
@@ -51,6 +52,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* My Certificates */}
+      <CertificatesSection />
 
       {/* Why */}
       <section className="mx-4 rounded-2xl bg-secondary p-5">
