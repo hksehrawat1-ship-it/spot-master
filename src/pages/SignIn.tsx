@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft } from "lucide-react";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
+import { useApp, ADMIN_EMAIL, DEMO_STUDENT } from "@/store/useApp";
 import { toast } from "sonner";
 import logo from "@/assets/gilm-logo.png";
 
