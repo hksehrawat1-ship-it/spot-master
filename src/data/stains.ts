@@ -16,6 +16,7 @@ export interface Stain {
   id: string;
   name: string;
   category: StainCategory;
+  subgroup?: string;
   description: string;
   treatment: string;
   caution?: string;
