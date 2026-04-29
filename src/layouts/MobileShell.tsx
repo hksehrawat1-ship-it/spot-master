@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { Home, BookOpen, GraduationCap, User, Shield } from "lucide-react";
+import { Home, BookOpen, GraduationCap, User, Shield, Sparkles } from "lucide-react";
 import logo from "@/assets/gilm-logo.png";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
 
@@ -7,6 +7,7 @@ const tabs = [
   { to: "/", label: "Home", icon: Home, end: true },
   { to: "/courses", label: "Courses", icon: BookOpen },
   { to: "/learning", label: "Learning", icon: GraduationCap },
+  { to: "/stain-master", label: "Stains", icon: Sparkles },
   { to: "/account", label: "Account", icon: User },
 ];
 
@@ -48,7 +49,7 @@ export default function MobileShell() {
 
       {!immersive && (
         <nav className="fixed bottom-0 left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border/60 bg-background/95 backdrop-blur-md">
-          <ul className="grid grid-cols-4 px-2 pb-[env(safe-area-inset-bottom)] pt-1.5">
+          <ul className="grid grid-cols-5 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
             {tabs.map(({ to, label, icon: Icon, end }) => (
               <li key={to}>
                 <NavLink
