@@ -137,6 +137,12 @@ export default function StainMaster() {
 }
 
 function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
+  const diffColor: Record<string, string> = {
+    Light: "bg-success/15 text-success",
+    Heavy: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
+    Industrial: "bg-orange-500/15 text-orange-700 dark:text-orange-400",
+    Petroleum: "bg-destructive/15 text-destructive",
+  };
   return (
     <Card className="space-y-2 p-4">
       <div className="flex items-start justify-between gap-2">
@@ -145,6 +151,11 @@ function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
           {stain.category}
         </Badge>
       </div>
+      {stain.difficulty && (
+        <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${diffColor[stain.difficulty]}`}>
+          {stain.difficulty}
+        </span>
+      )}
       <p className="text-sm text-muted-foreground">{stain.description}</p>
       <div className="rounded-lg bg-success/10 p-3">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-success">
