@@ -91,6 +91,13 @@ export default function CourseCard({ course, index = 0 }: { course: Course; inde
           </p>
         )}
 
+        {course.slug === "5-day-practical-training" && (
+          <p className="inline-flex items-center gap-1.5 rounded-lg bg-[hsl(4_90%_95%)] px-3 py-2 text-[12px] font-semibold text-[hsl(4_75%_42%)]">
+            <CalendarDays className="h-3.5 w-3.5" />
+            Next batch: {nextClassDate()}
+          </p>
+        )}
+
         {/* Meta row */}
         <div className="flex items-center gap-4 text-[12px] text-muted-foreground">
           <span className="flex items-center gap-1">
