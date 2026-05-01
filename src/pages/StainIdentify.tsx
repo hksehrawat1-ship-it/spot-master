@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Check, Sparkles, SkipForward, Bookmark, AlertTriangle, Beaker, Lightbulb, FlaskConical, Home as HomeIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sparkles, SkipForward, Bookmark, AlertTriangle, Beaker, Lightbulb, FlaskConical, Home as HomeIcon, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
