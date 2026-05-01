@@ -43,6 +43,17 @@ export default function CourseDetail() {
 
         <p className="text-sm leading-relaxed text-foreground/80">{course.description}</p>
 
+        {!course.isBundle && (
+          <a
+            href={`/syllabus/${course.slug}.pdf`}
+            download
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-opacity hover:opacity-80"
+          >
+            <Download className="h-4 w-4" />
+            Download the syllabus
+          </a>
+        )}
+
         <div className="rounded-2xl border border-border bg-card p-4 shadow-soft">
           <div className="flex items-baseline gap-2">
             <span className="font-serif text-2xl font-bold text-primary">{formatINR(course.price)}</span>
