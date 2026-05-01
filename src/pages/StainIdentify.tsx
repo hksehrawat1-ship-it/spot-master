@@ -530,8 +530,8 @@ export default function StainIdentify() {
             </div>
           </Section>
 
-          {/* Section 3: Alternative */}
-          <Section title="Alternative Method" tone="muted">
+          {/* 3. Alternative Method */}
+          <Section title="3. Alternative Method" tone="muted">
             <KV k="When to use" v={result.alternative.whenToUse} />
             <ol className="space-y-1.5">
               {result.alternative.steps.map((s, i) => (
@@ -540,8 +540,8 @@ export default function StainIdentify() {
             </ol>
           </Section>
 
-          {/* Section 4: DIY */}
-          <Section icon={<HomeIcon className="h-4 w-4" />} title="DIY Method" tone="muted">
+          {/* 4. DIY Method */}
+          <Section icon={<HomeIcon className="h-4 w-4" />} title="4. DIY Method" tone="muted">
             <div>
               <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Household items</p>
               <div className="flex flex-wrap gap-1.5">
@@ -557,19 +557,6 @@ export default function StainIdentify() {
             </ol>
             <p className="rounded-lg bg-amber-500/10 p-2 text-[11px] font-medium text-amber-800">⚠️ Limited result expected — DIY may not fully remove the stain.</p>
           </Section>
-
-          {/* Section 5: Do NOT Do */}
-          <div className="rounded-2xl border-2 border-destructive/40 bg-destructive/5 p-4">
-            <div className="mb-2 flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-destructive" />
-              <p className="text-sm font-bold uppercase tracking-wider text-destructive">Do NOT Do</p>
-            </div>
-            <ul className="space-y-1.5">
-              {result.doNotDo.map((d) => (
-                <li key={d} className="flex gap-2 text-sm text-destructive"><span>✕</span><span>{d}</span></li>
-              ))}
-            </ul>
-          </div>
 
           {/* Section 6: Pro Tips */}
           <Section icon={<Lightbulb className="h-4 w-4" />} title="Pro Tips" tone="muted">
