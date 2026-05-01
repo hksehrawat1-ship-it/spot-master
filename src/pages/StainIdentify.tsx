@@ -7,7 +7,19 @@ import { cn } from "@/lib/utils";
 
 type Fabric = "Cotton" | "Polyester" | "Wool" | "Silk" | "Denim" | "Mixed";
 type Color = "White" | "Light" | "Dark" | "Bright";
-type Nature = "Oily" | "Colored" | "Body" | "Solid" | "Transfer";
+type Nature =
+  | "Combination"
+  | "Oily"
+  | "Water"
+  | "Dye"
+  | "Protein"
+  | "Particulate"
+  | "Pigment"
+  | "Transfer"
+  | "Oxidizable"
+  | "HeatSet"
+  | "Reducible"
+  | "Chemical";
 type Condition = "Fresh" | "Old" | "Washed" | "Heat";
 
 const FABRICS: { id: Fabric; emoji: string; label: string }[] = [
@@ -27,11 +39,18 @@ const COLORS: { id: Color; swatch: string; label: string }[] = [
 ];
 
 const NATURES: { id: Nature; emoji: string; label: string }[] = [
-  { id: "Oily", emoji: "🛢️", label: "Oily / Greasy" },
-  { id: "Colored", emoji: "🎨", label: "Colored" },
-  { id: "Body", emoji: "🩸", label: "From body (blood/sweat)" },
-  { id: "Solid", emoji: "🪨", label: "Solid (mud/dust)" },
-  { id: "Transfer", emoji: "👕", label: "From another cloth" },
+  { id: "Combination", emoji: "🧬", label: "Combination" },
+  { id: "Oily", emoji: "🛢️", label: "Oil / Grease" },
+  { id: "Water", emoji: "💧", label: "Water-Based" },
+  { id: "Dye", emoji: "🍷", label: "Dye / Tannin" },
+  { id: "Protein", emoji: "🩸", label: "Protein" },
+  { id: "Particulate", emoji: "🪨", label: "Particulate" },
+  { id: "Pigment", emoji: "🎨", label: "Pigment / Paint" },
+  { id: "Transfer", emoji: "👕", label: "Dye Transfer" },
+  { id: "Oxidizable", emoji: "🍋", label: "Oxidizable" },
+  { id: "HeatSet", emoji: "🔥", label: "Heat-Set / Aged" },
+  { id: "Reducible", emoji: "🔩", label: "Reducible (Metal/Rust)" },
+  { id: "Chemical", emoji: "⚗️", label: "Chemical Damage" },
 ];
 
 const CONDITIONS: { id: Condition; emoji: string; label: string }[] = [
@@ -43,17 +62,34 @@ const CONDITIONS: { id: Condition; emoji: string; label: string }[] = [
 
 function predict(natures: Nature[]): { title: string; treatment: string } {
   const has = (n: Nature) => natures.includes(n);
-  if (has("Oily") && has("Colored"))
+  if (has("Combination") || (has("Oily") && has("Dye")))
     return {
       title: "Combination (Oil + Dye – e.g. Curry)",
       treatment:
         "Pre-treat with dish soap to break the oil, then apply a colour-safe oxygen bleach paste. Soak 30 min, agitate, rinse warm.",
     };
-  if (has("Oily")) return { title: "Oil / Grease stain", treatment: "Apply dish soap or degreaser, work in, soak 15 min, wash hot." };
-  if (has("Body")) return { title: "Protein stain (blood / sweat)", treatment: "Rinse with COLD water, apply enzyme detergent, soak 30 min, wash cool." };
-  if (has("Colored")) return { title: "Tannin / Dye stain", treatment: "Blot, apply white vinegar + detergent, soak in oxygen bleach, wash warm." };
-  if (has("Solid")) return { title: "Particulate (mud / dust)", treatment: "Let dry, brush off solids, pre-soak with detergent, wash normally." };
-  if (has("Transfer")) return { title: "Dye transfer", treatment: "Use a colour-run remover or oxygen bleach soak before fabric dries." };
+  if (has("Chemical"))
+    return { title: "Chemical damage", treatment: "Most chemical damage (bleach holes, acid burns) is permanent. Neutralise residue with cool water + mild detergent; consider re-dyeing." };
+  if (has("Reducible"))
+    return { title: "Rust / Metal stain", treatment: "Apply oxalic-acid based rust remover or lemon + salt, sun-dry, rinse. Never use chlorine bleach — it sets rust." };
+  if (has("HeatSet"))
+    return { title: "Heat-set / aged stain", treatment: "Soak overnight in oxygen bleach + warm water. Repeat treatment cycles; heat-set stains rarely lift in one pass." };
+  if (has("Oxidizable"))
+    return { title: "Oxidizable stain (fruit, wine, tea)", treatment: "Flush with cold water, apply oxygen bleach paste, sun-bleach if white. Avoid hot water until lifted." };
+  if (has("Pigment"))
+    return { title: "Pigment / Paint stain", treatment: "Scrape off excess. For water-based: detergent + water. For oil/enamel: solvent (turpentine) then dish soap." };
+  if (has("Oily"))
+    return { title: "Oil / Grease stain", treatment: "Apply dish soap or degreaser, work in, soak 15 min, wash hot." };
+  if (has("Protein"))
+    return { title: "Protein stain (blood / sweat)", treatment: "Rinse with COLD water, apply enzyme detergent, soak 30 min, wash cool." };
+  if (has("Dye"))
+    return { title: "Tannin / Dye stain", treatment: "Blot, apply white vinegar + detergent, soak in oxygen bleach, wash warm." };
+  if (has("Particulate"))
+    return { title: "Particulate (mud / dust)", treatment: "Let dry, brush off solids, pre-soak with detergent, wash normally." };
+  if (has("Transfer"))
+    return { title: "Dye transfer", treatment: "Use a colour-run remover or oxygen bleach soak before fabric dries." };
+  if (has("Water"))
+    return { title: "Water-based stain", treatment: "Blot, rinse with cool water, treat with mild detergent and wash normally." };
   return { title: "General stain", treatment: "Pre-treat with detergent, soak 20 min, wash at the warmest safe temperature." };
 }
 
