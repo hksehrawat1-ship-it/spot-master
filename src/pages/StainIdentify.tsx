@@ -282,8 +282,118 @@ export default function StainIdentify() {
         </div>
       </div>
 
-      {/* Step 0 — Fabric */}
+      {/* Step 0 — Stain Name (with search + manual nature fallback) */}
       {step === 0 && (
+        <div className="space-y-5">
+          <div>
+            <h1 className="text-2xl font-bold leading-tight">Which stain is it?</h1>
+            <p className="text-sm text-muted-foreground">
+              Search or pick a stain — we'll auto-detect its nature.
+            </p>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              value={stainQuery}
+              onChange={(e) => setStainQuery(e.target.value)}
+              placeholder="Search a stain (e.g. tea, blood, rust)…"
+              className="h-11 w-full rounded-full border border-border bg-card pl-10 pr-10 text-sm shadow-soft outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/15"
+            />
+            {stainQuery && (
+              <button
+                type="button"
+                onClick={() => setStainQuery("")}
+                aria-label="Clear search"
+                className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          {(() => {
+            const q = stainQuery.trim().toLowerCase();
+            const filtered = q
+              ? STAIN_NAMES.filter((s) => s.name.toLowerCase().includes(q))
+              : STAIN_NAMES;
+
+            if (filtered.length === 0) {
+              return (
+                <p className="rounded-xl bg-secondary/60 px-3 py-4 text-center text-xs text-muted-foreground">
+                  No matching stain found. Try another keyword or pick a stain nature below.
+                </p>
+              );
+            }
+
+            return (
+              <div className="flex flex-wrap gap-2">
+                {filtered.map((s) => {
+                  const sel =
+                    s.natures.length > 0 &&
+                    s.natures.every((n) => natures.includes(n)) &&
+                    natures.length === s.natures.length;
+                  return (
+                    <button
+                      key={s.name}
+                      onClick={() => setNatures(sel ? [] : s.natures)}
+                      className={cn(
+                        "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all",
+                        sel
+                          ? "border-primary bg-primary text-primary-foreground shadow-elevated"
+                          : "border-border bg-card hover:border-primary/50"
+                      )}
+                    >
+                      <span>{s.emoji}</span>
+                      <span>{s.name}</span>
+                      {sel && <Check className="h-3.5 w-3.5" />}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
+          <div className="h-px bg-border" />
+
+          {/* Manual nature fallback */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-base font-bold leading-tight">Don't see your stain?</h2>
+              <p className="text-xs text-muted-foreground">Pick its nature manually (tap all that apply).</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {NATURES.map((n) => {
+                const sel = natures.includes(n.id);
+                return (
+                  <button key={n.id} onClick={() => toggleNature(n.id)}
+                    className={cn("inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-xs font-semibold transition-all",
+                      sel ? "border-primary bg-primary text-primary-foreground shadow-elevated"
+                          : "border-border bg-card hover:border-primary/50")}>
+                    <span>{n.emoji}</span><span>{n.label}</span>{sel && <Check className="h-3.5 w-3.5" />}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          {natures.length > 0 && (
+            <p className="rounded-xl bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
+              Selected nature:{" "}
+              <span className="font-semibold text-foreground">
+                {natures
+                  .map((n) => NATURES.find((x) => x.id === n)?.label ?? n)
+                  .join(", ")}
+              </span>
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Step 1 — Fabric */}
+      {step === 1 && (
         <div className="space-y-4">
           <div>
             <h1 className="text-2xl font-bold leading-tight">What's the fabric?</h1>
@@ -298,11 +408,11 @@ export default function StainIdentify() {
         </div>
       )}
 
-      {/* Step 1 — Color */}
-      {step === 1 && (
+      {/* Step 2 — Colour */}
+      {step === 2 && (
         <div className="space-y-4">
           <div>
-            <h1 className="text-2xl font-bold leading-tight">Garment color</h1>
+            <h1 className="text-2xl font-bold leading-tight">Garment colour</h1>
             <p className="text-sm text-muted-foreground">Pick the closest match.</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -318,135 +428,24 @@ export default function StainIdentify() {
         </div>
       )}
 
-      {/* Step 2 — Nature */}
-      {step === 2 && (
+      {/* Step 3 — Age / Condition */}
+      {step === 3 && (
         <div className="space-y-4">
           <div>
-            <h1 className="text-2xl font-bold leading-tight">Stain nature</h1>
-            <p className="text-sm text-muted-foreground">Tap all that apply.</p>
+            <h1 className="text-2xl font-bold leading-tight">Age &amp; condition</h1>
+            <p className="text-sm text-muted-foreground">Has it been washed or ironed already?</p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {NATURES.map((n) => {
-              const sel = natures.includes(n.id);
-              return (
-                <button key={n.id} onClick={() => toggleNature(n.id)}
-                  className={cn("inline-flex items-center gap-2 rounded-full border-2 px-4 py-2.5 text-sm font-semibold transition-all",
-                    sel ? "border-primary bg-primary text-primary-foreground shadow-elevated"
-                        : "border-border bg-card hover:border-primary/50")}>
-                  <span>{n.emoji}</span><span>{n.label}</span>{sel && <Check className="h-3.5 w-3.5" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Step 3 — Possible Stain Name + Condition */}
-      {step === 3 && (
-        <div className="space-y-6">
-          {/* Section A: Possible Name of Stain */}
-          <section className="space-y-3">
-            <div>
-              <h1 className="text-2xl font-bold leading-tight">Possible name of stain</h1>
-              <p className="text-sm text-muted-foreground">
-                Tap a stain you recognise — we'll auto-pick its nature for you.
-              </p>
-            </div>
-
-            {/* Search bar for quick stain selection */}
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                value={stainQuery}
-                onChange={(e) => setStainQuery(e.target.value)}
-                placeholder="Search a stain (e.g. tea, blood, rust)…"
-                className="h-11 w-full rounded-full border border-border bg-card pl-10 pr-10 text-sm shadow-soft outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/15"
+          <div className="grid grid-cols-2 gap-2.5">
+            {CONDITIONS.map((c) => (
+              <OptionCard
+                key={c.id}
+                emoji={c.emoji}
+                label={c.label}
+                selected={condition === c.id}
+                onClick={() => setCondition(c.id)}
               />
-              {stainQuery && (
-                <button
-                  type="button"
-                  onClick={() => setStainQuery("")}
-                  aria-label="Clear search"
-                  className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-
-            {(() => {
-              const q = stainQuery.trim().toLowerCase();
-              const filtered = q
-                ? STAIN_NAMES.filter((s) => s.name.toLowerCase().includes(q))
-                : STAIN_NAMES;
-
-              if (filtered.length === 0) {
-                return (
-                  <p className="rounded-xl bg-secondary/60 px-3 py-4 text-center text-xs text-muted-foreground">
-                    No matching stain found. Try another keyword or pick from the nature list.
-                  </p>
-                );
-              }
-
-              return (
-                <div className="flex flex-wrap gap-2">
-                  {filtered.map((s) => {
-                    const sel =
-                      s.natures.length > 0 &&
-                      s.natures.every((n) => natures.includes(n));
-                    return (
-                      <button
-                        key={s.name}
-                        onClick={() => setNatures(sel ? [] : s.natures)}
-                        className={cn(
-                          "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all",
-                          sel
-                            ? "border-primary bg-primary text-primary-foreground shadow-elevated"
-                            : "border-border bg-card hover:border-primary/50"
-                        )}
-                      >
-                        <span>{s.emoji}</span>
-                        <span>{s.name}</span>
-                        {sel && <Check className="h-3.5 w-3.5" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })()}
-            {natures.length > 0 && (
-              <p className="rounded-xl bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
-                Selected nature:{" "}
-                <span className="font-semibold text-foreground">
-                  {natures
-                    .map((n) => NATURES.find((x) => x.id === n)?.label ?? n)
-                    .join(", ")}
-                </span>
-              </p>
-            )}
-          </section>
-
-          <div className="h-px bg-border" />
-
-          {/* Section B: Stain Condition */}
-          <section className="space-y-3">
-            <div>
-              <h2 className="text-xl font-bold leading-tight">Stain condition</h2>
-              <p className="text-sm text-muted-foreground">How fresh is the stain?</p>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5">
-              {CONDITIONS.map((c) => (
-                <OptionCard
-                  key={c.id}
-                  emoji={c.emoji}
-                  label={c.label}
-                  selected={condition === c.id}
-                  onClick={() => setCondition(c.id)}
-                />
-              ))}
-            </div>
-          </section>
+            ))}
+          </div>
         </div>
       )}
 
