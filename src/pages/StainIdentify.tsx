@@ -237,7 +237,7 @@ export default function StainIdentify() {
     (step === 0) ||
     (step === 1 && !!color) ||
     (step === 2 && natures.length > 0) ||
-    (step === 3 && !!condition);
+    (step === 3 && !!condition && natures.length > 0);
 
   const back = () => (step === 0 ? navigate(-1) : setStep((s) => s - 1));
   const next = () => {
