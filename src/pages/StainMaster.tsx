@@ -7,12 +7,20 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { STAIN_CATEGORIES, STAINS, type StainCategory } from "@/data/stains";
+import { useApp } from "@/store/useApp";
+import StainMasterPaywall from "@/components/StainMasterPaywall";
 
 export default function StainMaster() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const unlocked = useApp((s) => s.stainMasterUnlocked);
+  const [paywallOpen, setPaywallOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<StainCategory | null>(null);
+  const requireUnlock = (action: () => void) => {
+    if (unlocked) action();
+    else setPaywallOpen(true);
+  };
 
   const q = query.trim().toLowerCase();
 
@@ -33,6 +41,7 @@ export default function StainMaster() {
 
   return (
     <div className="space-y-5 px-4 pb-28 pt-4">
+      <StainMasterPaywall open={paywallOpen} onOpenChange={setPaywallOpen} />
       {/* Header */}
       <div className="rounded-2xl bg-gradient-to-br from-primary to-primary-glow p-5 text-primary-foreground shadow-elevated">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider opacity-90">
@@ -67,7 +76,7 @@ export default function StainMaster() {
               {t("stainMaster.noResults")}
             </Card>
           ) : (
-            searchResults.map((s) => <StainCard key={s.id} stain={s} />)
+            searchResults.map((s) => <StainCard key={s.id} stain={s} onClick={() => requireUnlock(() => {})} />)
           )}
         </div>
       )}
@@ -100,7 +109,7 @@ export default function StainMaster() {
                   {group !== "All" && (
                     <h3 className="pt-2 text-sm font-semibold text-primary">{group}</h3>
                   )}
-                  {items.map((s) => <StainCard key={s.id} stain={s} />)}
+                  {items.map((s) => <StainCard key={s.id} stain={s} onClick={() => requireUnlock(() => {})} />)}
                 </div>
               ));
             })()
@@ -122,7 +131,7 @@ export default function StainMaster() {
               <div className="text-[10px] opacity-90">{t("stainMaster.actions.searchSub")}</div>
             </button>
             <button
-              onClick={() => navigate("/stain-master/identify")}
+              onClick={() => requireUnlock(() => navigate("/stain-master/identify"))}
               className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[hsl(280_70%_45%)] to-[hsl(320_75%_55%)] p-3 text-left text-white shadow-elevated transition-transform hover:-translate-y-0.5"
             >
               <Brain className="h-5 w-5" />
@@ -153,7 +162,7 @@ export default function StainMaster() {
                 return (
                   <button
                     key={c.name}
-                    onClick={() => setActiveCategory(c.name)}
+                    onClick={() => requireUnlock(() => setActiveCategory(c.name))}
                     className="group flex flex-col gap-1 rounded-xl border border-border bg-card p-3 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated"
                   >
                     <span className="text-2xl">{c.emoji}</span>
@@ -194,7 +203,7 @@ export default function StainMaster() {
   );
 }
 
-function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
+function StainCard({ stain, onClick }: { stain: (typeof STAINS)[number]; onClick?: () => void }) {
   const { t } = useTranslation();
   const diffColor: Record<string, string> = {
     Light: "bg-success/15 text-success",
@@ -203,7 +212,10 @@ function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
     Petroleum: "bg-destructive/15 text-destructive",
   };
   return (
-    <Card className="space-y-2 p-4">
+    <Card
+      onClick={onClick}
+      className={`space-y-2 p-4 ${onClick ? "cursor-pointer transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated" : ""}`}
+    >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-base font-bold">{stain.name}</h3>
         <Badge variant="secondary" className="shrink-0 text-[10px]">

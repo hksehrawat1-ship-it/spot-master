@@ -102,6 +102,8 @@ type State = {
   stainCatalog: StainEntry[];
   savedStains: SavedStain[];
   stainHistory: StainHistory[];
+  stainMasterUnlocked: boolean;
+  unlockStainMaster: (info: { name: string; email: string; phone: string }) => void;
   setUser: (u: User) => void;
   signOut: () => void;
   toggleLesson: (id: string, value: boolean) => void;
@@ -128,6 +130,21 @@ export const useApp = create<State>()(
       stainCatalog: [],
       savedStains: [],
       stainHistory: [],
+      stainMasterUnlocked: false,
+      unlockStainMaster: ({ name, email, phone }) =>
+        set((s) => ({
+          stainMasterUnlocked: true,
+          invoices: [
+            {
+              id: `INV-SM-${Date.now().toString(36).toUpperCase()}`,
+              courseId: "stain-master",
+              courseTitle: `Stain Master (lifetime) — ${name} · ${email} · ${phone}`,
+              amount: 9999,
+              date: Date.now(),
+            },
+            ...s.invoices,
+          ],
+        })),
       upsertStain: (s) =>
         set((st) => {
           const exists = st.stainCatalog.some((x) => x.id === s.id);
