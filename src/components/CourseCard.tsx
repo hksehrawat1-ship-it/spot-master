@@ -1,46 +1,79 @@
 import { Link } from "react-router-dom";
 import { Course, discountPct, formatINR } from "@/data/courses";
-import { Star, Clock, Users, ArrowUpRight } from "lucide-react";
+import { Star, Clock, Users, ArrowRight, BookOpen } from "lucide-react";
 
-export default function CourseCard({ course }: { course: Course }) {
+// Google color palette per level
+const levelStyles: Record<string, { bg: string; text: string; dot: string }> = {
+  Beginner: {
+    bg: "bg-[hsl(142_71%_95%)]",
+    text: "text-[hsl(142_71%_28%)]",
+    dot: "bg-[hsl(142_71%_35%)]",
+  },
+  Intermediate: {
+    bg: "bg-[hsl(217_89%_95%)]",
+    text: "text-[hsl(217_89%_38%)]",
+    dot: "bg-[hsl(217_89%_51%)]",
+  },
+  Advanced: {
+    bg: "bg-[hsl(4_90%_95%)]",
+    text: "text-[hsl(4_75%_42%)]",
+    dot: "bg-[hsl(4_90%_58%)]",
+  },
+};
+
+// Google accent rail color per card position
+const railColors = [
+  "hsl(217 89% 51%)", // blue
+  "hsl(4 90% 58%)",   // red
+  "hsl(45 100% 51%)", // yellow
+  "hsl(142 71% 35%)", // green
+];
+
+export default function CourseCard({ course, index = 0 }: { course: Course; index?: number }) {
+  const lvl = levelStyles[course.level] ?? levelStyles.Beginner;
+  const rail = railColors[index % railColors.length];
+  const lessonCount = course.modules.reduce((n, m) => n + m.lessons.length, 0);
+
   return (
     <Link
       to={`/courses/${course.slug}`}
-      className="group block overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border/60 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-elevated active:scale-[0.98]"
+      className="group relative block overflow-hidden rounded-2xl bg-card ring-1 ring-border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated active:scale-[0.99]"
     >
-      {/* Cover */}
-      <div
-        className={`relative h-40 overflow-hidden bg-gradient-to-br ${course.cover} p-4`}
-      >
-        {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/25 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-12 -left-8 h-28 w-28 rounded-full bg-black/20 blur-2xl" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_55%)]" />
+      {/* Left color rail (Google-style accent) */}
+      <span
+        aria-hidden
+        className="absolute left-0 top-0 h-full w-1"
+        style={{ background: rail }}
+      />
 
-        {/* Level badge */}
-        <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
-          {course.badge ?? course.level}
-        </span>
+      <div className="space-y-3 p-4 pl-5">
+        {/* Header row: badge + level chip */}
+        <div className="flex items-center justify-between gap-2">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${lvl.bg} ${lvl.text}`}
+          >
+            <span className={`h-1.5 w-1.5 rounded-full ${lvl.dot}`} />
+            {course.badge ?? course.level}
+          </span>
 
-        {/* Arrow chip */}
-        <span className="absolute right-3 bottom-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md ring-1 ring-white/40 transition-transform group-hover:rotate-45">
-          <ArrowUpRight className="h-4 w-4" />
-        </span>
+          <span className="rounded-full bg-[hsl(142_71%_95%)] px-2 py-0.5 text-[10px] font-bold text-[hsl(142_71%_28%)]">
+            {discountPct(course)}% OFF
+          </span>
+        </div>
 
         {/* Title */}
-        <p className="absolute bottom-3 left-4 right-16 font-serif text-lg font-bold leading-tight text-white drop-shadow-md">
+        <h3 className="font-sans text-base font-semibold leading-snug text-foreground">
           {course.title}
-        </p>
-      </div>
+        </h3>
 
-      {/* Body */}
-      <div className="space-y-3 p-4">
+        {/* Tagline */}
         <p className="line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
           {course.tagline}
         </p>
 
+        {/* Optional highlight */}
         {course.highlight && (
-          <p className="rounded-lg bg-primary/10 px-3 py-2 text-[12px] font-semibold text-primary">
+          <p className="rounded-lg bg-[hsl(217_89%_97%)] px-3 py-2 text-[12px] font-medium text-[hsl(217_89%_38%)]">
             {course.highlight}
           </p>
         )}
@@ -52,35 +85,41 @@ export default function CourseCard({ course }: { course: Course }) {
         )}
 
         {course.registerNote && (
-          <p className="rounded-lg bg-accent/15 px-3 py-2 text-[12px] font-semibold text-foreground">
+          <p className="rounded-lg bg-[hsl(45_100%_95%)] px-3 py-2 text-[12px] font-semibold text-[hsl(35_90%_30%)]">
             🎟️ {course.registerNote}
           </p>
         )}
 
-        <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
-          <span className="flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5">
-            <Star className="h-3 w-3 fill-accent text-accent" />
-            <span className="font-bold text-foreground">{course.rating}</span>
+        {/* Meta row */}
+        <div className="flex items-center gap-4 text-[12px] text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Star className="h-3.5 w-3.5 fill-[hsl(45_100%_51%)] text-[hsl(45_100%_51%)]" />
+            <span className="font-medium text-foreground">{course.rating}</span>
           </span>
           <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3" /> {course.hours}h
+            <Clock className="h-3.5 w-3.5" /> {course.hours}h
           </span>
           <span className="flex items-center gap-1">
-            <Users className="h-3 w-3" /> {course.students.toLocaleString()}
+            <BookOpen className="h-3.5 w-3.5" /> {lessonCount} lessons
+          </span>
+          <span className="flex items-center gap-1">
+            <Users className="h-3.5 w-3.5" /> {course.students.toLocaleString()}
           </span>
         </div>
 
-        <div className="flex items-end justify-between border-t border-dashed border-border pt-3">
+        {/* Footer: price + CTA */}
+        <div className="flex items-end justify-between border-t border-border pt-3">
           <div className="flex items-baseline gap-2">
-            <span className="font-serif text-xl font-bold text-primary">
+            <span className="text-xl font-bold text-foreground">
               {formatINR(course.price)}
             </span>
-            <span className="text-[11px] text-muted-foreground line-through">
+            <span className="text-[12px] text-muted-foreground line-through">
               {formatINR(course.originalPrice)}
             </span>
           </div>
-          <span className="rounded-full bg-gradient-to-r from-success to-[hsl(145_65%_48%)] px-2.5 py-1 text-[10px] font-bold text-success-foreground shadow-sm">
-            {discountPct(course)}% OFF
+          <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(217_89%_51%)] px-3.5 py-1.5 text-[12px] font-medium text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+            View course
+            <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </div>
       </div>
