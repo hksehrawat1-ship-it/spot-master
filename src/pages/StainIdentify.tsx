@@ -339,19 +339,72 @@ export default function StainIdentify() {
         </div>
       )}
 
-      {/* Step 3 — Condition */}
+      {/* Step 3 — Possible Stain Name + Condition */}
       {step === 3 && (
-        <div className="space-y-4">
-          <div>
-            <h1 className="text-2xl font-bold leading-tight">Stain condition</h1>
-            <p className="text-sm text-muted-foreground">How fresh is the stain?</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2.5">
-            {CONDITIONS.map((c) => (
-              <OptionCard key={c.id} emoji={c.emoji} label={c.label} selected={condition === c.id}
-                onClick={() => setCondition(c.id)} />
-            ))}
-          </div>
+        <div className="space-y-6">
+          {/* Section A: Possible Name of Stain */}
+          <section className="space-y-3">
+            <div>
+              <h1 className="text-2xl font-bold leading-tight">Possible name of stain</h1>
+              <p className="text-sm text-muted-foreground">
+                Tap a stain you recognise — we'll auto-pick its nature for you.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {STAIN_NAMES.map((s) => {
+                const sel =
+                  s.natures.length > 0 &&
+                  s.natures.every((n) => natures.includes(n));
+                return (
+                  <button
+                    key={s.name}
+                    onClick={() => setNatures(sel ? [] : s.natures)}
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all",
+                      sel
+                        ? "border-primary bg-primary text-primary-foreground shadow-elevated"
+                        : "border-border bg-card hover:border-primary/50"
+                    )}
+                  >
+                    <span>{s.emoji}</span>
+                    <span>{s.name}</span>
+                    {sel && <Check className="h-3.5 w-3.5" />}
+                  </button>
+                );
+              })}
+            </div>
+            {natures.length > 0 && (
+              <p className="rounded-xl bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
+                Selected nature:{" "}
+                <span className="font-semibold text-foreground">
+                  {natures
+                    .map((n) => NATURES.find((x) => x.id === n)?.label ?? n)
+                    .join(", ")}
+                </span>
+              </p>
+            )}
+          </section>
+
+          <div className="h-px bg-border" />
+
+          {/* Section B: Stain Condition */}
+          <section className="space-y-3">
+            <div>
+              <h2 className="text-xl font-bold leading-tight">Stain condition</h2>
+              <p className="text-sm text-muted-foreground">How fresh is the stain?</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              {CONDITIONS.map((c) => (
+                <OptionCard
+                  key={c.id}
+                  emoji={c.emoji}
+                  label={c.label}
+                  selected={condition === c.id}
+                  onClick={() => setCondition(c.id)}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       )}
 
