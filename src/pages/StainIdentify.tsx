@@ -23,7 +23,7 @@ const COLORS: { id: Color; swatch: string; label: string }[] = [
   { id: "White", swatch: "bg-white border-2 border-border", label: "White" },
   { id: "Light", swatch: "bg-[hsl(45_50%_85%)]", label: "Light" },
   { id: "Dark", swatch: "bg-[hsl(220_25%_20%)]", label: "Dark" },
-  { id: "Bright", swatch: "bg-gradient-to-br from-[hsl(0_85%_55%)] via-[hsl(45_95%_55%)] to-[hsl(200_85%_55%)]", label: "Bright" },
+  { id: "Bright", swatch: "bg-gradient-to-br from-[hsl(0_85%_55%)] via-[hsl(45_95%_55%)] to-[hsl(200_85%_55%)]", label: "Mix Colour" },
 ];
 
 const NATURES: { id: Nature; emoji: string; label: string }[] = [
