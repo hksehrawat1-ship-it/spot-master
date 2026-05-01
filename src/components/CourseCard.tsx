@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Course, discountPct, formatINR } from "@/data/courses";
-import { Star, Clock, Users, ArrowRight, BookOpen } from "lucide-react";
+import { Star, Clock, Users, ArrowRight, BookOpen, CalendarDays } from "lucide-react";
+import { nextClassDate } from "@/data/courses";
 
 // Google color palette per level
 const levelStyles: Record<string, { bg: string; text: string; dot: string }> = {
