@@ -39,6 +39,24 @@ export default function CourseCard({ course }: { course: Course }) {
           {course.tagline}
         </p>
 
+        {course.highlight && (
+          <p className="rounded-lg bg-primary/10 px-3 py-2 text-[12px] font-semibold text-primary">
+            {course.highlight}
+          </p>
+        )}
+
+        {course.bonus && (
+          <p className="rounded-lg bg-[hsl(140_70%_18%)] px-3 py-2 text-[12px] font-extrabold text-[hsl(140_85%_88%)]">
+            {course.bonus}
+          </p>
+        )}
+
+        {course.registerNote && (
+          <p className="rounded-lg bg-accent/15 px-3 py-2 text-[12px] font-semibold text-foreground">
+            🎟️ {course.registerNote}
+          </p>
+        )}
+
         <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
           <span className="flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5">
             <Star className="h-3 w-3 fill-accent text-accent" />
