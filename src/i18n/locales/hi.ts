@@ -55,6 +55,23 @@ const hi: Translations = {
     stainCount_one: "{{count}} दाग",
     stainCount_other: "{{count}} दाग",
     treatment: "उपचार",
+    actions: {
+      searchTitle: "दाग खोजें",
+      searchSub: "मुझे दाग पता है",
+      identifyTitle: "दाग पहचानें",
+      identifySub: "पहचानने में मदद करें",
+      scanTitle: "दाग स्कैन करें",
+      scanSub: "अपलोड / कैमरा",
+      comingSoon: "जल्द आ रहा है",
+    },
+    quick: {
+      recent: "हाल की खोजें",
+      recentSub: "आपकी पिछली खोजें",
+      saved: "सहेजे गए दाग",
+      savedSub: "आपके बुकमार्क",
+      top10: "टॉप 10 आम दाग",
+      top10Sub: "सबसे ज़्यादा पूछे गए",
+    },
   },
   account: {
     signedOut: "आप साइन आउट हैं",
