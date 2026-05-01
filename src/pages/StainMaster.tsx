@@ -202,7 +202,7 @@ export default function StainMaster() {
   );
 }
 
-function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
+function StainCard({ stain, onClick }: { stain: (typeof STAINS)[number]; onClick?: () => void }) {
   const { t } = useTranslation();
   const diffColor: Record<string, string> = {
     Light: "bg-success/15 text-success",
@@ -211,7 +211,10 @@ function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
     Petroleum: "bg-destructive/15 text-destructive",
   };
   return (
-    <Card className="space-y-2 p-4">
+    <Card
+      onClick={onClick}
+      className={`space-y-2 p-4 ${onClick ? "cursor-pointer transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated" : ""}`}
+    >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-base font-bold">{stain.name}</h3>
         <Badge variant="secondary" className="shrink-0 text-[10px]">
