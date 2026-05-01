@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Course, discountPct, formatINR } from "@/data/courses";
-import { Star, Clock, Users, ArrowRight, BookOpen } from "lucide-react";
+import { Star, Clock, Users, ArrowRight, BookOpen, CalendarDays } from "lucide-react";
+import { nextClassDate } from "@/data/courses";
 
 // Google color palette per level
 const levelStyles: Record<string, { bg: string; text: string; dot: string }> = {
@@ -87,6 +88,13 @@ export default function CourseCard({ course, index = 0 }: { course: Course; inde
         {course.registerNote && (
           <p className="rounded-lg bg-[hsl(45_100%_95%)] px-3 py-2 text-[12px] font-semibold text-[hsl(35_90%_30%)]">
             🎟️ {course.registerNote}
+          </p>
+        )}
+
+        {course.slug === "5-day-practical-training" && (
+          <p className="inline-flex items-center gap-1.5 rounded-lg bg-[hsl(4_90%_95%)] px-3 py-2 text-[12px] font-semibold text-[hsl(4_75%_42%)]">
+            <CalendarDays className="h-3.5 w-3.5" />
+            Next batch: {nextClassDate()}
           </p>
         )}
 

@@ -40,6 +40,18 @@ export const discountPct = (c: Course) =>
 export const formatINR = (n: number) =>
   "₹" + n.toLocaleString("en-IN");
 
+// Returns the next upcoming 24th of a month (today included if it is the 24th)
+export const nextClassDate = (from: Date = new Date()) => {
+  const d = new Date(from.getFullYear(), from.getMonth(), 24);
+  if (from.getDate() > 24) d.setMonth(d.getMonth() + 1);
+  return d.toLocaleDateString("en-IN", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 const sampleVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
 
 export const courses: Course[] = [
