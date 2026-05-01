@@ -351,29 +351,69 @@ export default function StainIdentify() {
                 Tap a stain you recognise — we'll auto-pick its nature for you.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {STAIN_NAMES.map((s) => {
-                const sel =
-                  s.natures.length > 0 &&
-                  s.natures.every((n) => natures.includes(n));
-                return (
-                  <button
-                    key={s.name}
-                    onClick={() => setNatures(sel ? [] : s.natures)}
-                    className={cn(
-                      "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all",
-                      sel
-                        ? "border-primary bg-primary text-primary-foreground shadow-elevated"
-                        : "border-border bg-card hover:border-primary/50"
-                    )}
-                  >
-                    <span>{s.emoji}</span>
-                    <span>{s.name}</span>
-                    {sel && <Check className="h-3.5 w-3.5" />}
-                  </button>
-                );
-              })}
+
+            {/* Search bar for quick stain selection */}
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                value={stainQuery}
+                onChange={(e) => setStainQuery(e.target.value)}
+                placeholder="Search a stain (e.g. tea, blood, rust)…"
+                className="h-11 w-full rounded-full border border-border bg-card pl-10 pr-10 text-sm shadow-soft outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/15"
+              />
+              {stainQuery && (
+                <button
+                  type="button"
+                  onClick={() => setStainQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-2.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
+
+            {(() => {
+              const q = stainQuery.trim().toLowerCase();
+              const filtered = q
+                ? STAIN_NAMES.filter((s) => s.name.toLowerCase().includes(q))
+                : STAIN_NAMES;
+
+              if (filtered.length === 0) {
+                return (
+                  <p className="rounded-xl bg-secondary/60 px-3 py-4 text-center text-xs text-muted-foreground">
+                    No matching stain found. Try another keyword or pick from the nature list.
+                  </p>
+                );
+              }
+
+              return (
+                <div className="flex flex-wrap gap-2">
+                  {filtered.map((s) => {
+                    const sel =
+                      s.natures.length > 0 &&
+                      s.natures.every((n) => natures.includes(n));
+                    return (
+                      <button
+                        key={s.name}
+                        onClick={() => setNatures(sel ? [] : s.natures)}
+                        className={cn(
+                          "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-2 text-sm font-semibold transition-all",
+                          sel
+                            ? "border-primary bg-primary text-primary-foreground shadow-elevated"
+                            : "border-border bg-card hover:border-primary/50"
+                        )}
+                      >
+                        <span>{s.emoji}</span>
+                        <span>{s.name}</span>
+                        {sel && <Check className="h-3.5 w-3.5" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })()}
             {natures.length > 0 && (
               <p className="rounded-xl bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
                 Selected nature:{" "}
