@@ -7,7 +7,19 @@ import { cn } from "@/lib/utils";
 
 type Fabric = "Cotton" | "Polyester" | "Wool" | "Silk" | "Denim" | "Mixed";
 type Color = "White" | "Light" | "Dark" | "Bright";
-type Nature = "Oily" | "Colored" | "Body" | "Solid" | "Transfer";
+type Nature =
+  | "Combination"
+  | "Oily"
+  | "Water"
+  | "Dye"
+  | "Protein"
+  | "Particulate"
+  | "Pigment"
+  | "Transfer"
+  | "Oxidizable"
+  | "HeatSet"
+  | "Reducible"
+  | "Chemical";
 type Condition = "Fresh" | "Old" | "Washed" | "Heat";
 
 const FABRICS: { id: Fabric; emoji: string; label: string }[] = [
