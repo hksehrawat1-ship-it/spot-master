@@ -72,8 +72,8 @@ export default function StainMasterPaywall({
             <span className="text-3xl font-extrabold">₹9,999</span>
             <span className="pb-1 text-xs opacity-80">one-time · lifetime</span>
           </div>
-          <p className="mt-1 text-[11px] opacity-90">
-            ✓ Included in the Laundry Mastery Bundle
+          <p className="mt-2 inline-block rounded-md bg-[hsl(140_70%_18%)] px-2.5 py-1 text-[12px] font-extrabold text-[hsl(140_85%_88%)] shadow-sm">
+            If you buy the Laundry Mastery Bundle it's free for lifetime
           </p>
         </div>
 
