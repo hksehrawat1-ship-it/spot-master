@@ -11,6 +11,7 @@ import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
 import MyLearning from "@/pages/MyLearning";
 import StainMaster from "@/pages/StainMaster";
+import StainIdentify from "@/pages/StainIdentify";
 import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/courses/:slug/certificate" element={<Certificate />} />
             <Route path="/learning" element={<MyLearning />} />
             <Route path="/stain-master" element={<StainMaster />} />
+            <Route path="/stain-master/identify" element={<StainIdentify />} />
             <Route path="/account" element={<Account />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />

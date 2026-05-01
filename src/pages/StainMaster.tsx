@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Search, Sparkles, AlertTriangle, ArrowLeft, Brain, Camera, Clock, Bookmark, Flame } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { STAIN_CATEGORIES, STAINS, type StainCategory } from "@/data/stains";
 
 export default function StainMaster() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<StainCategory | null>(null);
 
@@ -120,6 +122,7 @@ export default function StainMaster() {
               <div className="text-[10px] opacity-90">{t("stainMaster.actions.searchSub")}</div>
             </button>
             <button
+              onClick={() => navigate("/stain-master/identify")}
               className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[hsl(280_70%_45%)] to-[hsl(320_75%_55%)] p-3 text-left text-white shadow-elevated transition-transform hover:-translate-y-0.5"
             >
               <Brain className="h-5 w-5" />
