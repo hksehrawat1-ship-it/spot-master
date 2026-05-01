@@ -120,32 +120,44 @@ export default function StainMaster() {
       {/* Action cards + Categories grid */}
       {!q && !activeCategory && (
         <div className="space-y-5">
-          {/* 3 action cards */}
+          {/* 3 action cards — Google Material style */}
           <div className="grid grid-cols-3 gap-2.5">
             <button
               onClick={() => (document.querySelector<HTMLInputElement>('input[placeholder]')?.focus())}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-glow p-3 text-left text-primary-foreground shadow-elevated transition-transform hover:-translate-y-0.5"
+              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] transition-all hover:bg-[hsl(217_89%_97%)] hover:shadow-[0_1px_3px_rgba(60,64,67,0.16)] active:scale-[0.98]"
             >
-              <Search className="h-5 w-5" />
-              <div className="mt-2 text-[13px] font-bold leading-tight">🔍 {t("stainMaster.actions.searchTitle")}</div>
-              <div className="text-[10px] opacity-90">{t("stainMaster.actions.searchSub")}</div>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(217_89%_96%)]">
+                <Search className="h-[18px] w-[18px] text-[hsl(217_89%_51%)]" strokeWidth={2.2} />
+              </span>
+              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
+                {t("stainMaster.actions.searchTitle")}
+              </div>
+              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.searchSub")}</div>
             </button>
             <button
               onClick={() => requireUnlock(() => navigate("/stain-master/identify"))}
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[hsl(280_70%_45%)] to-[hsl(320_75%_55%)] p-3 text-left text-white shadow-elevated transition-transform hover:-translate-y-0.5"
+              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] transition-all hover:bg-[hsl(142_70%_97%)] hover:shadow-[0_1px_3px_rgba(60,64,67,0.16)] active:scale-[0.98]"
             >
-              <Brain className="h-5 w-5" />
-              <div className="mt-2 text-[13px] font-bold leading-tight">🧠 {t("stainMaster.actions.identifyTitle")}</div>
-              <div className="text-[10px] opacity-90">{t("stainMaster.actions.identifySub")}</div>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(142_70%_95%)]">
+                <Brain className="h-[18px] w-[18px] text-[hsl(142_71%_35%)]" strokeWidth={2.2} />
+              </span>
+              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
+                {t("stainMaster.actions.identifyTitle")}
+              </div>
+              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.identifySub")}</div>
             </button>
             <button
               disabled
-              className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[hsl(25_85%_50%)] to-[hsl(45_90%_55%)] p-3 text-left text-white shadow-elevated opacity-90"
+              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] opacity-95"
             >
-              <Camera className="h-5 w-5" />
-              <div className="mt-2 text-[13px] font-bold leading-tight">📸 {t("stainMaster.actions.scanTitle")}</div>
-              <div className="text-[10px] opacity-90">{t("stainMaster.actions.scanSub")}</div>
-              <span className="absolute right-1.5 top-1.5 rounded-full bg-black/30 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider backdrop-blur">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(45_100%_94%)]">
+                <Camera className="h-[18px] w-[18px] text-[hsl(45_100%_42%)]" strokeWidth={2.2} />
+              </span>
+              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
+                {t("stainMaster.actions.scanTitle")}
+              </div>
+              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.scanSub")}</div>
+              <span className="absolute right-2 top-2 rounded-full bg-[hsl(4_90%_58%)] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-white">
                 {t("stainMaster.actions.comingSoon")}
               </span>
             </button>
