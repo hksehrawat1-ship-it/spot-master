@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Search, Sparkles, AlertTriangle, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -7,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { STAIN_CATEGORIES, STAINS, type StainCategory } from "@/data/stains";
 
 export default function StainMaster() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<StainCategory | null>(null);
 
@@ -32,12 +34,10 @@ export default function StainMaster() {
       {/* Header */}
       <div className="rounded-2xl bg-gradient-to-br from-primary to-primary-glow p-5 text-primary-foreground shadow-elevated">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider opacity-90">
-          <Sparkles className="h-4 w-4" /> GILM Stain Master
+          <Sparkles className="h-4 w-4" /> {t("stainMaster.badge")}
         </div>
-        <h1 className="mt-1 text-2xl font-bold leading-tight">Find any stain. Fix any stain.</h1>
-        <p className="mt-1 text-sm opacity-90">
-          Search 500+ stains or browse by category to learn the pro treatment.
-        </p>
+        <h1 className="mt-1 text-2xl font-bold leading-tight">{t("stainMaster.title")}</h1>
+        <p className="mt-1 text-sm opacity-90">{t("stainMaster.subtitle")}</p>
       </div>
 
       {/* Search */}
@@ -46,7 +46,7 @@ export default function StainMaster() {
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search stains: blood, coffee, oil…"
+          placeholder={t("stainMaster.searchPlaceholder")}
           className="h-12 rounded-xl border-2 pl-10 text-base"
         />
       </div>
@@ -55,11 +55,14 @@ export default function StainMaster() {
       {q && (
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {searchResults.length} result{searchResults.length === 1 ? "" : "s"} for "{query}"
+            {t(searchResults.length === 1 ? "stainMaster.resultFor" : "stainMaster.resultsFor", {
+              count: searchResults.length,
+              query,
+            })}
           </p>
           {searchResults.length === 0 ? (
             <Card className="p-4 text-sm text-muted-foreground">
-              No stains found. Try another keyword.
+              {t("stainMaster.noResults")}
             </Card>
           ) : (
             searchResults.map((s) => <StainCard key={s.id} stain={s} />)
@@ -76,12 +79,12 @@ export default function StainMaster() {
             onClick={() => setActiveCategory(null)}
             className="-ml-2 h-8 text-primary"
           >
-            <ArrowLeft className="h-4 w-4" /> All categories
+            <ArrowLeft className="h-4 w-4" /> {t("stainMaster.allCategories")}
           </Button>
           <h2 className="text-lg font-bold">{activeCategory}</h2>
           {categoryStains.length === 0 ? (
             <Card className="p-4 text-sm text-muted-foreground">
-              More stains in this category coming soon.
+              {t("stainMaster.comingSoon")}
             </Card>
           ) : (
             (() => {
@@ -107,7 +110,7 @@ export default function StainMaster() {
       {!q && !activeCategory && (
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Browse categories
+            {t("stainMaster.browse")}
           </h2>
           <div className="grid grid-cols-2 gap-3">
             {STAIN_CATEGORIES.map((c) => {
@@ -124,7 +127,7 @@ export default function StainMaster() {
                   </span>
                   <span className="text-[11px] text-muted-foreground">{c.blurb}</span>
                   <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-                    {count} stain{count === 1 ? "" : "s"}
+                    {t("stainMaster.stainCount", { count })}
                   </span>
                 </button>
               );
@@ -159,7 +162,7 @@ function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
       <p className="text-sm text-muted-foreground">{stain.description}</p>
       <div className="rounded-lg bg-success/10 p-3">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-success">
-          Treatment
+          {useTranslation().t("stainMaster.treatment")}
         </p>
         <p className="mt-1 text-sm text-foreground">{stain.treatment}</p>
       </div>
