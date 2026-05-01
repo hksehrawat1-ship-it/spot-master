@@ -140,6 +140,7 @@ export default function StainMaster() {
 }
 
 function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
+  const { t } = useTranslation();
   const diffColor: Record<string, string> = {
     Light: "bg-success/15 text-success",
     Heavy: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
@@ -162,7 +163,7 @@ function StainCard({ stain }: { stain: (typeof STAINS)[number] }) {
       <p className="text-sm text-muted-foreground">{stain.description}</p>
       <div className="rounded-lg bg-success/10 p-3">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-success">
-          {useTranslation().t("stainMaster.treatment")}
+          {t("stainMaster.treatment")}
         </p>
         <p className="mt-1 text-sm text-foreground">{stain.treatment}</p>
       </div>
