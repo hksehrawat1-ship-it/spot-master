@@ -102,6 +102,8 @@ type State = {
   stainCatalog: StainEntry[];
   savedStains: SavedStain[];
   stainHistory: StainHistory[];
+  stainMasterUnlocked: boolean;
+  unlockStainMaster: (info: { name: string; email: string; phone: string }) => void;
   setUser: (u: User) => void;
   signOut: () => void;
   toggleLesson: (id: string, value: boolean) => void;
