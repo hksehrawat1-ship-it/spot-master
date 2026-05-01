@@ -510,8 +510,8 @@ export default function StainIdentify() {
             <Switch checked={expert} onCheckedChange={setExpert} />
           </Card>
 
-          {/* Section 2: Professional Method */}
-          <Section icon={<Beaker className="h-4 w-4" />} title="Recommended Professional Method" tone="primary">
+          {/* 2. Professional Method */}
+          <Section icon={<Beaker className="h-4 w-4" />} title="2. Professional Method" tone="primary">
             <KV k="Chemical" v={result.pro.chemical} />
             <KV k="Type" v={result.pro.type} />
             <KV k="Dilution" v={result.pro.dilution} />
