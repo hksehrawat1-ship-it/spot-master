@@ -26,6 +26,12 @@ export type Course = {
   price: number; // current price in INR
   originalPrice: number; // MRP in INR
   modules: Module[];
+  // Optional marketing/feature flags
+  badge?: string; // e.g. "Practical", "Bundle", "Best Value"
+  highlight?: string; // small promo line under tagline
+  registerNote?: string; // e.g. "Register for ₹500, pay rest at institute"
+  bonus?: string; // e.g. "Stain Master lifetime free"
+  isBundle?: boolean;
 };
 
 export const discountPct = (c: Course) =>
