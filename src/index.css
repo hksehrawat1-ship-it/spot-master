@@ -2,84 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GILM Design System — navy + cream, mobile-first */
+/* GILM Design System — Google Material theme */
 @layer base {
   :root {
-    --background: 40 33% 97%;
-    --foreground: 215 60% 12%;
+    /* Google neutrals */
+    --background: 0 0% 100%;
+    --foreground: 213 10% 13%;          /* #202124 */
 
     --card: 0 0% 100%;
-    --card-foreground: 215 60% 12%;
+    --card-foreground: 213 10% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 60% 12%;
+    --popover-foreground: 213 10% 13%;
 
-    /* GILM navy from logo */
-    --primary: 214 71% 32%;
-    --primary-foreground: 40 33% 98%;
-    --primary-glow: 214 71% 45%;
+    /* Google Blue #1A73E8 */
+    --primary: 217 89% 51%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 89% 61%;
 
-    --secondary: 40 30% 92%;
-    --secondary-foreground: 215 60% 12%;
+    /* Soft blue surface for tonal buttons */
+    --secondary: 217 89% 96%;
+    --secondary-foreground: 217 89% 35%;
 
-    --muted: 40 20% 94%;
-    --muted-foreground: 215 15% 40%;
+    --muted: 220 14% 96%;               /* #F1F3F4 */
+    --muted-foreground: 220 9% 46%;     /* #5F6368 */
 
-    --accent: 38 90% 55%;
-    --accent-foreground: 215 60% 12%;
+    /* Google Yellow #FBBC04 */
+    --accent: 45 100% 50%;
+    --accent-foreground: 213 10% 13%;
 
-    --destructive: 0 75% 50%;
+    /* Google Red #EA4335 */
+    --destructive: 4 90% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 145 55% 38%;
+    /* Google Green #34A853 */
+    --success: 137 53% 43%;
     --success-foreground: 0 0% 100%;
 
-    --border: 215 20% 88%;
-    --input: 215 20% 90%;
-    --ring: 214 71% 32%;
+    --border: 220 13% 91%;              /* #E8EAED */
+    --input: 220 13% 91%;
+    --ring: 217 89% 51%;
 
-    --radius: 0.85rem;
+    --radius: 1.25rem;                  /* Material 3 large rounding */
 
-    --gradient-primary: linear-gradient(135deg, hsl(214 71% 32%), hsl(214 71% 45%));
-    --gradient-hero: linear-gradient(160deg, hsl(214 71% 28%) 0%, hsl(214 71% 38%) 60%, hsl(38 90% 55%) 130%);
-    --gradient-soft: linear-gradient(180deg, hsl(40 33% 97%), hsl(40 30% 92%));
+    --gradient-primary: linear-gradient(135deg, hsl(217 89% 51%), hsl(217 89% 61%));
+    --gradient-hero: linear-gradient(160deg, hsl(217 89% 48%) 0%, hsl(217 89% 58%) 60%, hsl(199 89% 60%) 130%);
+    --gradient-soft: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 14% 97%));
 
-    --shadow-soft: 0 4px 18px -8px hsl(214 71% 32% / 0.18);
-    --shadow-elevated: 0 12px 32px -12px hsl(214 71% 32% / 0.28);
-    --shadow-glow: 0 0 40px hsl(214 71% 45% / 0.35);
+    /* Material elevation shadows (Google) */
+    --shadow-soft: 0 1px 2px 0 rgba(60,64,67,0.10), 0 1px 3px 1px rgba(60,64,67,0.06);
+    --shadow-elevated: 0 1px 2px 0 rgba(60,64,67,0.16), 0 2px 6px 2px rgba(60,64,67,0.10);
+    --shadow-glow: 0 1px 3px 0 rgba(60,64,67,0.20), 0 4px 14px 3px rgba(60,64,67,0.10);
 
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 213 10% 13%;
+    --sidebar-primary: 217 89% 51%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 213 10% 13%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 217 89% 51%;
   }
 
   .dark {
-    --background: 215 50% 8%;
-    --foreground: 40 33% 96%;
-    --card: 215 45% 11%;
-    --card-foreground: 40 33% 96%;
-    --popover: 215 45% 11%;
-    --popover-foreground: 40 33% 96%;
-    --primary: 214 71% 55%;
-    --primary-foreground: 215 50% 8%;
-    --secondary: 215 35% 16%;
-    --secondary-foreground: 40 33% 96%;
-    --muted: 215 35% 16%;
-    --muted-foreground: 215 15% 65%;
-    --accent: 38 90% 55%;
-    --accent-foreground: 215 60% 12%;
-    --destructive: 0 75% 50%;
+    --background: 220 8% 10%;            /* #1F1F1F */
+    --foreground: 220 14% 96%;
+    --card: 220 8% 13%;
+    --card-foreground: 220 14% 96%;
+    --popover: 220 8% 13%;
+    --popover-foreground: 220 14% 96%;
+    --primary: 217 89% 70%;              /* #8AB4F8 */
+    --primary-foreground: 220 8% 10%;
+    --primary-glow: 217 89% 78%;
+    --secondary: 220 8% 18%;
+    --secondary-foreground: 220 14% 96%;
+    --muted: 220 8% 18%;
+    --muted-foreground: 220 9% 65%;
+    --accent: 45 100% 65%;
+    --accent-foreground: 220 8% 10%;
+    --destructive: 4 90% 65%;
     --destructive-foreground: 0 0% 100%;
-    --border: 215 35% 20%;
-    --input: 215 35% 20%;
-    --ring: 214 71% 55%;
+    --success: 137 53% 55%;
+    --success-foreground: 220 8% 10%;
+    --border: 220 8% 22%;
+    --input: 220 8% 22%;
+    --ring: 217 89% 70%;
   }
 }
 
@@ -88,10 +97,16 @@
   html, body, #root { @apply h-full; }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Roboto Flex', 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: "ss01", "cv01";
     -webkit-tap-highlight-color: transparent;
   }
-  h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; letter-spacing: -0.01em; }
+  h1, h2, h3, h4 {
+    font-family: 'Roboto Flex', 'Roboto', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  h1 { letter-spacing: -0.02em; }
 }
 
 @layer utilities {
@@ -104,4 +119,14 @@
   .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 5rem); }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Google Material color helpers */
+  .text-google-blue   { color: hsl(217 89% 51%); }
+  .text-google-red    { color: hsl(4 90% 58%); }
+  .text-google-yellow { color: hsl(45 100% 42%); }
+  .text-google-green  { color: hsl(137 53% 43%); }
+  .bg-google-blue   { background-color: hsl(217 89% 51%); }
+  .bg-google-red    { background-color: hsl(4 90% 58%); }
+  .bg-google-yellow { background-color: hsl(45 100% 50%); }
+  .bg-google-green  { background-color: hsl(137 53% 43%); }
 }
