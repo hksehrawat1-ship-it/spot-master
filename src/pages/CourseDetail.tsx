@@ -43,6 +43,13 @@ export default function CourseDetail() {
 
         <p className="text-sm leading-relaxed text-foreground/80">{course.description}</p>
 
+        {course.slug === "5-day-practical-training" && (
+          <div className="flex items-center gap-2 rounded-2xl border border-border bg-[hsl(4_90%_97%)] px-4 py-3 text-sm font-semibold text-[hsl(4_75%_42%)]">
+            <CalendarDays className="h-4 w-4" />
+            Next batch starts: {nextClassDate()}
+          </div>
+        )}
+
         {!course.isBundle && (
           <a
             href={`/syllabus/${course.slug}.pdf`}
