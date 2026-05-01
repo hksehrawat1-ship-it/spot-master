@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Star, Clock, Users, PlayCircle, FileText, CheckCircle2, Lock, Download } from "lucide-react";
-import { getCourse, discountPct, formatINR } from "@/data/courses";
+import { ArrowLeft, Star, Clock, Users, PlayCircle, FileText, CheckCircle2, Lock, Download, CalendarDays } from "lucide-react";
+import { getCourse, discountPct, formatINR, nextClassDate } from "@/data/courses";
 import { useApp } from "@/store/useApp";
 import { useProgress } from "@/lib/progress";
 import ResourceVault from "@/components/ResourceVault";
