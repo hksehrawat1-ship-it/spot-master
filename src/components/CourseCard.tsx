@@ -19,7 +19,7 @@ export default function CourseCard({ course }: { course: Course }) {
 
         {/* Level badge */}
         <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
-          {course.level}
+          {course.badge ?? course.level}
         </span>
 
         {/* Arrow chip */}
@@ -38,6 +38,24 @@ export default function CourseCard({ course }: { course: Course }) {
         <p className="line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
           {course.tagline}
         </p>
+
+        {course.highlight && (
+          <p className="rounded-lg bg-primary/10 px-3 py-2 text-[12px] font-semibold text-primary">
+            {course.highlight}
+          </p>
+        )}
+
+        {course.bonus && (
+          <p className="rounded-lg bg-[hsl(140_70%_18%)] px-3 py-2 text-[12px] font-extrabold text-[hsl(140_85%_88%)]">
+            {course.bonus}
+          </p>
+        )}
+
+        {course.registerNote && (
+          <p className="rounded-lg bg-accent/15 px-3 py-2 text-[12px] font-semibold text-foreground">
+            🎟️ {course.registerNote}
+          </p>
+        )}
 
         <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
           <span className="flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5">
