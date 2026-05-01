@@ -4,14 +4,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import en from "./locales/en";
 import hi from "./locales/hi";
-import mr from "./locales/mr";
-import ta from "./locales/ta";
 
 export const SUPPORTED_LANGS = [
   { code: "en", label: "English", native: "English" },
   { code: "hi", label: "Hindi", native: "हिन्दी" },
-  { code: "mr", label: "Marathi", native: "मराठी" },
-  { code: "ta", label: "Tamil", native: "தமிழ்" },
 ] as const;
 
 export type LangCode = (typeof SUPPORTED_LANGS)[number]["code"];
@@ -23,8 +19,6 @@ i18n
     resources: {
       en: { translation: en },
       hi: { translation: hi },
-      mr: { translation: mr },
-      ta: { translation: ta },
     },
     fallbackLng: "en",
     supportedLngs: SUPPORTED_LANGS.map((l) => l.code),
