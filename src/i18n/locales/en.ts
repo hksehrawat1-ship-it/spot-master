@@ -53,6 +53,23 @@ const en = {
     stainCount_one: "{{count}} stain",
     stainCount_other: "{{count}} stains",
     treatment: "Treatment",
+    actions: {
+      searchTitle: "Search Stain",
+      searchSub: "I know the stain",
+      identifyTitle: "Identify Stain",
+      identifySub: "Help me identify",
+      scanTitle: "Scan Stain",
+      scanSub: "Upload / Camera",
+      comingSoon: "Coming soon",
+    },
+    quick: {
+      recent: "Recent Searches",
+      recentSub: "Your last lookups",
+      saved: "Saved Stains",
+      savedSub: "Your bookmarks",
+      top10: "Top 10 Common Stains",
+      top10Sub: "Most asked about",
+    },
   },
   account: {
     signedOut: "You're signed out",
