@@ -142,6 +142,65 @@ export const courses: Course[] = [
       ]},
     ],
   },
+  {
+    id: "c4",
+    slug: "5-day-practical-training",
+    title: "5-Day Practical Laundry Training",
+    tagline: "Hands-on, in-person training at our institute",
+    description:
+      "An intensive 5-day on-site practical session — operate machines, master stain removal, finishing, packing and counter handling alongside our master trainers.",
+    level: "Intermediate",
+    hours: 40,
+    students: 312,
+    rating: 4.9,
+    cover: "from-[hsl(15_85%_45%)] via-[hsl(25_90%_55%)] to-[hsl(45_95%_60%)]",
+    price: 17500,
+    originalPrice: 25000,
+    badge: "Practical",
+    highlight: "5 days of hands-on training at our institute",
+    registerNote: "Register for ₹500 now — pay the remaining ₹17,000 at the institute",
+    modules: [
+      { id: "m1", title: "Day 1–2: Machines & Process", lessons: [
+        { id: "l1", title: "Machine operation & safety", duration: "Day 1", videoUrl: sampleVideo, resources: [] },
+        { id: "l2", title: "Sorting, washing & chemistry", duration: "Day 2", videoUrl: sampleVideo, resources: [] },
+      ]},
+      { id: "m2", title: "Day 3–4: Stains & Finishing", lessons: [
+        { id: "l3", title: "Stain removal practical", duration: "Day 3", videoUrl: sampleVideo, resources: [] },
+        { id: "l4", title: "Pressing, finishing & packing", duration: "Day 4", videoUrl: sampleVideo, resources: [] },
+      ]},
+      { id: "m3", title: "Day 5: Counter & Live Ops", lessons: [
+        { id: "l5", title: "Customer handling & live store ops", duration: "Day 5", videoUrl: sampleVideo, resources: [] },
+      ]},
+    ],
+  },
+  {
+    id: "c5",
+    slug: "laundry-mastery-bundle",
+    title: "Laundry Mastery Bundle",
+    tagline: "Get ₹1.24L value at just ₹39,999 — Save 68%",
+    description:
+      "The complete package: all 3 flagship laundry courses + the 5-Day Practical Training + lifetime Stain Master access. Built for serious owners who want everything in one shot.",
+    level: "Advanced",
+    hours: 70,
+    students: 487,
+    rating: 5.0,
+    cover: "from-[hsl(217_89%_30%)] via-[hsl(280_70%_45%)] to-[hsl(330_80%_55%)]",
+    price: 39999,
+    originalPrice: 124000,
+    badge: "Best Value",
+    isBundle: true,
+    highlight: "87.3% students choose this — just 3.9% of your ₹10L business investment",
+    bonus: "Bonus: Lifetime Stain Master access included free",
+    modules: [
+      { id: "m1", title: "Everything Included", lessons: [
+        { id: "l1", title: "Complete Guide to Start Laundry Store", duration: "8h", videoUrl: sampleVideo, resources: [] },
+        { id: "l2", title: "Advanced – Laundry Business Excellence", duration: "12h", videoUrl: sampleVideo, resources: [] },
+        { id: "l3", title: "Marketing & Profit Growth Accelerator", duration: "10h", videoUrl: sampleVideo, resources: [] },
+        { id: "l4", title: "5-Day Practical Training (in-person)", duration: "5 days", videoUrl: sampleVideo, resources: [] },
+        { id: "l5", title: "Stain Master — Lifetime Access", duration: "∞", videoUrl: sampleVideo, resources: [] },
+      ]},
+    ],
+  },
 ];
 
 export const getCourse = (slug: string) => courses.find((c) => c.slug === slug);
