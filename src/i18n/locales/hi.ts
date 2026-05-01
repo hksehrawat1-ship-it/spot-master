@@ -1,0 +1,77 @@
+import type { Translations } from "./en";
+
+const hi: Translations = {
+  nav: {
+    home: "होम",
+    courses: "कोर्स",
+    learning: "मेरी पढ़ाई",
+    stains: "दाग",
+    account: "खाता",
+    admin: "एडमिन",
+  },
+  brand: {
+    name: "GILM",
+    tagline: "लॉन्ड्री अकादमी",
+  },
+  home: {
+    badge: "इंडस्ट्री विशेषज्ञों से सीखें",
+    heroTitle: "प्रोफेशनल लॉन्ड्री की कला में महारत हासिल करें",
+    heroSubtitle:
+      "लॉन्ड्री, लिनन और ड्राई-क्लीनिंग प्रोफेशनल्स के लिए भारत की प्रमुख ऑनलाइन अकादमी।",
+    browseCourses: "कोर्स देखें",
+    stats: { courses: "कोर्स", students: "छात्र", certified: "प्रमाणित" },
+    featured: "विशेष कोर्स",
+    seeAll: "सभी देखें",
+    whyTitle: "ग्लोबल इंस्टिट्यूट ऑफ लॉन्ड्री मैनेजमेंट क्यों?",
+    why1: "छोटे-छोटे HD वीडियो पाठ, कहीं भी देखें",
+    why2: "इंडस्ट्री-मान्यता प्राप्त पूर्णता प्रमाणपत्र",
+    why3: "डाउनलोड योग्य PDF, चेकलिस्ट और टेम्पलेट",
+    languageTitle: "अपनी भाषा चुनें",
+    languageSubtitle: "ऐप को अपनी पसंद की भाषा में बदलें",
+  },
+  courses: {
+    title: "सभी कोर्स",
+    available: "{{count}} कोर्स उपलब्ध",
+    searchPlaceholder: "कोर्स खोजें…",
+    levels: {
+      All: "सभी",
+      Beginner: "शुरुआती",
+      Intermediate: "मध्यम",
+      Advanced: "उन्नत",
+    },
+    none: "कोई कोर्स नहीं मिला।",
+  },
+  stainMaster: {
+    badge: "GILM दाग विशेषज्ञ",
+    title: "कोई भी दाग ढूंढें। कोई भी दाग ठीक करें।",
+    subtitle: "500+ दाग खोजें या श्रेणी से ब्राउज़ करके पेशेवर उपचार सीखें।",
+    searchPlaceholder: "दाग खोजें: खून, कॉफी, तेल…",
+    resultsFor: "\"{{query}}\" के लिए {{count}} परिणाम",
+    resultFor: "\"{{query}}\" के लिए {{count}} परिणाम",
+    noResults: "कोई दाग नहीं मिला। दूसरा कीवर्ड आज़माएँ।",
+    allCategories: "सभी श्रेणियाँ",
+    comingSoon: "इस श्रेणी में और दाग जल्द ही आ रहे हैं।",
+    browse: "श्रेणियाँ ब्राउज़ करें",
+    stainCount_one: "{{count}} दाग",
+    stainCount_other: "{{count}} दाग",
+    treatment: "उपचार",
+  },
+  account: {
+    signedOut: "आप साइन आउट हैं",
+    signedOutSub: "अपने कोर्स और प्रमाणपत्र देखने के लिए साइन इन करें।",
+    signIn: "साइन इन",
+    lessonsDone: "पूर्ण पाठ",
+    certificates: "प्रमाणपत्र",
+    myCourses: "मेरे कोर्स",
+    myCertificates: "मेरे प्रमाणपत्र",
+    adminDashboard: "एडमिन डैशबोर्ड",
+    signOut: "साइन आउट",
+  },
+  common: {
+    back: "वापस",
+    save: "सहेजें",
+    cancel: "रद्द करें",
+    language: "भाषा",
+  },
+};
+export default hi;

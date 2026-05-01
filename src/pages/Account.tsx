@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon,
   FileText, Download, LifeBuoy, Mail, Phone, MessageCircle,
@@ -16,15 +17,16 @@ import { Lock } from "lucide-react";
 
 export default function Account() {
   const { user, signOut, completed } = useApp();
+  const { t } = useTranslation();
 
   if (!user) {
     return (
       <div className="px-4 py-12 text-center">
         <UserIcon className="mx-auto h-12 w-12 text-primary/50" />
-        <h1 className="mt-3 font-serif text-xl font-bold">You're signed out</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Sign in to access your courses & certificates.</p>
+        <h1 className="mt-3 font-serif text-xl font-bold">{t("account.signedOut")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("account.signedOutSub")}</p>
         <Link to="/sign-in" className="mt-5 inline-block rounded-full gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
-          Sign in
+          {t("account.signIn")}
         </Link>
       </div>
     );
@@ -50,19 +52,19 @@ export default function Account() {
           </div>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <Stat label="Lessons done" value={completedCount} />
-          <Stat label="Certificates" value={certificates.length} />
+          <Stat label={t("account.lessonsDone")} value={completedCount} />
+          <Stat label={t("account.certificates")} value={certificates.length} />
         </div>
       </div>
 
       {/* Quick links */}
       <div className="space-y-2">
-        <Row to="/learning" icon={BookOpen} label="My courses" />
+        <Row to="/learning" icon={BookOpen} label={t("account.myCourses")} />
         {certificates.length > 0 && (
-          <Row to={`/courses/${certificates[0].slug}/certificate`} icon={Award} label="My certificates" />
+          <Row to={`/courses/${certificates[0].slug}/certificate`} icon={Award} label={t("account.myCertificates")} />
         )}
         {user.email === ADMIN_EMAIL && (
-          <Row to="/admin" icon={Shield} label="Admin dashboard" />
+          <Row to="/admin" icon={Shield} label={t("account.adminDashboard")} />
         )}
       </div>
 
@@ -80,7 +82,7 @@ export default function Account() {
         onClick={signOut}
         className="flex w-full items-center gap-3 rounded-2xl bg-card p-4 text-left text-sm font-semibold text-destructive shadow-soft"
       >
-        <LogOut className="h-4 w-4" /> Sign out
+        <LogOut className="h-4 w-4" /> {t("account.signOut")}
       </button>
     </div>
   );

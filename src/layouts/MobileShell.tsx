@@ -1,20 +1,23 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Home, BookOpen, GraduationCap, User, Shield, Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import logo from "@/assets/gilm-logo.png";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
-
-const tabs = [
-  { to: "/", label: "Home", icon: Home, end: true },
-  { to: "/courses", label: "Courses", icon: BookOpen },
-  { to: "/learning", label: "Learning", icon: GraduationCap },
-  { to: "/stain-master", label: "Stains", icon: Sparkles },
-  { to: "/account", label: "Account", icon: User },
-];
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function MobileShell() {
   const { user } = useApp();
   const location = useLocation();
+  const { t } = useTranslation();
   const isAdmin = user?.email === ADMIN_EMAIL;
+
+  const tabs = [
+    { to: "/", label: t("nav.home"), icon: Home, end: true },
+    { to: "/courses", label: t("nav.courses"), icon: BookOpen },
+    { to: "/learning", label: t("nav.learning"), icon: GraduationCap },
+    { to: "/stain-master", label: t("nav.stains"), icon: Sparkles },
+    { to: "/account", label: t("nav.account"), icon: User },
+  ];
 
   // Hide chrome on lesson player for immersive view
   const immersive = /^\/courses\/[^/]+\/lesson\//.test(location.pathname);
@@ -26,20 +29,23 @@ export default function MobileShell() {
           <NavLink to="/" className="flex items-center gap-2">
             <img src={logo} alt="GILM logo" className="h-9 w-9 object-contain" />
             <div className="leading-tight">
-              <p className="text-[15px] font-bold text-primary">GILM</p>
+              <p className="text-[15px] font-bold text-primary">{t("brand.name")}</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                Laundry Academy
+                {t("brand.tagline")}
               </p>
             </div>
           </NavLink>
-          {isAdmin && (
-            <NavLink
-              to="/admin"
-              className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
-            >
-              <Shield className="h-3.5 w-3.5" /> Admin
-            </NavLink>
-          )}
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
+              >
+                <Shield className="h-3.5 w-3.5" /> {t("nav.admin")}
+              </NavLink>
+            )}
+          </div>
         </header>
       )}
 

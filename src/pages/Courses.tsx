@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { courses } from "@/data/courses";
 import CourseCard from "@/components/CourseCard";
 import { Search } from "lucide-react";
@@ -6,6 +7,7 @@ import { Search } from "lucide-react";
 const levels = ["All", "Beginner", "Intermediate", "Advanced"] as const;
 
 export default function Courses() {
+  const { t } = useTranslation();
   const [q, setQ] = useState("");
   const [level, setLevel] = useState<(typeof levels)[number]>("All");
 
@@ -19,8 +21,10 @@ export default function Courses() {
   return (
     <div className="space-y-4 px-4 py-5">
       <header>
-        <h1 className="font-serif text-2xl font-bold">All courses</h1>
-        <p className="text-sm text-muted-foreground">{filtered.length} courses available</p>
+        <h1 className="font-serif text-2xl font-bold">{t("courses.title")}</h1>
+        <p className="text-sm text-muted-foreground">
+          {t("courses.available", { count: filtered.length })}
+        </p>
       </header>
 
       <div className="relative">
@@ -28,7 +32,7 @@ export default function Courses() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search courses…"
+          placeholder={t("courses.searchPlaceholder")}
           className="w-full rounded-full border border-input bg-card py-2.5 pl-9 pr-4 text-sm outline-none transition-shadow focus:shadow-soft focus:ring-2 focus:ring-primary/30"
         />
       </div>
@@ -44,7 +48,7 @@ export default function Courses() {
                 : "bg-secondary text-secondary-foreground"
             }`}
           >
-            {l}
+            {t(`courses.levels.${l}` as const)}
           </button>
         ))}
       </div>
@@ -54,7 +58,7 @@ export default function Courses() {
           <CourseCard key={c.id} course={c} />
         ))}
         {filtered.length === 0 && (
-          <p className="py-10 text-center text-sm text-muted-foreground">No courses found.</p>
+          <p className="py-10 text-center text-sm text-muted-foreground">{t("courses.none")}</p>
         )}
       </div>
     </div>
