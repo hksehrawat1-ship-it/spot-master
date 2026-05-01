@@ -54,18 +54,6 @@ export default function Home() {
         <LanguageSwitcher variant="full" />
       </section>
 
-      {/* Featured */}
-      <section className="px-4">
-        <div className="mb-3">
-          <h2 className="font-serif text-xl font-bold">{t("home.featured")}</h2>
-        </div>
-        <div className="space-y-3">
-          {courses.slice(0, 3).map((c) => (
-            <CourseCard key={c.id} course={c} />
-          ))}
-        </div>
-      </section>
-
       {/* My Certificates */}
       <CertificatesSection />
 
