@@ -53,6 +53,26 @@ const CONDITIONS: { id: Condition; emoji: string; label: string }[] = [
   { id: "Heat", emoji: "🔥", label: "Ironed / heat exposed" },
 ];
 
+// Common stain names mapped to their underlying nature(s)
+const STAIN_NAMES: { name: string; emoji: string; natures: Nature[] }[] = [
+  { name: "Tea / Coffee", emoji: "☕", natures: ["Dye"] },
+  { name: "Curry / Turmeric", emoji: "🍛", natures: ["Combination", "Oily", "Dye"] },
+  { name: "Blood", emoji: "🩸", natures: ["Protein"] },
+  { name: "Egg / Milk", emoji: "🥚", natures: ["Protein"] },
+  { name: "Sweat", emoji: "💦", natures: ["Protein", "Oily"] },
+  { name: "Wine / Juice", emoji: "🍷", natures: ["Dye"] },
+  { name: "Ink / Pen", emoji: "🖊️", natures: ["Pigment"] },
+  { name: "Paint", emoji: "🎨", natures: ["Pigment"] },
+  { name: "Oil / Ghee", emoji: "🛢️", natures: ["Oily"] },
+  { name: "Lipstick / Makeup", emoji: "💄", natures: ["Oily", "Pigment"] },
+  { name: "Mud / Clay", emoji: "🪨", natures: ["Particulate"] },
+  { name: "Grass", emoji: "🌿", natures: ["Dye", "Protein"] },
+  { name: "Rust", emoji: "🔩", natures: ["Reducible"] },
+  { name: "Colour Bleed", emoji: "👕", natures: ["Transfer"] },
+  { name: "Yellowing / Aged", emoji: "🍋", natures: ["Oxidizable"] },
+  { name: "Bleach Damage", emoji: "⚗️", natures: ["Chemical"] },
+];
+
 type Diagnosis = Omit<StainEntry, "id" | "updatedAt">;
 
 function predict(natures: Nature[], color: Color | null, condition: Condition | null): Diagnosis {
