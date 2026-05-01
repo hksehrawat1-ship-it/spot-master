@@ -36,7 +36,7 @@ export default function StainMaster() {
         </div>
         <h1 className="mt-1 text-2xl font-bold leading-tight">Find any stain. Fix any stain.</h1>
         <p className="mt-1 text-sm opacity-90">
-          Search 100+ stains or browse by category to learn the pro treatment.
+          Search 500+ stains or browse by category to learn the pro treatment.
         </p>
       </div>
 
