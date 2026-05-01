@@ -193,7 +193,11 @@ function predict(natures: Nature[], color: Color | null, condition: Condition | 
 
 export default function StainIdentify() {
   const navigate = useNavigate();
-  const { saveStain, addStainHistory } = useApp();
+  const { saveStain, addStainHistory, stainMasterUnlocked } = useApp();
+  if (!stainMasterUnlocked) {
+    navigate("/stain-master", { replace: true });
+    return null;
+  }
   const [step, setStep] = useState(0);
   const [fabric, setFabric] = useState<Fabric | null>(null);
   const [color, setColor] = useState<Color | null>(null);
