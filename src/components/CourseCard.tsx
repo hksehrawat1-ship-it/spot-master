@@ -19,7 +19,7 @@ export default function CourseCard({ course }: { course: Course }) {
 
         {/* Level badge */}
         <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
-          {course.level}
+          {course.badge ?? course.level}
         </span>
 
         {/* Arrow chip */}
