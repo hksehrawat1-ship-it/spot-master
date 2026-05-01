@@ -75,7 +75,7 @@ export default function StainMaster() {
               {t("stainMaster.noResults")}
             </Card>
           ) : (
-            searchResults.map((s) => <StainCard key={s.id} stain={s} />)
+            searchResults.map((s) => <StainCard key={s.id} stain={s} onClick={() => requireUnlock(() => {})} />)
           )}
         </div>
       )}
@@ -108,7 +108,7 @@ export default function StainMaster() {
                   {group !== "All" && (
                     <h3 className="pt-2 text-sm font-semibold text-primary">{group}</h3>
                   )}
-                  {items.map((s) => <StainCard key={s.id} stain={s} />)}
+                  {items.map((s) => <StainCard key={s.id} stain={s} onClick={() => requireUnlock(() => {})} />)}
                 </div>
               ));
             })()
@@ -130,7 +130,7 @@ export default function StainMaster() {
               <div className="text-[10px] opacity-90">{t("stainMaster.actions.searchSub")}</div>
             </button>
             <button
-              onClick={() => navigate("/stain-master/identify")}
+              onClick={() => requireUnlock(() => navigate("/stain-master/identify"))}
               className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-[hsl(280_70%_45%)] to-[hsl(320_75%_55%)] p-3 text-left text-white shadow-elevated transition-transform hover:-translate-y-0.5"
             >
               <Brain className="h-5 w-5" />
@@ -161,7 +161,7 @@ export default function StainMaster() {
                 return (
                   <button
                     key={c.name}
-                    onClick={() => setActiveCategory(c.name)}
+                    onClick={() => requireUnlock(() => setActiveCategory(c.name))}
                     className="group flex flex-col gap-1 rounded-xl border border-border bg-card p-3 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated"
                   >
                     <span className="text-2xl">{c.emoji}</span>
