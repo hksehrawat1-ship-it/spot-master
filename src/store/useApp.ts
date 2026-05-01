@@ -46,15 +46,62 @@ export type PracticalBooking = {
   bookedAt: number;
 };
 
+export type StainProMethod = {
+  chemical: string;
+  type: string; // Alkali / Solvent / Enzyme / Oxidizer …
+  dilution: string;
+  steps: string[];
+  temperature: string;
+  time: string;
+};
+
+export type StainExpert = {
+  ph: string;
+  why: string;
+  fiberReaction: string;
+  chemistry: string;
+};
+
+export type StainEntry = {
+  id: string;
+  name: string;
+  category: string;
+  difficulty: "Easy" | "Medium" | "Hard" | "Risky";
+  removability: number; // 0-100
+  pro: StainProMethod;
+  alternative: { whenToUse: string; steps: string[] };
+  diy: { items: string[]; steps: string[] };
+  doNotDo: string[];
+  proTips: { bestTime: string; whenToSend: string };
+  expert: StainExpert;
+  updatedAt: number;
+};
+
+export type SavedStain = {
+  id: string;
+  stainId?: string;
+  name: string;
+  category: string;
+  savedAt: number;
+};
+
+export type StainHistory = {
+  id: string;
+  name: string;
+  category: string;
+  treatedAt: number;
+};
+
 type State = {
   user: User;
-  // lessonId -> completed
   completed: Record<string, boolean>;
   vault: VaultItem[];
-  // courseId -> owned
   purchases: Record<string, boolean>;
   invoices: Invoice[];
   practicalBookings: PracticalBooking[];
+  stainCatalog: StainEntry[];
+  savedStains: SavedStain[];
+  stainHistory: StainHistory[];
   setUser: (u: User) => void;
   signOut: () => void;
   toggleLesson: (id: string, value: boolean) => void;
@@ -62,6 +109,11 @@ type State = {
   removeVaultItem: (id: string) => void;
   purchaseCourse: (p: { courseId: string; courseTitle: string; amount: number }) => void;
   bookPractical: (b: Omit<PracticalBooking, "id" | "bookedAt">) => void;
+  upsertStain: (s: StainEntry) => void;
+  removeStain: (id: string) => void;
+  saveStain: (s: Omit<SavedStain, "id" | "savedAt">) => void;
+  unsaveStain: (id: string) => void;
+  addStainHistory: (h: Omit<StainHistory, "id" | "treatedAt">) => void;
 };
 
 export const useApp = create<State>()(
@@ -73,6 +125,37 @@ export const useApp = create<State>()(
       purchases: {},
       invoices: [],
       practicalBookings: [],
+      stainCatalog: [],
+      savedStains: [],
+      stainHistory: [],
+      upsertStain: (s) =>
+        set((st) => {
+          const exists = st.stainCatalog.some((x) => x.id === s.id);
+          const updated = { ...s, updatedAt: Date.now() };
+          return {
+            stainCatalog: exists
+              ? st.stainCatalog.map((x) => (x.id === s.id ? updated : x))
+              : [updated, ...st.stainCatalog],
+          };
+        }),
+      removeStain: (id) =>
+        set((st) => ({ stainCatalog: st.stainCatalog.filter((x) => x.id !== id) })),
+      saveStain: (s) =>
+        set((st) => ({
+          savedStains: [
+            { ...s, id: `SAV-${Date.now().toString(36)}`, savedAt: Date.now() },
+            ...st.savedStains,
+          ],
+        })),
+      unsaveStain: (id) =>
+        set((st) => ({ savedStains: st.savedStains.filter((x) => x.id !== id) })),
+      addStainHistory: (h) =>
+        set((st) => ({
+          stainHistory: [
+            { ...h, id: `HIS-${Date.now().toString(36)}`, treatedAt: Date.now() },
+            ...st.stainHistory,
+          ].slice(0, 50),
+        })),
       setUser: (user) =>
         set((s) => {
           // Auto-grant demo student ownership of course c1 with sample invoice + vault
