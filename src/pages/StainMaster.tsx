@@ -7,12 +7,20 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { STAIN_CATEGORIES, STAINS, type StainCategory } from "@/data/stains";
+import { useApp } from "@/store/useApp";
+import StainMasterPaywall from "@/components/StainMasterPaywall";
 
 export default function StainMaster() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const unlocked = useApp((s) => s.stainMasterUnlocked);
+  const [paywallOpen, setPaywallOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<StainCategory | null>(null);
+  const requireUnlock = (action: () => void) => {
+    if (unlocked) action();
+    else setPaywallOpen(true);
+  };
 
   const q = query.trim().toLowerCase();
 
