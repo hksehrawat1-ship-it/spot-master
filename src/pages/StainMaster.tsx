@@ -41,6 +41,7 @@ export default function StainMaster() {
 
   return (
     <div className="space-y-5 px-4 pb-28 pt-4">
+      <StainMasterPaywall open={paywallOpen} onOpenChange={setPaywallOpen} />
       {/* Header */}
       <div className="rounded-2xl bg-gradient-to-br from-primary to-primary-glow p-5 text-primary-foreground shadow-elevated">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider opacity-90">
