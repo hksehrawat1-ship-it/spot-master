@@ -47,7 +47,7 @@ export default function StainMasterPaywall({
     setSubmitting(true);
     // Demo: simulate payment
     await new Promise((r) => setTimeout(r, 700));
-    unlock(parsed.data);
+    unlock({ name: parsed.data.name!, email: parsed.data.email!, phone: parsed.data.phone! });
     setSubmitting(false);
     toast({ title: "Welcome, Stain Master! 🎉", description: "Lifetime access unlocked." });
     onOpenChange(false);
