@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/courses/:slug/certificate" element={<Certificate />} />
             <Route path="/learning" element={<MyLearning />} />
             <Route path="/stain-master" element={<StainMaster />} />
+            <Route path="/stain-master/identify" element={<StainIdentify />} />
             <Route path="/account" element={<Account />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />
