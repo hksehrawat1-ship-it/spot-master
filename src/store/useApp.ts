@@ -125,6 +125,37 @@ export const useApp = create<State>()(
       purchases: {},
       invoices: [],
       practicalBookings: [],
+      stainCatalog: [],
+      savedStains: [],
+      stainHistory: [],
+      upsertStain: (s) =>
+        set((st) => {
+          const exists = st.stainCatalog.some((x) => x.id === s.id);
+          const updated = { ...s, updatedAt: Date.now() };
+          return {
+            stainCatalog: exists
+              ? st.stainCatalog.map((x) => (x.id === s.id ? updated : x))
+              : [updated, ...st.stainCatalog],
+          };
+        }),
+      removeStain: (id) =>
+        set((st) => ({ stainCatalog: st.stainCatalog.filter((x) => x.id !== id) })),
+      saveStain: (s) =>
+        set((st) => ({
+          savedStains: [
+            { ...s, id: `SAV-${Date.now().toString(36)}`, savedAt: Date.now() },
+            ...st.savedStains,
+          ],
+        })),
+      unsaveStain: (id) =>
+        set((st) => ({ savedStains: st.savedStains.filter((x) => x.id !== id) })),
+      addStainHistory: (h) =>
+        set((st) => ({
+          stainHistory: [
+            { ...h, id: `HIS-${Date.now().toString(36)}`, treatedAt: Date.now() },
+            ...st.stainHistory,
+          ].slice(0, 50),
+        })),
       setUser: (user) =>
         set((s) => {
           // Auto-grant demo student ownership of course c1 with sample invoice + vault
