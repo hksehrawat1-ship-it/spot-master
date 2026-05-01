@@ -234,11 +234,12 @@ export default function StainIdentify() {
   const toggleNature = (n: Nature) =>
     setNatures((prev) => (prev.includes(n) ? prev.filter((x) => x !== n) : [...prev, n]));
 
+  // New flow: 0 = Stain name, 1 = Fabric, 2 = Colour, 3 = Condition (age/washed/ironed)
   const canNext =
-    (step === 0) ||
-    (step === 1 && !!color) ||
-    (step === 2 && natures.length > 0) ||
-    (step === 3 && !!condition && natures.length > 0);
+    (step === 0 && natures.length > 0) ||
+    (step === 1) ||
+    (step === 2 && !!color) ||
+    (step === 3 && !!condition);
 
   const back = () => (step === 0 ? navigate(-1) : setStep((s) => s - 1));
   const next = () => {
