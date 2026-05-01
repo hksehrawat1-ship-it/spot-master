@@ -56,11 +56,8 @@ export default function Home() {
 
       {/* Featured */}
       <section className="px-4">
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3">
           <h2 className="font-serif text-xl font-bold">{t("home.featured")}</h2>
-          <Link to="/courses" className="text-xs font-semibold text-primary">
-            {t("home.seeAll")}
-          </Link>
         </div>
         <div className="space-y-3">
           {courses.slice(0, 3).map((c) => (
