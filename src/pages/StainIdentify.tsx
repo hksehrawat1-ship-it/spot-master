@@ -224,6 +224,7 @@ export default function StainIdentify() {
   const [natures, setNatures] = useState<Nature[]>([]);
   const [condition, setCondition] = useState<Condition | null>(null);
   const [expert, setExpert] = useState(false);
+  const [stainQuery, setStainQuery] = useState("");
 
   const totalSteps = 4;
   const progress = ((step + 1) / (totalSteps + 1)) * 100;
