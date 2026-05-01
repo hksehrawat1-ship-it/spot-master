@@ -11,6 +11,7 @@ import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
 import MyLearning from "@/pages/MyLearning";
 import StainMaster from "@/pages/StainMaster";
+import StainIdentify from "@/pages/StainIdentify";
 import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
