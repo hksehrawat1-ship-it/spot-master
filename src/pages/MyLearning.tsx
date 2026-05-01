@@ -91,30 +91,6 @@ export default function MyLearning() {
         )}
       </section>
 
-      {/* Recommended */}
-      {others.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-sm font-bold uppercase tracking-wider text-muted-foreground">
-            Recommended for you
-          </h2>
-          <div className="space-y-3">
-            {others.slice(0, 2).map((c) => (
-              <Link
-                key={c.id}
-                to={`/courses/${c.slug}`}
-                className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-soft"
-              >
-                <div className={`h-12 w-12 flex-none rounded-xl bg-gradient-to-br ${c.cover}`} />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold">{c.title}</p>
-                  <p className="text-xs text-muted-foreground">{c.level} · {c.hours}h</p>
-                </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
