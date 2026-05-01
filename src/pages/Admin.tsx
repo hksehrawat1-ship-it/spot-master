@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { Upload, Users, FileText, Video, Plus, Vault, Trash2 } from "lucide-react";
-import { useApp, ADMIN_EMAIL, type VaultItem } from "@/store/useApp";
+import { Upload, Users, FileText, Video, Plus, Vault, Trash2, Droplets, Pencil, X } from "lucide-react";
+import { useApp, ADMIN_EMAIL, type VaultItem, type StainEntry } from "@/store/useApp";
 import { courses } from "@/data/courses";
 import { toast } from "sonner";
 
@@ -14,7 +14,7 @@ const mockStudents = [
 
 export default function Admin() {
   const { user } = useApp();
-  const [tab, setTab] = useState<"upload" | "vault" | "students" | "courses">("upload");
+  const [tab, setTab] = useState<"upload" | "vault" | "stains" | "students" | "courses">("upload");
 
   if (!user || user.email !== ADMIN_EMAIL) return <Navigate to="/" replace />;
 
@@ -31,7 +31,7 @@ export default function Admin() {
       </header>
 
       <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
-        {(["upload", "vault", "courses", "students"] as const).map((t) => (
+        {(["upload", "vault", "stains", "courses", "students"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -39,13 +39,14 @@ export default function Admin() {
               tab === t ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
             }`}
           >
-            {t === "vault" ? "Resource Vault" : t}
+            {t === "vault" ? "Resource Vault" : t === "stains" ? "Stain Library" : t}
           </button>
         ))}
       </div>
 
       {tab === "upload" && <UploadTab />}
       {tab === "vault" && <VaultTab />}
+      {tab === "stains" && <StainsTab />}
       {tab === "students" && <StudentsTab />}
       {tab === "courses" && <CoursesTab />}
     </div>
