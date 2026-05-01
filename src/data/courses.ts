@@ -48,7 +48,7 @@ export const courses: Course[] = [
     hours: 8,
     students: 1284,
     rating: 4.8,
-    cover: "from-primary to-primary-glow",
+    cover: "from-[hsl(214_85%_22%)] via-[hsl(214_75%_38%)] to-[hsl(190_85%_55%)]",
     price: 25500,
     originalPrice: 45000,
     modules: [
@@ -89,7 +89,7 @@ export const courses: Course[] = [
     hours: 12,
     students: 642,
     rating: 4.9,
-    cover: "from-[hsl(214_71%_28%)] to-accent",
+    cover: "from-[hsl(280_70%_35%)] via-[hsl(330_75%_50%)] to-[hsl(25_95%_60%)]",
     price: 35500,
     originalPrice: 75000,
     modules: [
@@ -118,7 +118,7 @@ export const courses: Course[] = [
     hours: 10,
     students: 921,
     rating: 4.9,
-    cover: "from-accent to-primary",
+    cover: "from-[hsl(160_75%_30%)] via-[hsl(180_70%_40%)] to-[hsl(45_95%_58%)]",
     price: 45500,
     originalPrice: 99000,
     modules: [
