@@ -452,11 +452,24 @@ export default function StainIdentify() {
       {/* Step 4 — RESULT */}
       {step === 4 && (
         <div className="space-y-4">
-          {/* Section 1: Diagnosis Card */}
+          {/* Top: What NOT to do (safety first) */}
+          <div className="rounded-2xl border-2 border-destructive/40 bg-destructive/5 p-4">
+            <div className="mb-2 flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+              <p className="text-sm font-bold uppercase tracking-wider text-destructive">What NOT to do</p>
+            </div>
+            <ul className="space-y-1.5">
+              {result.doNotDo.map((d) => (
+                <li key={d} className="flex gap-2 text-sm text-destructive"><span>✕</span><span>{d}</span></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 1. Diagnosis Card */}
           <div className="rounded-2xl bg-gradient-to-br from-primary to-primary-glow p-5 text-primary-foreground shadow-elevated">
             <div className="flex items-center justify-between">
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider opacity-90">
-                <Sparkles className="h-4 w-4" /> Diagnosis
+                <Sparkles className="h-4 w-4" /> 1. Diagnosis
               </div>
               <button onClick={handleSave} className="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold backdrop-blur hover:bg-white/25">
                 <Bookmark className="h-3.5 w-3.5" /> Save
