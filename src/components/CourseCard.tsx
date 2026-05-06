@@ -38,22 +38,34 @@ export default function CourseCard({ course, index = 0 }: { course: Course; inde
   return (
     <Link
       to={`/courses/${course.slug}`}
-      className="group relative block overflow-hidden rounded-2xl bg-card ring-1 ring-border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated active:scale-[0.99]"
+      className={`group relative block overflow-hidden rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-elevated active:scale-[0.99] ${
+        course.isBundle
+          ? "bg-[hsl(142_71%_97%)] ring-2 ring-[hsl(142_71%_35%)]"
+          : "bg-card ring-1 ring-border"
+      }`}
     >
       {/* Left color rail (Google-style accent) */}
       <span
         aria-hidden
         className="absolute left-0 top-0 h-full w-1"
-        style={{ background: rail }}
+        style={{ background: course.isBundle ? "hsl(142 71% 35%)" : rail }}
       />
 
       <div className="space-y-3 p-4 pl-5">
         {/* Header row: badge + level chip */}
         <div className="flex items-center justify-between gap-2">
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${lvl.bg} ${lvl.text}`}
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${
+              course.isBundle
+                ? "bg-[hsl(142_71%_35%)] text-white"
+                : `${lvl.bg} ${lvl.text}`
+            }`}
           >
-            <span className={`h-1.5 w-1.5 rounded-full ${lvl.dot}`} />
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${
+                course.isBundle ? "bg-white" : lvl.dot
+              }`}
+            />
             {course.badge ?? course.level}
           </span>
 
@@ -76,6 +88,12 @@ export default function CourseCard({ course, index = 0 }: { course: Course; inde
         {course.highlight && (
           <p className="rounded-lg bg-[hsl(217_89%_97%)] px-3 py-2 text-[12px] font-medium text-[hsl(217_89%_38%)]">
             {course.highlight}
+          </p>
+        )}
+
+        {course.isBundle && (
+          <p className="rounded-lg bg-[hsl(217_89%_95%)] px-3 py-2 text-[12px] font-semibold leading-relaxed text-[hsl(217_89%_30%)]">
+            <span className="font-bold">87.3% students</span> go for the Complete Laundry Mastery Course because it's just <span className="font-bold">3.9% of your ₹10L business investment</span>.
           </p>
         )}
 
