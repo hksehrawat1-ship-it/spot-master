@@ -189,7 +189,7 @@ export const courses: Course[] = [
     id: "c5",
     slug: "laundry-mastery-bundle",
     title: "Laundry Mastery Bundle",
-    tagline: "All four courses included + Lifetime Free Access to Stain Master — worth ₹1,33,999, yours for ₹39,999",
+    tagline: "The complete package — all 4 flagship laundry courses in one bundle.",
     description:
       "The complete package: all 4 flagship laundry courses + Lifetime Free Access to Stain Master. Total value ₹1,33,999 — yours for just ₹39,999.",
     level: "Advanced",
@@ -201,7 +201,6 @@ export const courses: Course[] = [
     originalPrice: 133999,
     badge: "Best Value",
     isBundle: true,
-    highlight: "All 4 courses + Lifetime Free Access to Stain Master — worth ₹1,33,999, yours for ₹39,999",
     modules: [
       { id: "m1", title: "Everything Included", lessons: [
         { id: "l1", title: "Complete Guide to Start Laundry Store", duration: "8h", videoUrl: sampleVideo, resources: [] },
