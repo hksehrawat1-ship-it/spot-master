@@ -202,7 +202,6 @@ export const courses: Course[] = [
     badge: "Best Value",
     isBundle: true,
     highlight: "All 4 courses + Lifetime Free Access to Stain Master — worth ₹1,33,999, yours for ₹39,999",
-    bonus: "Bonus: Lifetime Free Access to Stain Master included",
     modules: [
       { id: "m1", title: "Everything Included", lessons: [
         { id: "l1", title: "Complete Guide to Start Laundry Store", duration: "8h", videoUrl: sampleVideo, resources: [] },
