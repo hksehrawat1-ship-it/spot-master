@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Search, Sparkles, AlertTriangle, ArrowLeft, Brain, Camera, Clock, Bookmark, Flame } from "lucide-react";
+import { Search, Sparkles, AlertTriangle, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
