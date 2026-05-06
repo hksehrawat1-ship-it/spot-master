@@ -11,7 +11,7 @@ import StainMasterPaywall from "@/components/StainMasterPaywall";
 
 export default function StainMaster() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  
   const unlocked = useApp((s) => s.stainMasterUnlocked);
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [query, setQuery] = useState("");
