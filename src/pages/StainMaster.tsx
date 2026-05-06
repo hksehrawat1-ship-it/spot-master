@@ -120,49 +120,6 @@ export default function StainMaster() {
       {/* Action cards + Categories grid */}
       {!q && !activeCategory && (
         <div className="space-y-5">
-          {/* 3 action cards — Google Material style */}
-          <div className="grid grid-cols-3 gap-2.5">
-            <button
-              onClick={() => (document.querySelector<HTMLInputElement>('input[placeholder]')?.focus())}
-              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] transition-all hover:bg-[hsl(217_89%_97%)] hover:shadow-[0_1px_3px_rgba(60,64,67,0.16)] active:scale-[0.98]"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(217_89%_96%)]">
-                <Search className="h-[18px] w-[18px] text-[hsl(217_89%_51%)]" strokeWidth={2.2} />
-              </span>
-              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
-                {t("stainMaster.actions.searchTitle")}
-              </div>
-              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.searchSub")}</div>
-            </button>
-            <button
-              onClick={() => requireUnlock(() => navigate("/stain-master/identify"))}
-              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] transition-all hover:bg-[hsl(142_70%_97%)] hover:shadow-[0_1px_3px_rgba(60,64,67,0.16)] active:scale-[0.98]"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(142_70%_95%)]">
-                <Brain className="h-[18px] w-[18px] text-[hsl(142_71%_35%)]" strokeWidth={2.2} />
-              </span>
-              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
-                {t("stainMaster.actions.identifyTitle")}
-              </div>
-              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.identifySub")}</div>
-            </button>
-            <button
-              disabled
-              className="group relative flex flex-col items-start gap-2 rounded-2xl border border-[hsl(220_13%_91%)] bg-white p-3 text-left shadow-[0_1px_2px_rgba(60,64,67,0.08)] opacity-95"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(45_100%_94%)]">
-                <Camera className="h-[18px] w-[18px] text-[hsl(45_100%_42%)]" strokeWidth={2.2} />
-              </span>
-              <div className="text-[13px] font-medium leading-tight text-[hsl(213_10%_20%)]">
-                {t("stainMaster.actions.scanTitle")}
-              </div>
-              <div className="text-[11px] text-[hsl(220_9%_46%)]">{t("stainMaster.actions.scanSub")}</div>
-              <span className="absolute right-2 top-2 rounded-full bg-[hsl(4_90%_58%)] px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-white">
-                {t("stainMaster.actions.comingSoon")}
-              </span>
-            </button>
-          </div>
-
           {/* Categories */}
           <div className="space-y-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
@@ -189,25 +146,6 @@ export default function StainMaster() {
                 );
               })}
             </div>
-          </div>
-
-          {/* Quick cards bottom */}
-          <div className="grid grid-cols-3 gap-2.5 pt-1">
-            <Card className="flex flex-col gap-1 p-3">
-              <Clock className="h-4 w-4 text-primary" />
-              <div className="text-[12px] font-bold leading-tight">{t("stainMaster.quick.recent")}</div>
-              <div className="text-[10px] text-muted-foreground">{t("stainMaster.quick.recentSub")}</div>
-            </Card>
-            <Card className="flex flex-col gap-1 p-3">
-              <Bookmark className="h-4 w-4 text-[hsl(280_70%_45%)]" />
-              <div className="text-[12px] font-bold leading-tight">{t("stainMaster.quick.saved")}</div>
-              <div className="text-[10px] text-muted-foreground">{t("stainMaster.quick.savedSub")}</div>
-            </Card>
-            <Card className="flex flex-col gap-1 p-3">
-              <Flame className="h-4 w-4 text-[hsl(25_85%_50%)]" />
-              <div className="text-[12px] font-bold leading-tight">{t("stainMaster.quick.top10")}</div>
-              <div className="text-[10px] text-muted-foreground">{t("stainMaster.quick.top10Sub")}</div>
-            </Card>
           </div>
         </div>
       )}
