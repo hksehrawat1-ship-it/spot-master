@@ -62,6 +62,11 @@ export default function StainMaster() {
         />
       </div>
 
+      {/* AI stain detective */}
+      {!q && !activeCategory && <AiStainDetective />}
+
+
+
       {/* Search results */}
       {q && (
         <div className="space-y-2">
