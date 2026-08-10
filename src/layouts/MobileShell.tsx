@@ -1,5 +1,5 @@
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { BookOpen, Shield, Sparkles } from "lucide-react";
+import { NavLink, Outlet, useLocation, Navigate } from "react-router-dom";
+import { Sparkles, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/gilm-logo.png";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
@@ -11,20 +11,21 @@ export default function MobileShell() {
   const { t } = useTranslation();
   const isAdmin = user?.email === ADMIN_EMAIL;
 
-  const tabs = [
-    { to: "/courses", label: t("nav.courses"), icon: BookOpen },
-    { to: "/stain-master", label: t("nav.stains"), icon: Sparkles },
-  ];
+  const tabs = [{ to: "/stain-master", label: t("nav.stains"), icon: Sparkles }];
 
   // Hide chrome on lesson player for immersive view
   const immersive = /^\/courses\/[^/]+\/lesson\//.test(location.pathname);
 
+  if (!user && location.pathname !== "/sign-in") {
+    return <Navigate to="/sign-in" replace />;
+  }
+
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col bg-background shadow-elevated">
       {!immersive && (
-        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-md">
-          <NavLink to="/" className="flex items-center gap-2">
-            <img src={logo} alt="GILM logo" className="h-9 w-9 object-contain" />
+        <header className="sticky top-0 z-40 flex items-start justify-between border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-md">
+          <NavLink to="/stain-master" className="flex items-center gap-2">
+            <img src={logo} alt="Stain Master logo" className="h-9 w-9 object-contain" />
             <div className="leading-tight">
               <p className="text-[15px] font-bold text-primary">{t("brand.name")}</p>
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -32,16 +33,24 @@ export default function MobileShell() {
               </p>
             </div>
           </NavLink>
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-            {isAdmin && (
-              <NavLink
-                to="/admin"
-                className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
-              >
-                <Shield className="h-3.5 w-3.5" /> {t("nav.admin")}
-              </NavLink>
-            )}
+          <div className="flex flex-col items-end gap-1.5">
+            <div className="flex items-center gap-2">
+              <LanguageSwitcher />
+              {isAdmin && (
+                <NavLink
+                  to="/admin"
+                  className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary"
+                >
+                  <Shield className="h-3.5 w-3.5" /> {t("nav.admin")}
+                </NavLink>
+              )}
+            </div>
+            <NavLink
+              to="/courses"
+              className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[11px] font-semibold text-primary"
+            >
+              {t("nav.exploreCourses")}
+            </NavLink>
           </div>
         </header>
       )}
@@ -52,7 +61,7 @@ export default function MobileShell() {
 
       {!immersive && (
         <nav className="fixed bottom-0 left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border/60 bg-background/95 backdrop-blur-md">
-          <ul className="grid grid-cols-2 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
+          <ul className="grid grid-cols-1 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
             {tabs.map(({ to, label, icon: Icon }) => (
               <li key={to}>
                 <NavLink

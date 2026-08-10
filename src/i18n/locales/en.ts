@@ -5,11 +5,12 @@ const en = {
     learning: "Learning",
     stains: "Stain Master",
     account: "Account",
+    exploreCourses: "Explore Courses",
     admin: "Admin",
   },
   brand: {
-    name: "GILM",
-    tagline: "Laundry Academy",
+    name: "Stain Master",
+    tagline: "by GILM",
   },
   home: {
     badge: "Learn from industry experts",
