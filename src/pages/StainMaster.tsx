@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { STAIN_CATEGORIES, STAINS, type StainCategory } from "@/data/stains";
 import { useApp } from "@/store/useApp";
 import StainMasterPaywall from "@/components/StainMasterPaywall";
+import AiStainDetective from "@/components/AiStainDetective";
 
 export default function StainMaster() {
   const { t } = useTranslation();
@@ -60,6 +61,11 @@ export default function StainMaster() {
           className="h-12 rounded-xl border-2 pl-10 text-base"
         />
       </div>
+
+      {/* AI stain detective */}
+      {!q && !activeCategory && <AiStainDetective />}
+
+
 
       {/* Search results */}
       {q && (
