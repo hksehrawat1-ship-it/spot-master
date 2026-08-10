@@ -7,11 +7,12 @@ const hi: Translations = {
     learning: "मेरी पढ़ाई",
     stains: "स्टेन मास्टर",
     account: "खाता",
+    exploreCourses: "कोर्स देखें",
     admin: "एडमिन",
   },
   brand: {
-    name: "GILM",
-    tagline: "लॉन्ड्री अकादमी",
+    name: "स्टेन मास्टर",
+    tagline: "GILM द्वारा",
   },
   home: {
     badge: "इंडस्ट्री विशेषज्ञों से सीखें",
