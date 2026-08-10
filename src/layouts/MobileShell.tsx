@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { Home, BookOpen, User, Shield, Sparkles } from "lucide-react";
+import { BookOpen, Shield, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/gilm-logo.png";
 import { useApp, ADMIN_EMAIL } from "@/store/useApp";
@@ -12,10 +12,8 @@ export default function MobileShell() {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   const tabs = [
-    { to: "/", label: t("nav.home"), icon: Home, end: true },
     { to: "/courses", label: t("nav.courses"), icon: BookOpen },
     { to: "/stain-master", label: t("nav.stains"), icon: Sparkles },
-    { to: "/account", label: t("nav.account"), icon: User },
   ];
 
   // Hide chrome on lesson player for immersive view
@@ -54,12 +52,11 @@ export default function MobileShell() {
 
       {!immersive && (
         <nav className="fixed bottom-0 left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border/60 bg-background/95 backdrop-blur-md">
-          <ul className="grid grid-cols-4 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
-            {tabs.map(({ to, label, icon: Icon, end }) => (
+          <ul className="grid grid-cols-2 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
+            {tabs.map(({ to, label, icon: Icon }) => (
               <li key={to}>
                 <NavLink
                   to={to}
-                  end={end}
                   className={({ isActive }) =>
                     `flex flex-col items-center gap-0.5 rounded-xl py-2 text-[11px] font-medium transition-colors ${
                       isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
