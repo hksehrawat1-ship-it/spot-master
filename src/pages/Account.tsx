@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  LogOut, Award, BookOpen, Shield, ChevronRight, User as UserIcon,
+  LogOut, Award, Shield, ChevronRight, User as UserIcon,
   FileText, Download, LifeBuoy, Mail, Phone, MessageCircle,
   GraduationCap, Calendar, Users, CheckCircle2,
 } from "lucide-react";
@@ -59,7 +59,6 @@ export default function Account() {
 
       {/* Quick links */}
       <div className="space-y-2">
-        <Row to="/learning" icon={BookOpen} label={t("account.myCourses")} />
         {certificates.length > 0 && (
           <Row to={`/courses/${certificates[0].slug}/certificate`} icon={Award} label={t("account.myCertificates")} />
         )}

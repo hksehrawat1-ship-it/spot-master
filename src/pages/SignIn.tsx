@@ -43,7 +43,7 @@ export default function SignIn() {
     const role = email.toLowerCase() === ADMIN_EMAIL ? "admin" : "student";
     setUser({ name, email: email.toLowerCase(), role });
     toast.success(`Welcome, ${name}!`);
-    navigate(role === "admin" ? "/admin" : "/learning");
+    navigate(role === "admin" ? "/admin" : "/courses");
   };
 
   return (
