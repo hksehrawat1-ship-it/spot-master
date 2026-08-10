@@ -5,7 +5,7 @@ const hi: Translations = {
     home: "होम",
     courses: "कोर्स",
     learning: "मेरी पढ़ाई",
-    stains: "दाग",
+    stains: "स्टेन मास्टर",
     account: "खाता",
     admin: "एडमिन",
   },

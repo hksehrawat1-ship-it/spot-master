@@ -3,7 +3,7 @@ const en = {
     home: "Home",
     courses: "Courses",
     learning: "Learning",
-    stains: "Stains",
+    stains: "Stain Master",
     account: "Account",
     admin: "Admin",
   },
