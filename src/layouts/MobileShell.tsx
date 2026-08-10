@@ -53,11 +53,10 @@ export default function MobileShell() {
       {!immersive && (
         <nav className="fixed bottom-0 left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border/60 bg-background/95 backdrop-blur-md">
           <ul className="grid grid-cols-2 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5">
-            {tabs.map(({ to, label, icon: Icon, end }) => (
+            {tabs.map(({ to, label, icon: Icon }) => (
               <li key={to}>
                 <NavLink
                   to={to}
-                  end={end}
                   className={({ isActive }) =>
                     `flex flex-col items-center gap-0.5 rounded-xl py-2 text-[11px] font-medium transition-colors ${
                       isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
