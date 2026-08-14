@@ -45,7 +45,7 @@ const hi: Translations = {
   stainMaster: {
     badge: "GILM दाग विशेषज्ञ",
     title: "कोई भी दाग ढूंढें। कोई भी दाग ठीक करें।",
-    subtitle: "500+ दाग खोजें या श्रेणी से ब्राउज़ करके पेशेवर उपचार सीखें।",
+    subtitle: "दाग को पहचानें। कपड़े की रक्षा करें। — उत्कृष्ट स्पॉट महारत का मार्ग।",
     searchPlaceholder: "दाग खोजें: खून, कॉफी, तेल…",
     resultsFor: "\"{{query}}\" के लिए {{count}} परिणाम",
     resultFor: "\"{{query}}\" के लिए {{count}} परिणाम",
