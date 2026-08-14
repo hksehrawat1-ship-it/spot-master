@@ -43,7 +43,7 @@ const en = {
   stainMaster: {
     badge: "GILM Stain Master",
     title: "Find any stain. Fix any stain.",
-    subtitle: "Search 500+ stains or browse by category to learn the pro treatment.",
+    subtitle: "Know the Stain. Protect the Fabric. — The path to excellent spot mastery.",
     searchPlaceholder: "Search stains: blood, coffee, oil…",
     resultsFor: "{{count}} results for \"{{query}}\"",
     resultFor: "{{count}} result for \"{{query}}\"",
