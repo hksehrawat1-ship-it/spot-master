@@ -37,6 +37,7 @@ const App = () => (
             <Route path="/account" element={<Account />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/foundation" element={<FoundationCheck />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
