@@ -81,6 +81,24 @@ export default function StainMaster() {
         </Link>
       )}
 
+      {/* Step 3 — stain identification */}
+      {!q && !activeCategory && (
+        <Link
+          to="/stain-id"
+          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated"
+        >
+          <span className="rounded-full bg-primary/10 p-2.5">
+            <Search className="h-5 w-5 text-primary" aria-hidden />
+          </span>
+          <span className="flex-1">
+            <span className="block text-base font-semibold">What caused the stain?</span>
+            <span className="block text-xs text-muted-foreground">
+              Guided stain identification — search, browse, photos or “I don’t know”
+            </span>
+          </span>
+        </Link>
+      )}
+
       {/* AI stain detective */}
       {!q && !activeCategory && <AiStainDetective />}
 
