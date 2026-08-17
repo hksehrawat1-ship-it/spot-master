@@ -37,6 +37,7 @@ export default function ProductDetail() {
   const documents = useMemo(() => store.documents(), [store.documentOverrides, store.customDocuments]);
 
   const product = products.find((p) => p.key === productKey || p.productId === productKey);
+  const [versionKey, setSelectedVersionKey] = useState<string | undefined>(undefined);
 
   if (!product) {
     return (
@@ -48,7 +49,7 @@ export default function ProductDetail() {
   }
 
   const company = companies.find((c) => c.key === product.companyKey);
-  const [selectedVersionKey, setSelectedVersionKey] = useState(product.currentVersionKey);
+  const selectedVersionKey = versionKey ?? product.currentVersionKey;
   const version = product.versions.find((v) => v.key === selectedVersionKey) ?? currentVersion(product);
   const docs = documentsFor(product, documents);
   const conflicts = detectConflicts(product, version, docs);
