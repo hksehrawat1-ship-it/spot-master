@@ -390,8 +390,9 @@ export function buildRecommendations(
 
   const testRule = ev.firedRules.find((f) => f.effects.includes("require_compatibility_test"));
   const damageRule =
-    ev.firedRules.find((f) => f.category === "damage_risk") ??
-    ev.firedRules.find((f) => f.category === "fabric_risk") ??
+    ev.firedRules.find((f) => f.category === "material_fabric") ??
+    ev.firedRules.find((f) => f.category === "colour_dye") ??
+    ev.firedRules.find((f) => f.category === "construction_finish") ??
     determining;
   const stopRule =
     ev.firedRules.find((f) => f.stopCondition) ?? determining;
@@ -476,7 +477,7 @@ export function buildConfidence(rc: ResultCase, ev: SafetyEvaluation, best?: Eli
   const fabric = FABRIC_CONF_SCORE[rc.safety.fabricConfidence ?? "unknown"] ?? 1;
 
   const docScore = best
-    ? best.evidenceLevel === "verified_manufacturer_instruction" || best.evidenceLevel === "tds"
+    ? best.evidenceLevel === "current_manufacturer_instruction" || best.evidenceLevel === "current_tds" || best.evidenceLevel === "current_manufacturer_label"
       ? 9
       : best.provisional
         ? 4
@@ -739,7 +740,7 @@ export function buildTreatment(
   if (ev.testRequired || (mapping?.requiredTests?.length ?? 0) > 0) {
     steps.push({
       index: 1,
-      stageNumber: stage?.number ?? best.eligibility.stageNumber,
+      stageNumber: stage?.stageNumber ?? best.eligibility.stageNumber,
       purpose: "Confirm the garment tolerates the intended product before any treatment.",
       action: "Run the required hidden-area / colour test recorded for this mapping.",
       productLabel: product?.displayName ?? best.productKey,
@@ -762,7 +763,7 @@ export function buildTreatment(
   const missingCore = !approved || !q?.quantity && !q?.dilution;
   steps.push({
     index: steps.length + 1,
-    stageNumber: stage?.number ?? best.eligibility.stageNumber,
+    stageNumber: stage?.stageNumber ?? best.eligibility.stageNumber,
     purpose: stage?.purpose ?? "Approved treatment stage.",
     action: stage?.name ?? "Apply the mapped product at the approved stage.",
     productLabel: product?.displayName ?? best.productKey,
@@ -772,7 +773,7 @@ export function buildTreatment(
     contactTime: approved ? (q?.contactTime ?? FOLLOW_LABEL_TEXT) : FOLLOW_LABEL_TEXT,
     technique: mapping?.notes ?? FOLLOW_LABEL_TEXT,
     rinse: best.eligibility.rinseText || FOLLOW_LABEL_TEXT,
-    inspectionPoint: stage?.inspectionPoint ?? "Inspect before any repetition, next chemical, heat or drying.",
+    inspectionPoint: stage?.exitConditions?.[0] ?? "Inspect before any repetition, next chemical, heat or drying.",
     stopCondition: best.eligibility.stopConditions[0] ?? STOP_TREATMENT_MESSAGE,
     requiredPpe: mapping?.requiredPpe ?? [],
     requiredEquipment: mapping?.requiredEquipment ?? [],
