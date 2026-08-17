@@ -32,6 +32,8 @@ import Admin from "@/pages/Admin";
 import FoundationCheck from "@/pages/FoundationCheck";
 import FabricCheck from "@/pages/FabricCheck";
 import FabricCheckAdmin from "@/pages/FabricCheckAdmin";
+import SafetyAdmin from "@/pages/SafetyAdmin";
+
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
