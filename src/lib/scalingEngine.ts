@@ -109,8 +109,8 @@ export function mappingCopyAllowed(source: "own_documents" | "competitor_product
 
 /* Adding a company must not change any stain record. */
 export function addCompanyImpact(): { stainRecordsChanged: number; pagesRebuilt: number } {
-  const before = publishedRecords().map((r) => `${r.stableId}@${r.version}`).join("|");
-  const after = publishedRecords().map((r) => `${r.stableId}@${r.version}`).join("|");
+  const before = publishedRecords().map((r) => `${r.stainId}@${r.version}`).join("|");
+  const after = publishedRecords().map((r) => `${r.stainId}@${r.version}`).join("|");
   return { stainRecordsChanged: before === after ? 0 : 1, pagesRebuilt: 0 };
 }
 
@@ -254,7 +254,7 @@ export function scorecard(input: Partial<Record<ScorecardCheck, boolean>>, statu
 }
 
 export function scorecardForPilotRecord(stableId: string): Scorecard {
-  const rec = PILOT_RECORDS.find((r) => r.stableId === stableId);
+  const rec = PILOT_RECORDS.find((r) => r.stainId === stableId);
   if (!rec) return scorecard({});
   const d = rec.documentation as unknown as Record<string, boolean>;
   return scorecard(
@@ -610,15 +610,15 @@ export function subscriptionChangeAltersDecision(before: string, after: string):
 /* ------------------------------------------------------------------ */
 
 export function trustPanel(stableId: string) {
-  const rec = PILOT_RECORDS.find((r) => r.stableId === stableId);
+  const rec = PILOT_RECORDS.find((r) => r.stainId === stableId);
   if (!rec) return null;
   return {
-    last_reviewed_date: rec.reviewedOn ?? rec.approvedOn ?? "2026-08-01",
-    country_applicability: rec.countries?.join(", ") ?? "IN",
-    evidence_status: rec.evidenceLevel ?? "documented",
-    audience_designation: rec.audience ?? "professional",
-    risk_level: rec.riskLevel ?? "amber",
-    main_limitation: rec.limitation ?? "Guidance depends on confirmed fibre composition.",
+    last_reviewed_date: rec.lastReviewed,
+    country_applicability: rec.country,
+    evidence_status: rec.evidence.length > 0 ? "documented" : "insufficient_information",
+    audience_designation: rec.domesticExcluded || rec.domesticConfidence < 9 ? "professional" : "domestic and professional",
+    risk_level: rec.prohibitedActions.length > 2 ? "high" : "moderate",
+    main_limitation: rec.failureReasons[0] ?? "Guidance depends on confirmed fibre composition.",
     report_an_issue: "/admin/pilot#feedback",
     content_version: rec.version,
   } as Record<string, string>;
@@ -682,7 +682,7 @@ export function systemAudit(): { findings: AuditFinding[]; criticalFailures: Aud
 
   const findings: AuditFinding[] = [
     { area: "data_architecture", pass: architectureReport().unsupported.length === 0, severity: "none", detail: "All required capabilities supported; documented limits recorded." },
-    { area: "stable_ids", pass: PILOT_RECORDS.every((r) => !!r.stableId), severity: "none", detail: "Every record carries a stable ID." },
+    { area: "stable_ids", pass: PILOT_RECORDS.every((r) => !!r.stainId), severity: "none", detail: "Every record carries a stable ID." },
     { area: "versioning", pass: PILOT_RECORDS.every((r) => !!r.version), severity: "none", detail: "Immutable versions on all records." },
     { area: "historical_reproduction", pass: !modelUpdateAffectsHistory(), severity: "none", detail: "Model updates cannot rewrite historical case conclusions." },
     { area: "stain_taxonomy", pass: true, severity: "none", detail: "Twelve brand-neutral categories with an Unknown route." },
