@@ -98,7 +98,7 @@ export default function OutcomeReview() {
                   onClick={() => {
                     if (!requireReason()) return;
                     store.proposeAction(t.reviewId, {
-                      key: k, detail: reason, approvalStatus: "proposed", affectsLiveGuidance: false,
+                      key: k, detail: reason, proposedBy: reviewer, approvalStatus: "proposed", affectsLiveGuidance: false,
                     }, reviewer);
                     toast.success("Corrective action proposed for approval.");
                   }}
