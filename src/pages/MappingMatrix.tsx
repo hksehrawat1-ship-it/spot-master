@@ -35,7 +35,7 @@ export default function MappingMatrix() {
   const products = useProducts();
   const user = useApp((s) => s.user);
   const isReviewer = user?.role === "admin";
-  const audience = audienceForRole(isReviewer ? "technical_reviewer" : "domestic_user", isReviewer);
+  const audience = audienceForRole("domestic_user", isReviewer);
 
   const all = useMemo(
     () => store.mappings(),
@@ -161,7 +161,7 @@ export default function MappingMatrix() {
         {comparison && (
           <Card className="p-3 space-y-2 overflow-x-auto">
             <p className="font-semibold text-sm">Cross-company comparison</p>
-            <p className="text-[11px] text-muted-foreground">{comparison.warning}</p>
+            <p className="text-[11px] text-muted-foreground">{comparison.message}</p>
             <table className="w-full text-[11px]">
               <thead>
                 <tr className="text-left">
