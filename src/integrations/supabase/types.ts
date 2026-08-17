@@ -6377,6 +6377,51 @@ export type Database = {
           },
         ]
       }
+      stain_analyses: {
+        Row: {
+          colour: string | null
+          created_at: string
+          fabric: string | null
+          id: string
+          image_path: string | null
+          model: string | null
+          notes: string | null
+          result: Json
+          stain_age: string | null
+          stain_source: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          colour?: string | null
+          created_at?: string
+          fabric?: string | null
+          id?: string
+          image_path?: string | null
+          model?: string | null
+          notes?: string | null
+          result: Json
+          stain_age?: string | null
+          stain_source?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          colour?: string | null
+          created_at?: string
+          fabric?: string | null
+          id?: string
+          image_path?: string | null
+          model?: string | null
+          notes?: string | null
+          result?: Json
+          stain_age?: string | null
+          stain_source?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       stain_categories: {
         Row: {
           category_key: string
