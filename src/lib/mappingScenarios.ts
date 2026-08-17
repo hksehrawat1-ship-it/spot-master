@@ -313,8 +313,8 @@ export function runMappingScenarios(): ScenarioResult[] {
 
   t("Three products map to one stage but are not directly comparable", () => {
     const a = verifiedMapping({ mappingId: "A", productKey: "seitz_frankosol" });
-    const b = verifiedMapping({ mappingId: "B", productKey: "cc_food_1", companyKey: "clean_craft", quantities: undefined });
-    const c = verifiedMapping({ mappingId: "C", productKey: "seitz_quickol", evidenceLevel: "insufficient_information" });
+    const b = verifiedMapping({ mappingId: "B", productKey: "cc_food_1", productVersionKey: PRODUCT_BY_KEY.cc_food_1.currentVersionKey, companyKey: "clean_craft", quantities: undefined });
+    const c = verifiedMapping({ mappingId: "C", productKey: "seitz_quickol", productVersionKey: PRODUCT_BY_KEY.seitz_quickol.currentVersionKey, evidenceLevel: "insufficient_information" });
     const cmp = compareMappings([a, b, c]);
     return cmp.rankable === false && cmp.message.includes("not directly comparable") ? true : cmp.message;
   });
@@ -341,7 +341,7 @@ export function runMappingScenarios(): ScenarioResult[] {
   });
 
   t("Seitz mapping uses a current verified document", () => {
-    const m = verifiedMapping({ productKey: "seitz_cavesol", companyKey: "seitz", stageNumber: 7, componentKey: "tannin" });
+    const m = verifiedMapping({ productKey: "seitz_cavesol", productVersionKey: PRODUCT_BY_KEY.seitz_cavesol.currentVersionKey, companyKey: "seitz", stageNumber: 7, componentKey: "tannin" });
     const r = evaluateEligibility(m, baseCase({ stageNumber: 7, components: ["tannin"], dominantComponent: "tannin" }), opts());
     return r.outcome === "eligible" && r.evidenceLevel === "current_tds" ? true : `${r.outcome}/${r.evidenceLevel}`;
   });
