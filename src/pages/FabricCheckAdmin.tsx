@@ -15,7 +15,6 @@ const GATES: GateStatus[] = [
 ];
 
 export default function FabricCheckAdmin() {
-  const user = useApp((s) => s.user);
   const { assessments, applyOverride, remove } = useFabricCheck();
   const [openId, setOpenId] = useState<string | null>(null);
   const [reason, setReason] = useState("");
@@ -23,9 +22,6 @@ export default function FabricCheckAdmin() {
   const [gate, setGate] = useState<GateStatus>("proceed_with_testing");
   const scenarios = runSeedScenarios();
 
-  if (user?.email !== ADMIN_EMAIL) {
-    return <div className="px-4 py-10 text-sm text-muted-foreground">Reviewer access only.</div>;
-  }
 
   return (
     <div className="space-y-5 px-4 pb-28 pt-4">
