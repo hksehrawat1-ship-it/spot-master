@@ -98,6 +98,153 @@ export type Database = {
           },
         ]
       }
+      case_classifications: {
+        Row: {
+          block_reason: string | null
+          blocked: boolean
+          case_components: Json
+          case_id: string | null
+          classification_version: number
+          component_confidence: number
+          condition_assessment_id: string | null
+          condition_tags: string[]
+          created_at: string
+          damage_confidence: number
+          damage_keys: string[]
+          evidence_level: Database["public"]["Enums"]["classification_evidence"]
+          gate_status: string | null
+          id: string
+          identification_id: string | null
+          library_stain_key: string | null
+          organization_id: string | null
+          plain_explanation: string | null
+          primary_category_confidence: number
+          primary_category_key: string | null
+          primary_category_reason: string | null
+          readiness_status: string | null
+          risk_after: Database["public"]["Enums"]["risk_level"]
+          risk_before: Database["public"]["Enums"]["risk_level"]
+          risk_tags: string[]
+          source_confidence: number
+          source_keys: string[]
+          taxonomy_version: string
+          technical_explanation: string | null
+          unresolved_questions: string[]
+          updated_at: string
+          user_confirmation: string | null
+          user_correction: string | null
+          user_id: string | null
+        }
+        Insert: {
+          block_reason?: string | null
+          blocked?: boolean
+          case_components?: Json
+          case_id?: string | null
+          classification_version?: number
+          component_confidence?: number
+          condition_assessment_id?: string | null
+          condition_tags?: string[]
+          created_at?: string
+          damage_confidence?: number
+          damage_keys?: string[]
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          gate_status?: string | null
+          id?: string
+          identification_id?: string | null
+          library_stain_key?: string | null
+          organization_id?: string | null
+          plain_explanation?: string | null
+          primary_category_confidence?: number
+          primary_category_key?: string | null
+          primary_category_reason?: string | null
+          readiness_status?: string | null
+          risk_after?: Database["public"]["Enums"]["risk_level"]
+          risk_before?: Database["public"]["Enums"]["risk_level"]
+          risk_tags?: string[]
+          source_confidence?: number
+          source_keys?: string[]
+          taxonomy_version?: string
+          technical_explanation?: string | null
+          unresolved_questions?: string[]
+          updated_at?: string
+          user_confirmation?: string | null
+          user_correction?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          block_reason?: string | null
+          blocked?: boolean
+          case_components?: Json
+          case_id?: string | null
+          classification_version?: number
+          component_confidence?: number
+          condition_assessment_id?: string | null
+          condition_tags?: string[]
+          created_at?: string
+          damage_confidence?: number
+          damage_keys?: string[]
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          gate_status?: string | null
+          id?: string
+          identification_id?: string | null
+          library_stain_key?: string | null
+          organization_id?: string | null
+          plain_explanation?: string | null
+          primary_category_confidence?: number
+          primary_category_key?: string | null
+          primary_category_reason?: string | null
+          readiness_status?: string | null
+          risk_after?: Database["public"]["Enums"]["risk_level"]
+          risk_before?: Database["public"]["Enums"]["risk_level"]
+          risk_tags?: string[]
+          source_confidence?: number
+          source_keys?: string[]
+          taxonomy_version?: string
+          technical_explanation?: string | null
+          unresolved_questions?: string[]
+          updated_at?: string
+          user_confirmation?: string | null
+          user_correction?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_classifications_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_classifications_condition_assessment_id_fkey"
+            columns: ["condition_assessment_id"]
+            isOneToOne: false
+            referencedRelation: "case_condition_assessments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_classifications_identification_id_fkey"
+            columns: ["identification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_identifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_classifications_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_classifications_primary_category_key_fkey"
+            columns: ["primary_category_key"]
+            isOneToOne: false
+            referencedRelation: "stain_primary_categories"
+            referencedColumns: ["category_key"]
+          },
+        ]
+      }
       case_condition_assessments: {
         Row: {
           affected_components: string[]
@@ -406,6 +553,158 @@ export type Database = {
           },
         ]
       }
+      category_migration_map: {
+        Row: {
+          created_at: string
+          id: string
+          legacy_category: string
+          new_category_key: string | null
+          reason: string | null
+          records_migrated: number
+          records_needing_review: number
+          records_not_migrated: number
+          records_total: number
+          reviewer_status: string
+          routed_to_damage: boolean
+          split_category_keys: string[]
+          tags_added: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          legacy_category: string
+          new_category_key?: string | null
+          reason?: string | null
+          records_migrated?: number
+          records_needing_review?: number
+          records_not_migrated?: number
+          records_total?: number
+          reviewer_status?: string
+          routed_to_damage?: boolean
+          split_category_keys?: string[]
+          tags_added?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          legacy_category?: string
+          new_category_key?: string | null
+          reason?: string | null
+          records_migrated?: number
+          records_needing_review?: number
+          records_not_migrated?: number
+          records_total?: number
+          reviewer_status?: string
+          routed_to_damage?: boolean
+          split_category_keys?: string[]
+          tags_added?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "category_migration_map_new_category_key_fkey"
+            columns: ["new_category_key"]
+            isOneToOne: false
+            referencedRelation: "stain_primary_categories"
+            referencedColumns: ["category_key"]
+          },
+        ]
+      }
+      classification_tags: {
+        Row: {
+          archived: boolean
+          created_at: string
+          description: string | null
+          id: string
+          kind: Database["public"]["Enums"]["classification_tag_kind"]
+          label: string
+          raises_risk: Database["public"]["Enums"]["risk_level"] | null
+          tag_key: string
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind: Database["public"]["Enums"]["classification_tag_kind"]
+          label: string
+          raises_risk?: Database["public"]["Enums"]["risk_level"] | null
+          tag_key: string
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["classification_tag_kind"]
+          label?: string
+          raises_risk?: Database["public"]["Enums"]["risk_level"] | null
+          tag_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      classification_versions: {
+        Row: {
+          action: string
+          case_classification_id: string | null
+          changed_by: string | null
+          classification_id: string | null
+          created_at: string
+          id: string
+          justification: string | null
+          new_primary_category: string | null
+          previous_primary_category: string | null
+          snapshot: Json
+          version: number
+        }
+        Insert: {
+          action: string
+          case_classification_id?: string | null
+          changed_by?: string | null
+          classification_id?: string | null
+          created_at?: string
+          id?: string
+          justification?: string | null
+          new_primary_category?: string | null
+          previous_primary_category?: string | null
+          snapshot?: Json
+          version: number
+        }
+        Update: {
+          action?: string
+          case_classification_id?: string | null
+          changed_by?: string | null
+          classification_id?: string | null
+          created_at?: string
+          id?: string
+          justification?: string | null
+          new_primary_category?: string | null
+          previous_primary_category?: string | null
+          snapshot?: Json
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "classification_versions_case_classification_id_fkey"
+            columns: ["case_classification_id"]
+            isOneToOne: false
+            referencedRelation: "case_classifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "classification_versions_classification_id_fkey"
+            columns: ["classification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_library_classifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           company_name: string
@@ -481,6 +780,42 @@ export type Database = {
           previous_data?: Json | null
           record_id?: string
           table_name?: string
+        }
+        Relationships: []
+      }
+      damage_interpretations: {
+        Row: {
+          created_at: string
+          damage_key: string
+          id: string
+          is_stain: boolean
+          label: string
+          plain_description: string | null
+          requires_professional: boolean
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          damage_key: string
+          id?: string
+          is_stain?: boolean
+          label: string
+          plain_description?: string | null
+          requires_professional?: boolean
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          damage_key?: string
+          id?: string
+          is_stain?: boolean
+          label?: string
+          plain_description?: string | null
+          requires_professional?: boolean
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1866,6 +2201,165 @@ export type Database = {
         }
         Relationships: []
       }
+      stain_classification_components: {
+        Row: {
+          classification_id: string
+          component_key: string
+          confidence: number
+          created_at: string
+          evidence_level: Database["public"]["Enums"]["classification_evidence"]
+          id: string
+          notes: string | null
+          relevance: Database["public"]["Enums"]["component_relevance"]
+          review_status: Database["public"]["Enums"]["content_status"]
+        }
+        Insert: {
+          classification_id: string
+          component_key: string
+          confidence?: number
+          created_at?: string
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          id?: string
+          notes?: string | null
+          relevance?: Database["public"]["Enums"]["component_relevance"]
+          review_status?: Database["public"]["Enums"]["content_status"]
+        }
+        Update: {
+          classification_id?: string
+          component_key?: string
+          confidence?: number
+          created_at?: string
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          id?: string
+          notes?: string | null
+          relevance?: Database["public"]["Enums"]["component_relevance"]
+          review_status?: Database["public"]["Enums"]["content_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_classification_components_classification_id_fkey"
+            columns: ["classification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_library_classifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_classification_components_component_key_fkey"
+            columns: ["component_key"]
+            isOneToOne: false
+            referencedRelation: "stain_components"
+            referencedColumns: ["component_key"]
+          },
+        ]
+      }
+      stain_classification_sources: {
+        Row: {
+          classification_id: string
+          confidence: number
+          created_at: string
+          id: string
+          source_key: string
+        }
+        Insert: {
+          classification_id: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          source_key: string
+        }
+        Update: {
+          classification_id?: string
+          confidence?: number
+          created_at?: string
+          id?: string
+          source_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_classification_sources_classification_id_fkey"
+            columns: ["classification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_library_classifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_classification_sources_source_key_fkey"
+            columns: ["source_key"]
+            isOneToOne: false
+            referencedRelation: "stain_source_types"
+            referencedColumns: ["source_key"]
+          },
+        ]
+      }
+      stain_classification_tags: {
+        Row: {
+          classification_id: string
+          created_at: string
+          id: string
+          tag_key: string
+        }
+        Insert: {
+          classification_id: string
+          created_at?: string
+          id?: string
+          tag_key: string
+        }
+        Update: {
+          classification_id?: string
+          created_at?: string
+          id?: string
+          tag_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_classification_tags_classification_id_fkey"
+            columns: ["classification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_library_classifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_classification_tags_tag_key_fkey"
+            columns: ["tag_key"]
+            isOneToOne: false
+            referencedRelation: "classification_tags"
+            referencedColumns: ["tag_key"]
+          },
+        ]
+      }
+      stain_components: {
+        Row: {
+          archived: boolean
+          component_key: string
+          created_at: string
+          description: string | null
+          id: string
+          label: string
+          technical_only: boolean
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          component_key: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          label: string
+          technical_only?: boolean
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          component_key?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          label?: string
+          technical_only?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       stain_identification_reviews: {
         Row: {
           corrected_stain_key: string | null
@@ -2024,6 +2518,232 @@ export type Database = {
           stain_age?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      stain_library_classifications: {
+        Row: {
+          alternative_names: string[]
+          approval_status: Database["public"]["Enums"]["content_status"]
+          bonding_behaviour: string
+          classification_version: number
+          component_confidence: number
+          content_owner: string | null
+          country_applicability: string[]
+          created_at: string
+          damage_default_key: string | null
+          damage_interpretation_confidence: number
+          display_name: string
+          effect_of_acidity: string
+          effect_of_ageing: string
+          effect_of_alkalinity: string
+          effect_of_heat: string
+          effect_of_oxidation: string
+          evidence_level: Database["public"]["Enums"]["classification_evidence"]
+          id: string
+          legacy_category: string | null
+          likely_composition: string
+          local_names: string[]
+          needs_review: boolean
+          next_review_date: string | null
+          plain_explanation: string | null
+          primary_category_confidence: number
+          primary_category_key: string
+          primary_category_reason: string | null
+          review_date: string | null
+          review_note: string | null
+          solubility: string
+          source_confidence: number
+          stain_id: string | null
+          stain_key: string
+          taxonomy_version: string
+          technical_reviewer: string | null
+          treatment_principle_note: string
+          updated_at: string
+        }
+        Insert: {
+          alternative_names?: string[]
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          bonding_behaviour?: string
+          classification_version?: number
+          component_confidence?: number
+          content_owner?: string | null
+          country_applicability?: string[]
+          created_at?: string
+          damage_default_key?: string | null
+          damage_interpretation_confidence?: number
+          display_name: string
+          effect_of_acidity?: string
+          effect_of_ageing?: string
+          effect_of_alkalinity?: string
+          effect_of_heat?: string
+          effect_of_oxidation?: string
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          id?: string
+          legacy_category?: string | null
+          likely_composition?: string
+          local_names?: string[]
+          needs_review?: boolean
+          next_review_date?: string | null
+          plain_explanation?: string | null
+          primary_category_confidence?: number
+          primary_category_key: string
+          primary_category_reason?: string | null
+          review_date?: string | null
+          review_note?: string | null
+          solubility?: string
+          source_confidence?: number
+          stain_id?: string | null
+          stain_key: string
+          taxonomy_version?: string
+          technical_reviewer?: string | null
+          treatment_principle_note?: string
+          updated_at?: string
+        }
+        Update: {
+          alternative_names?: string[]
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          bonding_behaviour?: string
+          classification_version?: number
+          component_confidence?: number
+          content_owner?: string | null
+          country_applicability?: string[]
+          created_at?: string
+          damage_default_key?: string | null
+          damage_interpretation_confidence?: number
+          display_name?: string
+          effect_of_acidity?: string
+          effect_of_ageing?: string
+          effect_of_alkalinity?: string
+          effect_of_heat?: string
+          effect_of_oxidation?: string
+          evidence_level?: Database["public"]["Enums"]["classification_evidence"]
+          id?: string
+          legacy_category?: string | null
+          likely_composition?: string
+          local_names?: string[]
+          needs_review?: boolean
+          next_review_date?: string | null
+          plain_explanation?: string | null
+          primary_category_confidence?: number
+          primary_category_key?: string
+          primary_category_reason?: string | null
+          review_date?: string | null
+          review_note?: string | null
+          solubility?: string
+          source_confidence?: number
+          stain_id?: string | null
+          stain_key?: string
+          taxonomy_version?: string
+          technical_reviewer?: string | null
+          treatment_principle_note?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_library_classifications_damage_default_key_fkey"
+            columns: ["damage_default_key"]
+            isOneToOne: false
+            referencedRelation: "damage_interpretations"
+            referencedColumns: ["damage_key"]
+          },
+          {
+            foreignKeyName: "stain_library_classifications_primary_category_key_fkey"
+            columns: ["primary_category_key"]
+            isOneToOne: false
+            referencedRelation: "stain_primary_categories"
+            referencedColumns: ["category_key"]
+          },
+          {
+            foreignKeyName: "stain_library_classifications_stain_id_fkey"
+            columns: ["stain_id"]
+            isOneToOne: false
+            referencedRelation: "stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_primary_categories: {
+        Row: {
+          archived: boolean
+          category_key: string
+          created_at: string
+          examples: string[]
+          heat_warning: string | null
+          icon: string | null
+          id: string
+          important_limitation: string | null
+          name: string
+          plain_description: string
+          sort_order: number
+          technical_only: boolean
+          translations: Json
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          category_key: string
+          created_at?: string
+          examples?: string[]
+          heat_warning?: string | null
+          icon?: string | null
+          id?: string
+          important_limitation?: string | null
+          name: string
+          plain_description: string
+          sort_order?: number
+          technical_only?: boolean
+          translations?: Json
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          category_key?: string
+          created_at?: string
+          examples?: string[]
+          heat_warning?: string | null
+          icon?: string | null
+          id?: string
+          important_limitation?: string | null
+          name?: string
+          plain_description?: string
+          sort_order?: number
+          technical_only?: boolean
+          translations?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stain_source_types: {
+        Row: {
+          archived: boolean
+          created_at: string
+          icon: string | null
+          id: string
+          label: string
+          sort_order: number
+          source_key: string
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          created_at?: string
+          icon?: string | null
+          id?: string
+          label: string
+          sort_order?: number
+          source_key: string
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          created_at?: string
+          icon?: string | null
+          id?: string
+          label?: string
+          sort_order?: number
+          source_key?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -2396,6 +3116,17 @@ export type Database = {
         | "stain_area"
         | "professional_test"
       assessment_state: "in_progress" | "completed" | "abandoned"
+      classification_evidence:
+        | "manufacturer_documented"
+        | "recognized_technical_reference"
+        | "internal_trial_verified"
+        | "professional_consensus"
+        | "user_reported_source"
+        | "ai_suggested"
+        | "inferred"
+        | "insufficient_information"
+      classification_tag_kind: "condition" | "risk"
+      component_relevance: "primary" | "major" | "minor" | "possible"
       content_status:
         | "draft"
         | "under_review"
@@ -2610,6 +3341,18 @@ export const Constants = {
         "professional_test",
       ],
       assessment_state: ["in_progress", "completed", "abandoned"],
+      classification_evidence: [
+        "manufacturer_documented",
+        "recognized_technical_reference",
+        "internal_trial_verified",
+        "professional_consensus",
+        "user_reported_source",
+        "ai_suggested",
+        "inferred",
+        "insufficient_information",
+      ],
+      classification_tag_kind: ["condition", "risk"],
+      component_relevance: ["primary", "major", "minor", "possible"],
       content_status: [
         "draft",
         "under_review",
