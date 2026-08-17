@@ -72,10 +72,10 @@ const App = () => (
             <Route path="/account" element={<Account />} />
             <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
             <Route path="/admin/stain-id" element={<StainIdAdmin />} />
+            <Route path="/admin/readiness" element={<ReadinessAdmin />} />
             <Route path="/admin/safety" element={<SafetyAdmin />} />
             <Route path="/sign-in" element={<SignIn />} />
 
-            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/foundation" element={<FoundationCheck />} />
           </Route>
