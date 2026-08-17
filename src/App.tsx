@@ -52,6 +52,7 @@ import OutcomeAnalytics from "@/pages/OutcomeAnalytics";
 import OutcomeReview from "@/pages/OutcomeReview";
 import GovernanceDashboard from "@/pages/GovernanceDashboard";
 import GovernanceRecord from "@/pages/GovernanceRecord";
+import AdminPilot from "@/pages/admin/AdminPilot";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -102,6 +103,7 @@ const App = () => (
             <Route path="/admin/outcome-review" element={<OutcomeReview />} />
             <Route path="/admin/governance" element={<GovernanceDashboard />} />
             <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
+            <Route path="/admin/pilot" element={<AdminPilot />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<AdminDashboard />} />
