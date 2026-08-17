@@ -235,7 +235,10 @@ export type StatusPresentation = { label: string; icon: string; tone: string; bl
 export const STATUS_PRESENTATION: Record<GovStatus, StatusPresentation> = {
   draft: { label: "Draft", icon: "pencil", tone: "muted", blocksLive: true },
   evidence_required: { label: "Evidence Required", icon: "file-search", tone: "amber", blocksLive: true },
-  under_review: { label: "Under Review", icon: "eye", tone: "blue", blocksLive: true },
+  technical_review: { label: "Under Technical Review", icon: "eye", tone: "blue", blocksLive: true },
+  safety_review: { label: "Under Safety Review", icon: "shield", tone: "blue", blocksLive: true },
+  country_review: { label: "Under Country Review", icon: "map", tone: "blue", blocksLive: true },
+  translation_review: { label: "Under Translation Review", icon: "languages", tone: "blue", blocksLive: true },
   changes_requested: { label: "Changes Requested", icon: "rotate-ccw", tone: "amber", blocksLive: true },
   approved: { label: "Approved", icon: "check", tone: "green", blocksLive: true },
   scheduled: { label: "Scheduled", icon: "clock", tone: "blue", blocksLive: true },
@@ -244,10 +247,8 @@ export const STATUS_PRESENTATION: Record<GovStatus, StatusPresentation> = {
   suspended: { label: "Suspended", icon: "pause", tone: "red", blocksLive: true },
   rejected: { label: "Rejected", icon: "x", tone: "red", blocksLive: true },
   superseded: { label: "Superseded", icon: "layers", tone: "muted", blocksLive: true },
-  withdrawn: { label: "Withdrawn", icon: "undo", tone: "muted", blocksLive: true },
   archived: { label: "Archived", icon: "archive", tone: "muted", blocksLive: true },
-  expired: { label: "Expired", icon: "calendar-x", tone: "red", blocksLive: true },
-  provisional: { label: "Provisional", icon: "help-circle", tone: "amber", blocksLive: true },
+
 };
 
 /* ------------------------------------------------------------------ */
