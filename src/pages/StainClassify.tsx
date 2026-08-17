@@ -38,7 +38,7 @@ export default function StainClassify() {
 
   const latest = readinessCases[0] ?? null;
 
-  const [role, setRole] = useState<UserRoleKey>((latest?.input?.role as UserRoleKey) ?? "domestic_user");
+  const [role, setRole] = useState<UserRoleKey>((latest?.context?.role as UserRoleKey) ?? "domestic_user");
   const [isReviewer, setIsReviewer] = useState(false);
   const [libraryKey, setLibraryKey] = useState<string>("");
   const [query, setQuery] = useState("");
