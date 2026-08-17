@@ -708,44 +708,160 @@ export type Database = {
       companies: {
         Row: {
           company_name: string
+          company_ref: string | null
+          company_roles: string[]
+          company_verification: string
+          countries_served: string[]
           country: string | null
           created_at: string
+          display_name: string | null
+          headquarters: string | null
           id: string
+          is_distributor: boolean
+          is_manufacturer: boolean
+          languages: string[]
           legal_name: string | null
+          logo_ref: string | null
           manufacturer_or_distributor: string | null
           notes: string | null
+          official_email: string | null
+          official_phone: string | null
+          parent_company_id: string | null
+          parent_verified: boolean
           status: Database["public"]["Enums"]["record_status"]
+          trading_name: string | null
           updated_at: string
+          verification_source: string | null
           verification_status: Database["public"]["Enums"]["verification_status"]
           website: string | null
         }
         Insert: {
           company_name: string
+          company_ref?: string | null
+          company_roles?: string[]
+          company_verification?: string
+          countries_served?: string[]
           country?: string | null
           created_at?: string
+          display_name?: string | null
+          headquarters?: string | null
           id?: string
+          is_distributor?: boolean
+          is_manufacturer?: boolean
+          languages?: string[]
           legal_name?: string | null
+          logo_ref?: string | null
           manufacturer_or_distributor?: string | null
           notes?: string | null
+          official_email?: string | null
+          official_phone?: string | null
+          parent_company_id?: string | null
+          parent_verified?: boolean
           status?: Database["public"]["Enums"]["record_status"]
+          trading_name?: string | null
           updated_at?: string
+          verification_source?: string | null
           verification_status?: Database["public"]["Enums"]["verification_status"]
           website?: string | null
         }
         Update: {
           company_name?: string
+          company_ref?: string | null
+          company_roles?: string[]
+          company_verification?: string
+          countries_served?: string[]
           country?: string | null
           created_at?: string
+          display_name?: string | null
+          headquarters?: string | null
           id?: string
+          is_distributor?: boolean
+          is_manufacturer?: boolean
+          languages?: string[]
           legal_name?: string | null
+          logo_ref?: string | null
           manufacturer_or_distributor?: string | null
           notes?: string | null
+          official_email?: string | null
+          official_phone?: string | null
+          parent_company_id?: string | null
+          parent_verified?: boolean
           status?: Database["public"]["Enums"]["record_status"]
+          trading_name?: string | null
           updated_at?: string
+          verification_source?: string | null
           verification_status?: Database["public"]["Enums"]["verification_status"]
           website?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "companies_parent_company_id_fkey"
+            columns: ["parent_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_relationships: {
+        Row: {
+          claim_source: string | null
+          claim_text: string | null
+          company_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          related_company_id: string | null
+          related_company_name: string | null
+          relationship_type: string
+          reviewer: string | null
+          updated_at: string
+          verification: string
+        }
+        Insert: {
+          claim_source?: string | null
+          claim_text?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          related_company_id?: string | null
+          related_company_name?: string | null
+          relationship_type: string
+          reviewer?: string | null
+          updated_at?: string
+          verification?: string
+        }
+        Update: {
+          claim_source?: string | null
+          claim_text?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          related_company_id?: string | null
+          related_company_name?: string | null
+          relationship_type?: string
+          reviewer?: string | null
+          updated_at?: string
+          verification?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_relationships_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "company_relationships_related_company_id_fkey"
+            columns: ["related_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       content_audit_log: {
         Row: {
@@ -1468,6 +1584,60 @@ export type Database = {
         }
         Relationships: []
       }
+      kit_products: {
+        Row: {
+          bottle_label: string | null
+          claimed_pack_size: string | null
+          created_at: string
+          id: string
+          kit_id: string
+          notes: string | null
+          pack_size_verified: boolean
+          position: number | null
+          product_id: string
+          updated_at: string
+        }
+        Insert: {
+          bottle_label?: string | null
+          claimed_pack_size?: string | null
+          created_at?: string
+          id?: string
+          kit_id: string
+          notes?: string | null
+          pack_size_verified?: boolean
+          position?: number | null
+          product_id: string
+          updated_at?: string
+        }
+        Update: {
+          bottle_label?: string | null
+          claimed_pack_size?: string | null
+          created_at?: string
+          id?: string
+          kit_id?: string
+          notes?: string | null
+          pack_size_verified?: boolean
+          position?: number | null
+          product_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_products_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "product_kits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kit_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       master_stains: {
         Row: {
           added_components: string[]
@@ -1622,11 +1792,15 @@ export type Database = {
       }
       organization_product_inventory: {
         Row: {
+          batch_number: string | null
           bottle_size: string | null
           company: string | null
           country: string | null
           created_at: string
+          date_opened: string | null
+          document_availability: string
           eligible_for_guidance: boolean
+          expiry_date: string | null
           expiry_or_review: string | null
           id: string
           kit_id: string | null
@@ -1637,17 +1811,24 @@ export type Database = {
           organization_id: string | null
           product_id: string | null
           product_name: string
+          product_version_id: string | null
           sds_available: boolean
+          staff_permissions: string[]
+          storage_location: string | null
           tds_available: boolean
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
+          batch_number?: string | null
           bottle_size?: string | null
           company?: string | null
           country?: string | null
           created_at?: string
+          date_opened?: string | null
+          document_availability?: string
           eligible_for_guidance?: boolean
+          expiry_date?: string | null
           expiry_or_review?: string | null
           id?: string
           kit_id?: string | null
@@ -1658,17 +1839,24 @@ export type Database = {
           organization_id?: string | null
           product_id?: string | null
           product_name: string
+          product_version_id?: string | null
           sds_available?: boolean
+          staff_permissions?: string[]
+          storage_location?: string | null
           tds_available?: boolean
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
+          batch_number?: string | null
           bottle_size?: string | null
           company?: string | null
           country?: string | null
           created_at?: string
+          date_opened?: string | null
+          document_availability?: string
           eligible_for_guidance?: boolean
+          expiry_date?: string | null
           expiry_or_review?: string | null
           id?: string
           kit_id?: string | null
@@ -1679,7 +1867,10 @@ export type Database = {
           organization_id?: string | null
           product_id?: string | null
           product_name?: string
+          product_version_id?: string | null
           sds_available?: boolean
+          staff_permissions?: string[]
+          storage_location?: string | null
           tds_available?: boolean
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -1704,6 +1895,13 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_product_inventory_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
             referencedColumns: ["id"]
           },
         ]
@@ -1797,16 +1995,652 @@ export type Database = {
           },
         ]
       }
+      product_actives: {
+        Row: {
+          acidic: string
+          alkaline: string
+          chemical_family: string
+          concentration: string | null
+          created_at: string
+          disclosure_confidence: string
+          disclosure_source: string | null
+          enzyme_present: string
+          flash_point: string | null
+          hazardous_components: string[]
+          id: string
+          ingredient: string
+          oxidizing: string
+          ph_value: string | null
+          physical_properties: string | null
+          product_version_id: string
+          reducing: string
+          solvent_family: string
+          surfactant_type: string
+          updated_at: string
+        }
+        Insert: {
+          acidic?: string
+          alkaline?: string
+          chemical_family?: string
+          concentration?: string | null
+          created_at?: string
+          disclosure_confidence?: string
+          disclosure_source?: string | null
+          enzyme_present?: string
+          flash_point?: string | null
+          hazardous_components?: string[]
+          id?: string
+          ingredient?: string
+          oxidizing?: string
+          ph_value?: string | null
+          physical_properties?: string | null
+          product_version_id: string
+          reducing?: string
+          solvent_family?: string
+          surfactant_type?: string
+          updated_at?: string
+        }
+        Update: {
+          acidic?: string
+          alkaline?: string
+          chemical_family?: string
+          concentration?: string | null
+          created_at?: string
+          disclosure_confidence?: string
+          disclosure_source?: string | null
+          enzyme_present?: string
+          flash_point?: string | null
+          hazardous_components?: string[]
+          id?: string
+          ingredient?: string
+          oxidizing?: string
+          ph_value?: string | null
+          physical_properties?: string | null
+          product_version_id?: string
+          reducing?: string
+          solvent_family?: string
+          surfactant_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_actives_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_audit_log: {
+        Row: {
+          action: string
+          approval_decision: string | null
+          changed_by: string | null
+          created_at: string
+          entity_id: string | null
+          entity_table: string
+          field_key: string | null
+          id: string
+          justification_required: boolean
+          new_value: string | null
+          previous_value: string | null
+          product_id: string | null
+          reason: string | null
+          reviewer: string | null
+          safety_critical: boolean
+          source_document_id: string | null
+        }
+        Insert: {
+          action: string
+          approval_decision?: string | null
+          changed_by?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_table: string
+          field_key?: string | null
+          id?: string
+          justification_required?: boolean
+          new_value?: string | null
+          previous_value?: string | null
+          product_id?: string | null
+          reason?: string | null
+          reviewer?: string | null
+          safety_critical?: boolean
+          source_document_id?: string | null
+        }
+        Update: {
+          action?: string
+          approval_decision?: string | null
+          changed_by?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_table?: string
+          field_key?: string | null
+          id?: string
+          justification_required?: boolean
+          new_value?: string | null
+          previous_value?: string | null
+          product_id?: string | null
+          reason?: string | null
+          reviewer?: string | null
+          safety_critical?: boolean
+          source_document_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_audit_log_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_audit_log_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_conflicts: {
+        Row: {
+          blocks_publication: boolean
+          conflict_type: string
+          created_at: string
+          field_key: string | null
+          id: string
+          product_id: string
+          product_version_id: string | null
+          resolution: string | null
+          resolved: boolean
+          reviewer: string | null
+          severity: string
+          source_a: string | null
+          source_b: string | null
+          updated_at: string
+          value_a: string | null
+          value_b: string | null
+        }
+        Insert: {
+          blocks_publication?: boolean
+          conflict_type: string
+          created_at?: string
+          field_key?: string | null
+          id?: string
+          product_id: string
+          product_version_id?: string | null
+          resolution?: string | null
+          resolved?: boolean
+          reviewer?: string | null
+          severity?: string
+          source_a?: string | null
+          source_b?: string | null
+          updated_at?: string
+          value_a?: string | null
+          value_b?: string | null
+        }
+        Update: {
+          blocks_publication?: boolean
+          conflict_type?: string
+          created_at?: string
+          field_key?: string | null
+          id?: string
+          product_id?: string
+          product_version_id?: string | null
+          resolution?: string | null
+          resolved?: boolean
+          reviewer?: string | null
+          severity?: string
+          source_a?: string | null
+          source_b?: string | null
+          updated_at?: string
+          value_a?: string | null
+          value_b?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_conflicts_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_conflicts_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_costs: {
+        Row: {
+          cost_per_treatment: number | null
+          cost_per_unit: number | null
+          country: string | null
+          created_at: string
+          currency: string | null
+          dose_unit: string | null
+          dose_verified: boolean
+          estimated_waste: number | null
+          id: string
+          organization_id: string | null
+          pack_size: number | null
+          price_date: string | null
+          price_source: string | null
+          product_version_id: string
+          purchase_price: number | null
+          shipping_allocation: number | null
+          tax_status: string | null
+          updated_at: string
+          usable_quantity: number | null
+          verified_dose: number | null
+        }
+        Insert: {
+          cost_per_treatment?: number | null
+          cost_per_unit?: number | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          dose_unit?: string | null
+          dose_verified?: boolean
+          estimated_waste?: number | null
+          id?: string
+          organization_id?: string | null
+          pack_size?: number | null
+          price_date?: string | null
+          price_source?: string | null
+          product_version_id: string
+          purchase_price?: number | null
+          shipping_allocation?: number | null
+          tax_status?: string | null
+          updated_at?: string
+          usable_quantity?: number | null
+          verified_dose?: number | null
+        }
+        Update: {
+          cost_per_treatment?: number | null
+          cost_per_unit?: number | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          dose_unit?: string | null
+          dose_verified?: boolean
+          estimated_waste?: number | null
+          id?: string
+          organization_id?: string | null
+          pack_size?: number | null
+          price_date?: string | null
+          price_source?: string | null
+          product_version_id?: string
+          purchase_price?: number | null
+          shipping_allocation?: number | null
+          tax_status?: string | null
+          updated_at?: string
+          usable_quantity?: number | null
+          verified_dose?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_costs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_costs_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_country_applicability: {
+        Row: {
+          approved_distributor: string | null
+          availability: string | null
+          country: string
+          country_mismatch: boolean
+          created_at: string
+          document_completeness: string
+          emergency_contact: string | null
+          id: string
+          import_status: string | null
+          label_language: string | null
+          market_status: string
+          measurement_units: string
+          product_version_id: string
+          regulatory_classification: string | null
+          sds_jurisdiction: string | null
+          updated_at: string
+        }
+        Insert: {
+          approved_distributor?: string | null
+          availability?: string | null
+          country: string
+          country_mismatch?: boolean
+          created_at?: string
+          document_completeness?: string
+          emergency_contact?: string | null
+          id?: string
+          import_status?: string | null
+          label_language?: string | null
+          market_status?: string
+          measurement_units?: string
+          product_version_id: string
+          regulatory_classification?: string | null
+          sds_jurisdiction?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approved_distributor?: string | null
+          availability?: string | null
+          country?: string
+          country_mismatch?: boolean
+          created_at?: string
+          document_completeness?: string
+          emergency_contact?: string | null
+          id?: string
+          import_status?: string | null
+          label_language?: string | null
+          market_status?: string
+          measurement_units?: string
+          product_version_id?: string
+          regulatory_classification?: string | null
+          sds_jurisdiction?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_country_applicability_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_document_extractions: {
+        Row: {
+          confirmed_by: string | null
+          created_at: string
+          document_id: string
+          extracted_value: string | null
+          extraction_confidence: number
+          field_key: string
+          id: string
+          page_or_section: string | null
+          product_id: string | null
+          reviewer: string | null
+          reviewer_approved: boolean
+          safety_critical: boolean
+          updated_at: string
+          user_confirmed: boolean
+        }
+        Insert: {
+          confirmed_by?: string | null
+          created_at?: string
+          document_id: string
+          extracted_value?: string | null
+          extraction_confidence?: number
+          field_key: string
+          id?: string
+          page_or_section?: string | null
+          product_id?: string | null
+          reviewer?: string | null
+          reviewer_approved?: boolean
+          safety_critical?: boolean
+          updated_at?: string
+          user_confirmed?: boolean
+        }
+        Update: {
+          confirmed_by?: string | null
+          created_at?: string
+          document_id?: string
+          extracted_value?: string | null
+          extraction_confidence?: number
+          field_key?: string
+          id?: string
+          page_or_section?: string | null
+          product_id?: string | null
+          reviewer?: string | null
+          reviewer_approved?: boolean
+          safety_critical?: boolean
+          updated_at?: string
+          user_confirmed?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_document_extractions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_document_extractions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_incompatibilities: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          created_at: string
+          id: string
+          incompatibility_type: string
+          incompatible_kind: string
+          incompatible_product_id: string | null
+          incompatible_with: string
+          product_version_id: string
+          required_separation: string | null
+          reviewer: string | null
+          severity: string
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          id?: string
+          incompatibility_type: string
+          incompatible_kind: string
+          incompatible_product_id?: string | null
+          incompatible_with: string
+          product_version_id: string
+          required_separation?: string | null
+          reviewer?: string | null
+          severity?: string
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          id?: string
+          incompatibility_type?: string
+          incompatible_kind?: string
+          incompatible_product_id?: string | null
+          incompatible_with?: string
+          product_version_id?: string
+          required_separation?: string | null
+          reviewer?: string | null
+          severity?: string
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_incompatibilities_incompatible_product_id_fkey"
+            columns: ["incompatible_product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_incompatibilities_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_instructions: {
+        Row: {
+          application_method: string | null
+          application_stage: string
+          approval_status: Database["public"]["Enums"]["content_status"]
+          contact_time: string | null
+          country: string | null
+          created_at: string
+          dilution: string | null
+          document_type: Database["public"]["Enums"]["document_type"] | null
+          document_version: string | null
+          drying: string | null
+          flushing: string | null
+          id: string
+          inspection_point: string | null
+          instruction_origin: string
+          maximum_attempts: string | null
+          mechanical_action: string | null
+          moisture_requirement: string | null
+          neutralization: string | null
+          product_quantity: string | null
+          product_version_id: string
+          reapplication_rule: string | null
+          required_equipment: string | null
+          reviewer: string | null
+          rinsing: string | null
+          section_reference: string | null
+          source_description: string | null
+          source_document_id: string | null
+          step_order: number
+          stop_conditions: string[]
+          surface_preparation: string | null
+          temperature: string | null
+          training_requirement: string | null
+          updated_at: string
+        }
+        Insert: {
+          application_method?: string | null
+          application_stage: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          contact_time?: string | null
+          country?: string | null
+          created_at?: string
+          dilution?: string | null
+          document_type?: Database["public"]["Enums"]["document_type"] | null
+          document_version?: string | null
+          drying?: string | null
+          flushing?: string | null
+          id?: string
+          inspection_point?: string | null
+          instruction_origin?: string
+          maximum_attempts?: string | null
+          mechanical_action?: string | null
+          moisture_requirement?: string | null
+          neutralization?: string | null
+          product_quantity?: string | null
+          product_version_id: string
+          reapplication_rule?: string | null
+          required_equipment?: string | null
+          reviewer?: string | null
+          rinsing?: string | null
+          section_reference?: string | null
+          source_description?: string | null
+          source_document_id?: string | null
+          step_order?: number
+          stop_conditions?: string[]
+          surface_preparation?: string | null
+          temperature?: string | null
+          training_requirement?: string | null
+          updated_at?: string
+        }
+        Update: {
+          application_method?: string | null
+          application_stage?: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          contact_time?: string | null
+          country?: string | null
+          created_at?: string
+          dilution?: string | null
+          document_type?: Database["public"]["Enums"]["document_type"] | null
+          document_version?: string | null
+          drying?: string | null
+          flushing?: string | null
+          id?: string
+          inspection_point?: string | null
+          instruction_origin?: string
+          maximum_attempts?: string | null
+          mechanical_action?: string | null
+          moisture_requirement?: string | null
+          neutralization?: string | null
+          product_quantity?: string | null
+          product_version_id?: string
+          reapplication_rule?: string | null
+          required_equipment?: string | null
+          reviewer?: string | null
+          rinsing?: string | null
+          section_reference?: string | null
+          source_description?: string | null
+          source_document_id?: string | null
+          step_order?: number
+          stop_conditions?: string[]
+          surface_preparation?: string | null
+          temperature?: string | null
+          training_requirement?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_instructions_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_instructions_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_kits: {
         Row: {
           company_id: string
           country_availability: string[]
           created_at: string
+          effective_date: string | null
           id: string
+          included_accessories: string[]
+          intended_market: string | null
+          intended_processes: string[]
           intended_users: string[]
+          kit_display_name: string | null
+          kit_edition: string | null
           kit_name: string
+          kit_ref: string | null
           kit_version: string | null
+          language: string | null
+          notes: string | null
           number_of_products: number | null
+          official_kit_document: string | null
+          pack_configuration: string | null
+          product_count_claimed: number | null
+          product_count_verified: number
+          review_date: string | null
           source_status: Database["public"]["Enums"]["verification_status"]
           status: Database["public"]["Enums"]["record_status"]
           updated_at: string
@@ -1815,11 +2649,25 @@ export type Database = {
           company_id: string
           country_availability?: string[]
           created_at?: string
+          effective_date?: string | null
           id?: string
+          included_accessories?: string[]
+          intended_market?: string | null
+          intended_processes?: string[]
           intended_users?: string[]
+          kit_display_name?: string | null
+          kit_edition?: string | null
           kit_name: string
+          kit_ref?: string | null
           kit_version?: string | null
+          language?: string | null
+          notes?: string | null
           number_of_products?: number | null
+          official_kit_document?: string | null
+          pack_configuration?: string | null
+          product_count_claimed?: number | null
+          product_count_verified?: number
+          review_date?: string | null
           source_status?: Database["public"]["Enums"]["verification_status"]
           status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
@@ -1828,11 +2676,25 @@ export type Database = {
           company_id?: string
           country_availability?: string[]
           created_at?: string
+          effective_date?: string | null
           id?: string
+          included_accessories?: string[]
+          intended_market?: string | null
+          intended_processes?: string[]
           intended_users?: string[]
+          kit_display_name?: string | null
+          kit_edition?: string | null
           kit_name?: string
+          kit_ref?: string | null
           kit_version?: string | null
+          language?: string | null
+          notes?: string | null
           number_of_products?: number | null
+          official_kit_document?: string | null
+          pack_configuration?: string | null
+          product_count_claimed?: number | null
+          product_count_verified?: number
+          review_date?: string | null
           source_status?: Database["public"]["Enums"]["verification_status"]
           status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
@@ -1843,6 +2705,79 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_manufacturer_claims: {
+        Row: {
+          claim_status: string
+          claimed_category: string | null
+          claimed_stain: string
+          country: string | null
+          created_at: string
+          document_version: string | null
+          id: string
+          notes: string | null
+          product_id: string
+          product_version_id: string | null
+          section_reference: string | null
+          source_description: string | null
+          source_document_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          claim_status?: string
+          claimed_category?: string | null
+          claimed_stain: string
+          country?: string | null
+          created_at?: string
+          document_version?: string | null
+          id?: string
+          notes?: string | null
+          product_id: string
+          product_version_id?: string | null
+          section_reference?: string | null
+          source_description?: string | null
+          source_document_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          claim_status?: string
+          claimed_category?: string | null
+          claimed_stain?: string
+          country?: string | null
+          created_at?: string
+          document_version?: string | null
+          id?: string
+          notes?: string | null
+          product_id?: string
+          product_version_id?: string | null
+          section_reference?: string | null
+          source_description?: string | null
+          source_document_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_manufacturer_claims_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_manufacturer_claims_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_manufacturer_claims_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
             referencedColumns: ["id"]
           },
         ]
@@ -1965,34 +2900,633 @@ export type Database = {
           },
         ]
       }
+      product_packs: {
+        Row: {
+          barcode: string | null
+          bottle_colour: string | null
+          case_quantity: number | null
+          claimed_only: boolean
+          closure_type: string | null
+          container_type: string | null
+          country: string | null
+          created_at: string
+          effective_date: string | null
+          id: string
+          included_applicator: string | null
+          kit_quantity: number | null
+          measurement_unit: string | null
+          pack_size: number | null
+          product_version_id: string
+          sku: string | null
+          status: Database["public"]["Enums"]["record_status"]
+          updated_at: string
+          verification_source: string | null
+        }
+        Insert: {
+          barcode?: string | null
+          bottle_colour?: string | null
+          case_quantity?: number | null
+          claimed_only?: boolean
+          closure_type?: string | null
+          container_type?: string | null
+          country?: string | null
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          included_applicator?: string | null
+          kit_quantity?: number | null
+          measurement_unit?: string | null
+          pack_size?: number | null
+          product_version_id: string
+          sku?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          verification_source?: string | null
+        }
+        Update: {
+          barcode?: string | null
+          bottle_colour?: string | null
+          case_quantity?: number | null
+          claimed_only?: boolean
+          closure_type?: string | null
+          container_type?: string | null
+          country?: string | null
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          included_applicator?: string | null
+          kit_quantity?: number | null
+          measurement_unit?: string | null
+          pack_size?: number | null
+          product_version_id?: string
+          sku?: string | null
+          status?: Database["public"]["Enums"]["record_status"]
+          updated_at?: string
+          verification_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_packs_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_ppe_requirements: {
+        Row: {
+          breakthrough_time: string | null
+          country: string | null
+          created_at: string
+          id: string
+          material: string | null
+          ppe_kind: string
+          product_version_id: string
+          requirement_level: string
+          reviewer: string | null
+          source: string | null
+          task_or_process: string | null
+          updated_at: string
+        }
+        Insert: {
+          breakthrough_time?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          material?: string | null
+          ppe_kind: string
+          product_version_id: string
+          requirement_level?: string
+          reviewer?: string | null
+          source?: string | null
+          task_or_process?: string | null
+          updated_at?: string
+        }
+        Update: {
+          breakthrough_time?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          material?: string | null
+          ppe_kind?: string
+          product_version_id?: string
+          requirement_level?: string
+          reviewer?: string | null
+          source?: string | null
+          task_or_process?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_ppe_requirements_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_process_compatibility: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          machine_entry_restriction: string | null
+          permitted: string
+          process_key: string
+          product_version_id: string
+          required_equipment: string | null
+          rinsing_destination: string | null
+          source: string | null
+          source_document_id: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          machine_entry_restriction?: string | null
+          permitted?: string
+          process_key: string
+          product_version_id: string
+          required_equipment?: string | null
+          rinsing_destination?: string | null
+          source?: string | null
+          source_document_id?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          machine_entry_restriction?: string | null
+          permitted?: string
+          process_key?: string
+          product_version_id?: string
+          required_equipment?: string | null
+          rinsing_destination?: string | null
+          source?: string | null
+          source_document_id?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_process_compatibility_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_process_compatibility_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_safety_data: {
+        Row: {
+          created_at: string
+          disposal: string | null
+          emergency_contact: string | null
+          environmental_precautions: string | null
+          exposure_limits: string | null
+          first_aid_summary: string | null
+          hazard_statements: string[]
+          id: string
+          incompatible_materials: string[]
+          pictograms: string[]
+          precautionary_statements: string[]
+          product_version_id: string
+          routes_of_exposure: string[]
+          sds_country: string | null
+          sds_language: string | null
+          sds_revision_date: string | null
+          sds_version: string | null
+          signal_word: string | null
+          source_document_id: string | null
+          spill_response: string | null
+          storage: string | null
+          transport_classification: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          created_at?: string
+          disposal?: string | null
+          emergency_contact?: string | null
+          environmental_precautions?: string | null
+          exposure_limits?: string | null
+          first_aid_summary?: string | null
+          hazard_statements?: string[]
+          id?: string
+          incompatible_materials?: string[]
+          pictograms?: string[]
+          precautionary_statements?: string[]
+          product_version_id: string
+          routes_of_exposure?: string[]
+          sds_country?: string | null
+          sds_language?: string | null
+          sds_revision_date?: string | null
+          sds_version?: string | null
+          signal_word?: string | null
+          source_document_id?: string | null
+          spill_response?: string | null
+          storage?: string | null
+          transport_classification?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          created_at?: string
+          disposal?: string | null
+          emergency_contact?: string | null
+          environmental_precautions?: string | null
+          exposure_limits?: string | null
+          first_aid_summary?: string | null
+          hazard_statements?: string[]
+          id?: string
+          incompatible_materials?: string[]
+          pictograms?: string[]
+          precautionary_statements?: string[]
+          product_version_id?: string
+          routes_of_exposure?: string[]
+          sds_country?: string | null
+          sds_language?: string | null
+          sds_revision_date?: string | null
+          sds_version?: string | null
+          signal_word?: string | null
+          source_document_id?: string | null
+          spill_response?: string | null
+          storage?: string | null
+          transport_classification?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_safety_data_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_safety_data_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_scorecards: {
+        Row: {
+          blocking_reasons: string[]
+          can_publish_instructions: boolean
+          checks: Json
+          created_at: string
+          id: string
+          last_evaluated: string
+          overall_status: string
+          product_id: string
+          product_version_id: string | null
+          reviewer: string | null
+          updated_at: string
+        }
+        Insert: {
+          blocking_reasons?: string[]
+          can_publish_instructions?: boolean
+          checks?: Json
+          created_at?: string
+          id?: string
+          last_evaluated?: string
+          overall_status?: string
+          product_id: string
+          product_version_id?: string | null
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Update: {
+          blocking_reasons?: string[]
+          can_publish_instructions?: boolean
+          checks?: Json
+          created_at?: string
+          id?: string
+          last_evaluated?: string
+          overall_status?: string
+          product_id?: string
+          product_version_id?: string | null
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_scorecards_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_scorecards_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_textile_compatibility: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          country: string | null
+          created_at: string
+          id: string
+          main_risk: string | null
+          product_version_id: string
+          required_test: string | null
+          reviewer: string | null
+          source: string | null
+          suitability: string
+          target_key: string
+          target_kind: string
+          updated_at: string
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          country?: string | null
+          created_at?: string
+          id?: string
+          main_risk?: string | null
+          product_version_id: string
+          required_test?: string | null
+          reviewer?: string | null
+          source?: string | null
+          suitability?: string
+          target_key: string
+          target_kind: string
+          updated_at?: string
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          country?: string | null
+          created_at?: string
+          id?: string
+          main_risk?: string | null
+          product_version_id?: string
+          required_test?: string | null
+          reviewer?: string | null
+          source?: string | null
+          suitability?: string
+          target_key?: string
+          target_kind?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_textile_compatibility_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_training_requirements: {
+        Row: {
+          created_at: string
+          detail: string | null
+          id: string
+          product_version_id: string
+          required: boolean
+          requirement_key: string
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          product_version_id: string
+          required?: boolean
+          requirement_key: string
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          product_version_id?: string
+          required?: boolean
+          requirement_key?: string
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_training_requirements_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_use_verifications: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          claim_id: string | null
+          created_at: string
+          evidence_level: Database["public"]["Enums"]["evidence_level"]
+          id: string
+          internal_trial_reference: string | null
+          product_id: string
+          restriction: string | null
+          reviewer: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          claim_id?: string | null
+          created_at?: string
+          evidence_level?: Database["public"]["Enums"]["evidence_level"]
+          id?: string
+          internal_trial_reference?: string | null
+          product_id: string
+          restriction?: string | null
+          reviewer?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          claim_id?: string | null
+          created_at?: string
+          evidence_level?: Database["public"]["Enums"]["evidence_level"]
+          id?: string
+          internal_trial_reference?: string | null
+          product_id?: string
+          restriction?: string | null
+          reviewer?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_use_verifications_claim_id_fkey"
+            columns: ["claim_id"]
+            isOneToOne: false
+            referencedRelation: "product_manufacturer_claims"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_use_verifications_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_versions: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          change_summary: string | null
+          country: string
+          created_at: string
+          effective_date: string | null
+          end_date: string | null
+          formulation_identifier: string | null
+          id: string
+          immutable: boolean
+          instruction_version: string | null
+          known_formulation_change: boolean
+          label_version: string | null
+          market: string | null
+          product_code: string | null
+          product_id: string
+          reviewer: string | null
+          sds_version: string | null
+          superseded_by: string | null
+          tds_version: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          version_ref: string
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          change_summary?: string | null
+          country: string
+          created_at?: string
+          effective_date?: string | null
+          end_date?: string | null
+          formulation_identifier?: string | null
+          id?: string
+          immutable?: boolean
+          instruction_version?: string | null
+          known_formulation_change?: boolean
+          label_version?: string | null
+          market?: string | null
+          product_code?: string | null
+          product_id: string
+          reviewer?: string | null
+          sds_version?: string | null
+          superseded_by?: string | null
+          tds_version?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          version_ref: string
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          change_summary?: string | null
+          country?: string
+          created_at?: string
+          effective_date?: string | null
+          end_date?: string | null
+          formulation_identifier?: string | null
+          id?: string
+          immutable?: boolean
+          instruction_version?: string | null
+          known_formulation_change?: boolean
+          label_version?: string | null
+          market?: string | null
+          product_code?: string | null
+          product_id?: string
+          reviewer?: string | null
+          sds_version?: string | null
+          superseded_by?: string | null
+          tds_version?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          version_ref?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_versions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_versions_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       professional_products: {
         Row: {
           active_chemistry: string
+          alternative_names: string[]
           applicable_colours: string[]
           application_method: string
+          brand: string | null
           chemical_family: string
           company_id: string
           compatible_materials: string[]
           contact_time: string
           cost_per_use: number | null
           country_availability: string[]
+          country_formulation: string | null
           created_at: string
           dilution_instruction: string
+          discontinued_date: string | null
+          display_name: string | null
           id: string
           incompatibilities: string | null
+          intended_processes: string[]
+          intended_professional_use: string | null
           intended_stain_categories: string[]
           intended_stains: string[]
           kit_id: string | null
           label_version: string | null
+          language: string | null
           manufacturer_claims: string | null
           neutralization_instruction: string
+          odour_description: string | null
           pack_sizes: string[]
+          physical_form: string | null
           ppe: string | null
+          previous_names: string[]
           product_code: string | null
           product_colour: string | null
           product_name: string
+          product_ref: string | null
+          product_type: string | null
           prohibited_materials: string[]
+          provisional: boolean
           record_state: Database["public"]["Enums"]["record_status"]
+          replacement_product_id: string | null
           rinsing_instruction: string
           safety_warnings: string | null
           sds_version: string | null
@@ -2008,31 +3542,46 @@ export type Database = {
         }
         Insert: {
           active_chemistry?: string
+          alternative_names?: string[]
           applicable_colours?: string[]
           application_method?: string
+          brand?: string | null
           chemical_family?: string
           company_id: string
           compatible_materials?: string[]
           contact_time?: string
           cost_per_use?: number | null
           country_availability?: string[]
+          country_formulation?: string | null
           created_at?: string
           dilution_instruction?: string
+          discontinued_date?: string | null
+          display_name?: string | null
           id?: string
           incompatibilities?: string | null
+          intended_processes?: string[]
+          intended_professional_use?: string | null
           intended_stain_categories?: string[]
           intended_stains?: string[]
           kit_id?: string | null
           label_version?: string | null
+          language?: string | null
           manufacturer_claims?: string | null
           neutralization_instruction?: string
+          odour_description?: string | null
           pack_sizes?: string[]
+          physical_form?: string | null
           ppe?: string | null
+          previous_names?: string[]
           product_code?: string | null
           product_colour?: string | null
           product_name: string
+          product_ref?: string | null
+          product_type?: string | null
           prohibited_materials?: string[]
+          provisional?: boolean
           record_state?: Database["public"]["Enums"]["record_status"]
+          replacement_product_id?: string | null
           rinsing_instruction?: string
           safety_warnings?: string | null
           sds_version?: string | null
@@ -2048,31 +3597,46 @@ export type Database = {
         }
         Update: {
           active_chemistry?: string
+          alternative_names?: string[]
           applicable_colours?: string[]
           application_method?: string
+          brand?: string | null
           chemical_family?: string
           company_id?: string
           compatible_materials?: string[]
           contact_time?: string
           cost_per_use?: number | null
           country_availability?: string[]
+          country_formulation?: string | null
           created_at?: string
           dilution_instruction?: string
+          discontinued_date?: string | null
+          display_name?: string | null
           id?: string
           incompatibilities?: string | null
+          intended_processes?: string[]
+          intended_professional_use?: string | null
           intended_stain_categories?: string[]
           intended_stains?: string[]
           kit_id?: string | null
           label_version?: string | null
+          language?: string | null
           manufacturer_claims?: string | null
           neutralization_instruction?: string
+          odour_description?: string | null
           pack_sizes?: string[]
+          physical_form?: string | null
           ppe?: string | null
+          previous_names?: string[]
           product_code?: string | null
           product_colour?: string | null
           product_name?: string
+          product_ref?: string | null
+          product_type?: string | null
           prohibited_materials?: string[]
+          provisional?: boolean
           record_state?: Database["public"]["Enums"]["record_status"]
+          replacement_product_id?: string | null
           rinsing_instruction?: string
           safety_warnings?: string | null
           sds_version?: string | null
@@ -2099,6 +3663,13 @@ export type Database = {
             columns: ["kit_id"]
             isOneToOne: false
             referencedRelation: "product_kits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "professional_products_replacement_product_id_fkey"
+            columns: ["replacement_product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
             referencedColumns: ["id"]
           },
         ]
@@ -2237,18 +3808,30 @@ export type Database = {
           company_id: string | null
           country: string | null
           created_at: string
+          document_ref: string | null
+          document_state: string
           document_title: string
           document_type: Database["public"]["Enums"]["document_type"]
+          effective_date: string | null
+          expiry_or_review_date: string | null
+          file_hash: string | null
           file_or_url: string | null
           id: string
+          issuer: string | null
+          issuer_uncertain: boolean
           issuing_organization: string | null
+          kit_id: string | null
           language: string
           notes: string | null
           product_id: string | null
           publication_date: string | null
+          review_date: string | null
           reviewed_at: string | null
           reviewed_by: string | null
+          reviewer: string | null
           revision_date: string | null
+          source_url: string | null
+          superseded_by: string | null
           supersedes_document_id: string | null
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
@@ -2258,18 +3841,30 @@ export type Database = {
           company_id?: string | null
           country?: string | null
           created_at?: string
+          document_ref?: string | null
+          document_state?: string
           document_title: string
           document_type: Database["public"]["Enums"]["document_type"]
+          effective_date?: string | null
+          expiry_or_review_date?: string | null
+          file_hash?: string | null
           file_or_url?: string | null
           id?: string
+          issuer?: string | null
+          issuer_uncertain?: boolean
           issuing_organization?: string | null
+          kit_id?: string | null
           language?: string
           notes?: string | null
           product_id?: string | null
           publication_date?: string | null
+          review_date?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          reviewer?: string | null
           revision_date?: string | null
+          source_url?: string | null
+          superseded_by?: string | null
           supersedes_document_id?: string | null
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -2279,18 +3874,30 @@ export type Database = {
           company_id?: string | null
           country?: string | null
           created_at?: string
+          document_ref?: string | null
+          document_state?: string
           document_title?: string
           document_type?: Database["public"]["Enums"]["document_type"]
+          effective_date?: string | null
+          expiry_or_review_date?: string | null
+          file_hash?: string | null
           file_or_url?: string | null
           id?: string
+          issuer?: string | null
+          issuer_uncertain?: boolean
           issuing_organization?: string | null
+          kit_id?: string | null
           language?: string
           notes?: string | null
           product_id?: string | null
           publication_date?: string | null
+          review_date?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
+          reviewer?: string | null
           revision_date?: string | null
+          source_url?: string | null
+          superseded_by?: string | null
           supersedes_document_id?: string | null
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -2305,10 +3912,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "source_documents_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "product_kits"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "source_documents_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "source_documents_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
             referencedColumns: ["id"]
           },
           {
