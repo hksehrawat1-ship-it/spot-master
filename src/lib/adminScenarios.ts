@@ -25,7 +25,7 @@ const doc = (over: Partial<GovDocument>): GovDocument => ({
 });
 
 const rec = (over: Partial<GovRecord> = {}) =>
-  makeRecord({ stableId: "SM-STN-000900", contentType: "stain_entry", title: "Test stain", ...over });
+  makeRecord({ stableId: "SM-STN-000900", contentType: "stain_record", title: "Test stain", ...over });
 
 const reviewer = (over: Partial<Reviewer> = {}): Reviewer => ({
   id: "rv-1", name: "Reviewer", roles: ["textile_technical_reviewer"], scopes: ["textile_fibres"],
@@ -64,7 +64,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     id: "A03", title: "Product administrator creates a new product version",
     run: () => {
       const r = rec({ contentType: "product", status: "published", currentVersion: "1.0" });
-      const next = nextVersionFor(r, ["chemistry_change"]);
+      const next = nextVersionFor(r, ["product_suitability"]);
       return ok(next === "2.0", `next=${next}`);
     },
   },
@@ -73,7 +73,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     run: () => {
       const prev = makeVersion({
         version: "1.0",
-        signatures: [{ reviewer: "rv-1", reviewType: "technical", decision: "approve", at: "2025-01-01", versionApproved: "1.0", authenticated: true }],
+        signatures: [{ reviewerId: "rv-1", reviewerName: "Reviewer", role: "textile_technical_reviewer", scopes: ["textile_fibres"], reviewType: "technical", decision: "approve", at: "2025-01-01", versionApproved: "1.0", checklistCompleted: true, comments: "" }],
       });
       const carried = signaturesCarryForward(prev, "2.0");
       return ok(carried.length === 0, `carried=${carried.length}`);
@@ -109,7 +109,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     run: () => {
       const record = rec({ contentType: "product_mapping", sourceDocumentIds: ["SM-DOC-000900"], status: "published" });
       const out = supersedeDocument(doc({}), doc({ documentId: "SM-DOC-000901", fileHash: "b" }), [record], true);
-      return ok(out.affectedRecords.includes(record.stableId), `affected=${out.affectedRecords.join(",")}`);
+      return ok(out.affectedRecordIds.includes(record.stableId), `affected=${out.affectedRecordIds.join(",")}`);
     },
   },
   {
@@ -163,8 +163,8 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     id: "A14", title: "Translation linked to old source becomes Outdated",
     run: () => {
       const t = translationAfterSourceChange(
-        { translationId: "t1", recordId: "SM-STN-000900", sourceVersion: "1.0", language: "hi", country: "IN", status: "published", translator: "x", technicalReviewer: "y", safetyTermsChecked: true, lastUpdated: "2025-01-01" },
-        "2.0",
+        { translationId: "t1", sourceRecordId: "SM-STN-000900", sourceVersion: "1.0", language: "hi", country: "IN", status: "published", translator: "x", technicalReviewer: "y", previousVersions: [] },
+        "2.0", false,
       );
       return ok(t.status === "outdated", t.status);
     },
@@ -221,7 +221,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     run: () => {
       const suspended = rec({ stableId: "SM-PRD-000900", contentType: "product", status: "suspended" });
       const result = validateRelease(
-        { releaseId: "SM-REL-000001", name: "R1", recordIds: [suspended.stableId], countries: ["IN"], languages: ["en"], owner: "o", scheduledDate: "2026-01-01", status: "draft", approvals: [], notes: "", createdAt: "2026-01-01" },
+        { releaseId: "SM-REL-000001", name: "R1", version: "1.0", kind: "content", recordIds: [suspended.stableId], countries: ["IN"], languages: ["en"], owner: "o", scheduledDate: "2026-01-01", validationPassed: false, validationIssues: [], deployment: "pending", rollbackPlan: "Restore previous release.", notes: "" },
         [suspended], ctx([suspended]),
       );
       return ok(!result.passed, result.issues[0] ?? "no issue");
@@ -233,7 +233,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
       const good = rec({ stableId: "SM-STN-000901", status: "approved" });
       const bad = rec({ stableId: "SM-STN-000902", status: "suspended" });
       const result = validateRelease(
-        { releaseId: "SM-REL-000002", name: "R2", recordIds: [good.stableId, bad.stableId], countries: ["IN"], languages: ["en"], owner: "o", scheduledDate: "2026-01-01", status: "draft", approvals: [], notes: "", createdAt: "2026-01-01" },
+        { releaseId: "SM-REL-000002", name: "R2", version: "1.0", kind: "content", recordIds: [good.stableId, bad.stableId], countries: ["IN"], languages: ["en"], owner: "o", scheduledDate: "2026-01-01", validationPassed: false, validationIssues: [], deployment: "pending", rollbackPlan: "Restore previous release.", notes: "" },
         [good, bad], ctx([good, bad]),
       );
       return ok(!result.passed, "release blocked as a whole");
@@ -243,11 +243,14 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     id: "A24", title: "Rollback restores previous safe release",
     run: () => {
       const r = rec({
-        contentType: "stain_entry", status: "published", currentVersion: "2.0",
-        versions: [makeVersion({ version: "1.0", status: "published" }), makeVersion({ version: "2.0", status: "published" })],
+        contentType: "stain_record", status: "published", currentVersion: "2.0",
+        versions: [
+          makeVersion({ version: "1.0", status: "published", approvedAt: "2025-01-01" }),
+          makeVersion({ version: "2.0", status: "published", approvedAt: "2025-06-01" }),
+        ],
       });
       const result = canRollback(r, "1.0");
-      return ok(result.allowed, result.reason);
+      return ok(result.ok, result.message);
     },
   },
   {
