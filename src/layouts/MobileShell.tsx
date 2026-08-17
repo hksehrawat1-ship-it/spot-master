@@ -1,24 +1,20 @@
-import { NavLink, Outlet, useLocation, Navigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Sparkles, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/gilm-logo.png";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
+import { FEATURES } from "@/config/features";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function MobileShell() {
-  const { user } = useApp();
+  const { status, isAdmin } = useAuth();
   const location = useLocation();
   const { t } = useTranslation();
-  const isAdmin = user?.email === ADMIN_EMAIL;
 
   const tabs = [{ to: "/stain-master", label: t("nav.stains"), icon: Sparkles }];
 
   // Hide chrome on lesson player for immersive view
   const immersive = /^\/courses\/[^/]+\/lesson\//.test(location.pathname);
-
-  if (!user && location.pathname !== "/sign-in") {
-    return <Navigate to="/sign-in" replace />;
-  }
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col bg-background shadow-elevated">
@@ -45,12 +41,19 @@ export default function MobileShell() {
                 </NavLink>
               )}
             </div>
+            {FEATURES.legacyCourses && (
             <NavLink
               to="/courses"
               className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[11px] font-semibold text-primary"
             >
               {t("nav.exploreCourses")}
             </NavLink>
+            )}
+            {status === "signed_out" && (
+              <NavLink to="/sign-in" className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[11px] font-semibold text-primary">
+                Sign in
+              </NavLink>
+            )}
           </div>
         </header>
       )}
