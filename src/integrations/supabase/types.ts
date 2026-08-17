@@ -4643,6 +4643,264 @@ export type Database = {
           },
         ]
       }
+      safety_evaluations: {
+        Row: {
+          blocked: boolean
+          case_key: string
+          case_snapshot: Json
+          case_version: number
+          created_at: string
+          determining_rule_code: string | null
+          domestic_allowed: boolean
+          engine_failure: string | null
+          engine_version: string
+          explanation: string[]
+          fired_rules: Json
+          gate_status: string
+          id: string
+          outcome: string
+          product_eligibility: string
+          required_actions: string[]
+          risk_level: string
+          rule_versions: Json
+          ruleset_version: string
+          suppressed_rules: Json
+          updated_at: string
+          user_id: string | null
+          warnings: string[]
+        }
+        Insert: {
+          blocked?: boolean
+          case_key: string
+          case_snapshot?: Json
+          case_version?: number
+          created_at?: string
+          determining_rule_code?: string | null
+          domestic_allowed?: boolean
+          engine_failure?: string | null
+          engine_version: string
+          explanation?: string[]
+          fired_rules?: Json
+          gate_status: string
+          id?: string
+          outcome: string
+          product_eligibility: string
+          required_actions?: string[]
+          risk_level: string
+          rule_versions?: Json
+          ruleset_version: string
+          suppressed_rules?: Json
+          updated_at?: string
+          user_id?: string | null
+          warnings?: string[]
+        }
+        Update: {
+          blocked?: boolean
+          case_key?: string
+          case_snapshot?: Json
+          case_version?: number
+          created_at?: string
+          determining_rule_code?: string | null
+          domestic_allowed?: boolean
+          engine_failure?: string | null
+          engine_version?: string
+          explanation?: string[]
+          fired_rules?: Json
+          gate_status?: string
+          id?: string
+          outcome?: string
+          product_eligibility?: string
+          required_actions?: string[]
+          risk_level?: string
+          rule_versions?: Json
+          ruleset_version?: string
+          suppressed_rules?: Json
+          updated_at?: string
+          user_id?: string | null
+          warnings?: string[]
+        }
+        Relationships: []
+      }
+      safety_overrides: {
+        Row: {
+          approved_at: string
+          approved_by: string | null
+          approved_by_name: string
+          case_key: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          reason: string
+          revoked_at: string | null
+          rule_code: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string
+          approved_by?: string | null
+          approved_by_name?: string
+          case_key: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          reason: string
+          revoked_at?: string | null
+          rule_code: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string
+          approved_by?: string | null
+          approved_by_name?: string
+          case_key?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          reason?: string
+          revoked_at?: string | null
+          rule_code?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      safety_rule_audit: {
+        Row: {
+          action: string
+          changed_by: string | null
+          changed_by_name: string
+          created_at: string
+          field: string | null
+          id: string
+          justification: string
+          new_value: string | null
+          previous_value: string | null
+          rule_code: string
+        }
+        Insert: {
+          action: string
+          changed_by?: string | null
+          changed_by_name?: string
+          created_at?: string
+          field?: string | null
+          id?: string
+          justification: string
+          new_value?: string | null
+          previous_value?: string | null
+          rule_code: string
+        }
+        Update: {
+          action?: string
+          changed_by?: string | null
+          changed_by_name?: string
+          created_at?: string
+          field?: string | null
+          id?: string
+          justification?: string
+          new_value?: string | null
+          previous_value?: string | null
+          rule_code?: string
+        }
+        Relationships: []
+      }
+      safety_rules: {
+        Row: {
+          band: string
+          category: string
+          content_owner: string
+          countries: string[]
+          created_at: string
+          effective_date: string
+          effects: string[]
+          evidence_source: string
+          excluded_conditions: string[]
+          gate_effect: string | null
+          id: string
+          name: string
+          overridable: boolean
+          plain_title: string
+          product_eligibility_effect: string | null
+          required_action: string | null
+          required_data: string[]
+          review_date: string | null
+          risk_effect: string | null
+          roles: string[]
+          rule_code: string
+          severity: string
+          status: string
+          stop_condition: string | null
+          technical_description: string
+          technical_reviewer: string | null
+          trigger_description: string
+          updated_at: string
+          version: number
+          warning: string
+        }
+        Insert: {
+          band: string
+          category: string
+          content_owner?: string
+          countries?: string[]
+          created_at?: string
+          effective_date?: string
+          effects?: string[]
+          evidence_source?: string
+          excluded_conditions?: string[]
+          gate_effect?: string | null
+          id?: string
+          name: string
+          overridable?: boolean
+          plain_title: string
+          product_eligibility_effect?: string | null
+          required_action?: string | null
+          required_data?: string[]
+          review_date?: string | null
+          risk_effect?: string | null
+          roles?: string[]
+          rule_code: string
+          severity: string
+          status?: string
+          stop_condition?: string | null
+          technical_description?: string
+          technical_reviewer?: string | null
+          trigger_description?: string
+          updated_at?: string
+          version?: number
+          warning: string
+        }
+        Update: {
+          band?: string
+          category?: string
+          content_owner?: string
+          countries?: string[]
+          created_at?: string
+          effective_date?: string
+          effects?: string[]
+          evidence_source?: string
+          excluded_conditions?: string[]
+          gate_effect?: string | null
+          id?: string
+          name?: string
+          overridable?: boolean
+          plain_title?: string
+          product_eligibility_effect?: string | null
+          required_action?: string | null
+          required_data?: string[]
+          review_date?: string | null
+          risk_effect?: string | null
+          roles?: string[]
+          rule_code?: string
+          severity?: string
+          status?: string
+          stop_condition?: string | null
+          technical_description?: string
+          technical_reviewer?: string | null
+          trigger_description?: string
+          updated_at?: string
+          version?: number
+          warning?: string
+        }
+        Relationships: []
+      }
       source_documents: {
         Row: {
           company_id: string | null
