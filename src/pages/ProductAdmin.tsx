@@ -61,7 +61,7 @@ export default function ProductAdmin() {
 
   const runTests = () => {
     const r = runProductScenarios();
-    setTests({ passed: r.passed, total: r.total, failures: r.results.filter((x) => !x.pass).map((x) => x.name) });
+    setTests({ passed: r.filter((x) => x.pass).length, total: r.length, failures: r.filter((x) => !x.pass).map((x) => x.name) });
   };
 
   const update = (patch: Record<string, unknown>, change?: string) => {
