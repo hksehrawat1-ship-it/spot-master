@@ -46,7 +46,7 @@ export function makeVersion(productKey: string, over: Partial<ProductVersion> = 
       acidic: "not_disclosed", alkaline: "not_disclosed", surfactantType: "Documented",
       hazardousComponents: [], disclosureConfidence: "none",
     },
-    textile: [], processes: [{ process: "wetside_spotting", permission: "permitted", source: "TDS" } as never],
+    textile: [], processes: [{ process: "hand_spotting", permission: "permitted", source: "TDS" } as never],
     instructions: [],
     safety: {
       pictograms: [], hazardStatements: [], precautionaryStatements: [], routesOfExposure: [],
@@ -113,9 +113,9 @@ export function makeMapping(
     fabricConditions: [{ textile: "cotton", verdict: "permitted", source: "TDS" }],
     colourConditions: [{ colour: "white", verdict: "permitted", source: "TDS" }],
     constructionConditions: [],
-    processConditions: [{ process: "wetside_spotting", verdict: "permitted", source: "TDS" }],
+    processConditions: [{ process: "hand_spotting", verdict: "permitted", source: "TDS" }],
     requiredEquipment: [],
-    requiredPpe: ["gloves"],
+    requiredPpe: ["protective_gloves"],
     ventilationRequired: "not_required",
     requiredTests: [],
     prohibitedPriorChemistry: [],
@@ -156,7 +156,7 @@ export function makeTrial(productKey: string, over: Partial<PerformanceTrial> = 
     temperature: "20 C",
     contactTime: "60 s",
     dose: "2 ml",
-    process: "wetside_spotting",
+    process: "hand_spotting",
     inspectionAfterDrying: true,
     result: "major_reduction",
     damageObserved: [],
@@ -201,12 +201,12 @@ export function makeContext(over: Partial<ComparisonContext> = {}): ComparisonCo
     constructions: [],
     previousChemistry: [],
     appliedProductKeys: [],
-    process: "wetside_spotting" as ProcessKey,
+    process: "hand_spotting" as ProcessKey,
     country: "IN",
     role: "professional_spotter",
     training: [],
     equipmentAvailable: [],
-    ppeAvailable: ["gloves"],
+    ppeAvailable: ["protective_gloves"],
     ventilationAvailable: true,
     comparisonDate: DATE,
     rulesetVersion: COMPARISON_RULESET_VERSION,
@@ -294,7 +294,7 @@ export const SCENARIOS: Scenario[] = [
     run: () => {
       const s = threeVerified();
       s.mappings[1] = makeMapping("beta_one", "clean_craft", {
-        processConditions: [{ process: "wetside_spotting", verdict: "prohibited", source: "TDS" }],
+        processConditions: [{ process: "hand_spotting", verdict: "prohibited", source: "TDS" }],
       });
       const r = run(makeContext(), s);
       return ok(r.entries.find((x) => x.productKey === "beta_one")!.selection === "excluded_process", "excluded by process");
@@ -325,7 +325,7 @@ export const SCENARIOS: Scenario[] = [
     id: "C06", title: "Unavailable PPE excludes the product",
     run: () => {
       const s = threeVerified();
-      s.mappings[0] = makeMapping("alpha_one", "seitz", { requiredPpe: ["respirator"] });
+      s.mappings[0] = makeMapping("alpha_one", "seitz", { requiredPpe: ["respiratory_protection"] });
       const r = run(makeContext(), s);
       const e = r.entries.find((x) => x.productKey === "alpha_one")!;
       return ok(e.selection === "excluded_ppe" || e.selection === "excluded_equipment", e.selection);

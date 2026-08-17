@@ -54,7 +54,7 @@ export const emptyContext = (over: Partial<ComparisonContext> = {}): ComparisonC
   constructions: [],
   previousChemistry: [],
   appliedProductKeys: [],
-  process: "wetside_spotting",
+  process: "hand_spotting",
   country: "unspecified",
   role: "professional_spotter",
   training: [],
