@@ -33,6 +33,8 @@ import FoundationCheck from "@/pages/FoundationCheck";
 import FabricCheck from "@/pages/FabricCheck";
 import FabricCheckAdmin from "@/pages/FabricCheckAdmin";
 import SafetyAdmin from "@/pages/SafetyAdmin";
+import DomesticTreatmentPage from "@/pages/DomesticTreatment";
+import DomesticAdmin from "@/pages/DomesticAdmin";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -74,6 +76,8 @@ const App = () => (
             <Route path="/admin/stain-id" element={<StainIdAdmin />} />
             <Route path="/admin/readiness" element={<ReadinessAdmin />} />
             <Route path="/admin/safety" element={<SafetyAdmin />} />
+            <Route path="/domestic-treatment" element={<DomesticTreatmentPage />} />
+            <Route path="/admin/domestic" element={<DomesticAdmin />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<Admin />} />
