@@ -78,6 +78,8 @@ const App = () => (
             <Route path="/admin/safety" element={<SafetyAdmin />} />
             <Route path="/domestic-treatment" element={<DomesticTreatmentPage />} />
             <Route path="/admin/domestic" element={<DomesticAdmin />} />
+            <Route path="/kit-comparison" element={<KitComparison />} />
+            <Route path="/admin/comparison" element={<ComparisonAdmin />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<Admin />} />
