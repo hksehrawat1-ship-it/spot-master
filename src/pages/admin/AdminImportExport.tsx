@@ -13,7 +13,7 @@ export default function AdminImportExport() {
   const [kind, setKind] = useState<ImportKind>("stains");
   const [csv, setCsv] = useState("");
   const [message, setMessage] = useState("");
-  const [exportKind, setExportKind] = useState<ExportKind>("stain_records");
+  const [exportKind, setExportKind] = useState<ExportKind>("stain_database");
 
   const runImport = () => {
     const lines = csv.trim().split("\n").filter(Boolean);
