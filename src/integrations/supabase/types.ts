@@ -1468,6 +1468,158 @@ export type Database = {
         }
         Relationships: []
       }
+      master_stains: {
+        Row: {
+          added_components: string[]
+          approval_status: Database["public"]["Enums"]["content_status"]
+          canonical_name: string
+          canonical_parent_id: string | null
+          classification_confidence: number
+          classification_evidence: string | null
+          classification_explanation: string | null
+          classification_reviewer: string | null
+          classification_version: number
+          component_confidence: number
+          condition_tags: string[]
+          content_owner: string | null
+          content_version: number
+          countries: string[]
+          created_at: string
+          damage_interpretation: string | null
+          display_plural: string | null
+          display_singular: string
+          domestic_confidence: number
+          domestic_status: string
+          icon: string | null
+          id: string
+          identification: Json
+          is_damage_diagnosis: boolean
+          is_published: boolean
+          languages: string[]
+          last_reviewed: string | null
+          next_review: string | null
+          primary_category: string
+          record_key: string
+          revision_reason: string | null
+          risk_tags: string[]
+          science: Json
+          science_plain: string | null
+          search_keywords: string[]
+          secondary_components: Json
+          short_description: string | null
+          source_documents: string[]
+          source_types: string[]
+          stain_id: string
+          technical_content: Json
+          technical_name: string | null
+          technical_reviewer: string | null
+          updated_at: string
+          variant_notes: string | null
+        }
+        Insert: {
+          added_components?: string[]
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          canonical_name: string
+          canonical_parent_id?: string | null
+          classification_confidence?: number
+          classification_evidence?: string | null
+          classification_explanation?: string | null
+          classification_reviewer?: string | null
+          classification_version?: number
+          component_confidence?: number
+          condition_tags?: string[]
+          content_owner?: string | null
+          content_version?: number
+          countries?: string[]
+          created_at?: string
+          damage_interpretation?: string | null
+          display_plural?: string | null
+          display_singular: string
+          domestic_confidence?: number
+          domestic_status?: string
+          icon?: string | null
+          id?: string
+          identification?: Json
+          is_damage_diagnosis?: boolean
+          is_published?: boolean
+          languages?: string[]
+          last_reviewed?: string | null
+          next_review?: string | null
+          primary_category: string
+          record_key: string
+          revision_reason?: string | null
+          risk_tags?: string[]
+          science?: Json
+          science_plain?: string | null
+          search_keywords?: string[]
+          secondary_components?: Json
+          short_description?: string | null
+          source_documents?: string[]
+          source_types?: string[]
+          stain_id: string
+          technical_content?: Json
+          technical_name?: string | null
+          technical_reviewer?: string | null
+          updated_at?: string
+          variant_notes?: string | null
+        }
+        Update: {
+          added_components?: string[]
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          canonical_name?: string
+          canonical_parent_id?: string | null
+          classification_confidence?: number
+          classification_evidence?: string | null
+          classification_explanation?: string | null
+          classification_reviewer?: string | null
+          classification_version?: number
+          component_confidence?: number
+          condition_tags?: string[]
+          content_owner?: string | null
+          content_version?: number
+          countries?: string[]
+          created_at?: string
+          damage_interpretation?: string | null
+          display_plural?: string | null
+          display_singular?: string
+          domestic_confidence?: number
+          domestic_status?: string
+          icon?: string | null
+          id?: string
+          identification?: Json
+          is_damage_diagnosis?: boolean
+          is_published?: boolean
+          languages?: string[]
+          last_reviewed?: string | null
+          next_review?: string | null
+          primary_category?: string
+          record_key?: string
+          revision_reason?: string | null
+          risk_tags?: string[]
+          science?: Json
+          science_plain?: string | null
+          search_keywords?: string[]
+          secondary_components?: Json
+          short_description?: string | null
+          source_documents?: string[]
+          source_types?: string[]
+          stain_id?: string
+          technical_content?: Json
+          technical_name?: string | null
+          technical_reviewer?: string | null
+          updated_at?: string
+          variant_notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "master_stains_canonical_parent_id_fkey"
+            columns: ["canonical_parent_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_product_inventory: {
         Row: {
           bottle_size: string | null
@@ -2168,6 +2320,68 @@ export type Database = {
           },
         ]
       }
+      stain_aliases: {
+        Row: {
+          alias: string
+          alias_type: string
+          approval_status: Database["public"]["Enums"]["content_status"]
+          country: string | null
+          created_at: string
+          id: string
+          language: string
+          master_stain_id: string
+          requires_label_check: boolean
+          reviewer: string | null
+          script: string | null
+          search_priority: number
+          source: string | null
+          transliteration: string | null
+          updated_at: string
+        }
+        Insert: {
+          alias: string
+          alias_type: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          country?: string | null
+          created_at?: string
+          id?: string
+          language?: string
+          master_stain_id: string
+          requires_label_check?: boolean
+          reviewer?: string | null
+          script?: string | null
+          search_priority?: number
+          source?: string | null
+          transliteration?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alias?: string
+          alias_type?: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          country?: string | null
+          created_at?: string
+          id?: string
+          language?: string
+          master_stain_id?: string
+          requires_label_check?: boolean
+          reviewer?: string | null
+          script?: string | null
+          search_priority?: number
+          source?: string | null
+          transliteration?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_aliases_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stain_categories: {
         Row: {
           category_key: string
@@ -2327,6 +2541,115 @@ export type Database = {
           },
         ]
       }
+      stain_colour_rules: {
+        Row: {
+          colour_key: string
+          colourfastness_test_required: boolean
+          created_at: string
+          dye_transfer_risk: string
+          evidence_type: string | null
+          heat_restricted: boolean
+          id: string
+          main_risk: string
+          master_stain_id: string
+          oxidation_restricted: boolean
+          reduction_restricted: boolean
+          referral: string | null
+          updated_at: string
+        }
+        Insert: {
+          colour_key: string
+          colourfastness_test_required?: boolean
+          created_at?: string
+          dye_transfer_risk?: string
+          evidence_type?: string | null
+          heat_restricted?: boolean
+          id?: string
+          main_risk: string
+          master_stain_id: string
+          oxidation_restricted?: boolean
+          reduction_restricted?: boolean
+          referral?: string | null
+          updated_at?: string
+        }
+        Update: {
+          colour_key?: string
+          colourfastness_test_required?: boolean
+          created_at?: string
+          dye_transfer_risk?: string
+          evidence_type?: string | null
+          heat_restricted?: boolean
+          id?: string
+          main_risk?: string
+          master_stain_id?: string
+          oxidation_restricted?: boolean
+          reduction_restricted?: boolean
+          referral?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_colour_rules_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_common_sources: {
+        Row: {
+          countries: string[]
+          created_at: string
+          evidence_type: string | null
+          formulation_variable: boolean
+          id: string
+          likelihood: string
+          master_stain_id: string
+          notes: string | null
+          source_name: string
+          source_type: string
+          typical_context: string | null
+          updated_at: string
+        }
+        Insert: {
+          countries?: string[]
+          created_at?: string
+          evidence_type?: string | null
+          formulation_variable?: boolean
+          id?: string
+          likelihood?: string
+          master_stain_id: string
+          notes?: string | null
+          source_name: string
+          source_type: string
+          typical_context?: string | null
+          updated_at?: string
+        }
+        Update: {
+          countries?: string[]
+          created_at?: string
+          evidence_type?: string | null
+          formulation_variable?: boolean
+          id?: string
+          likelihood?: string
+          master_stain_id?: string
+          notes?: string | null
+          source_name?: string
+          source_type?: string
+          typical_context?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_common_sources_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stain_components: {
         Row: {
           archived: boolean
@@ -2359,6 +2682,416 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      stain_condition_effects: {
+        Row: {
+          added_damage_risk: string | null
+          assessment_requirement: string | null
+          condition_key: string
+          created_at: string
+          difficulty: string
+          escalation_condition: string | null
+          id: string
+          master_stain_id: string
+          outcome_adjustment: string | null
+          updated_at: string
+        }
+        Insert: {
+          added_damage_risk?: string | null
+          assessment_requirement?: string | null
+          condition_key: string
+          created_at?: string
+          difficulty?: string
+          escalation_condition?: string | null
+          id?: string
+          master_stain_id: string
+          outcome_adjustment?: string | null
+          updated_at?: string
+        }
+        Update: {
+          added_damage_risk?: string | null
+          assessment_requirement?: string | null
+          condition_key?: string
+          created_at?: string
+          difficulty?: string
+          escalation_condition?: string | null
+          id?: string
+          master_stain_id?: string
+          outcome_adjustment?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_condition_effects_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_evidence_claims: {
+        Row: {
+          claim: string
+          country: string | null
+          created_at: string
+          evidence_type: string
+          id: string
+          master_stain_id: string
+          reviewer: string | null
+          section: string
+          source: string
+          source_date: string | null
+          source_version: string | null
+          updated_at: string
+          verification: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          claim: string
+          country?: string | null
+          created_at?: string
+          evidence_type: string
+          id?: string
+          master_stain_id: string
+          reviewer?: string | null
+          section: string
+          source: string
+          source_date?: string | null
+          source_version?: string | null
+          updated_at?: string
+          verification?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          claim?: string
+          country?: string | null
+          created_at?: string
+          evidence_type?: string
+          id?: string
+          master_stain_id?: string
+          reviewer?: string | null
+          section?: string
+          source?: string
+          source_date?: string | null
+          source_version?: string | null
+          updated_at?: string
+          verification?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_evidence_claims_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_expected_outcomes: {
+        Row: {
+          colour_key: string | null
+          created_at: string
+          damaged: boolean | null
+          dye_loss: string | null
+          fabric_key: string | null
+          fibre_damage: string | null
+          finish_damage: string | null
+          foreign_material: string | null
+          heat_exposed: boolean | null
+          id: string
+          master_stain_id: string
+          odour_hygiene: string | null
+          outcome_class: string
+          previously_treated: boolean | null
+          remaining_pigment: string | null
+          stain_age: string | null
+          updated_at: string
+        }
+        Insert: {
+          colour_key?: string | null
+          created_at?: string
+          damaged?: boolean | null
+          dye_loss?: string | null
+          fabric_key?: string | null
+          fibre_damage?: string | null
+          finish_damage?: string | null
+          foreign_material?: string | null
+          heat_exposed?: boolean | null
+          id?: string
+          master_stain_id: string
+          odour_hygiene?: string | null
+          outcome_class: string
+          previously_treated?: boolean | null
+          remaining_pigment?: string | null
+          stain_age?: string | null
+          updated_at?: string
+        }
+        Update: {
+          colour_key?: string | null
+          created_at?: string
+          damaged?: boolean | null
+          dye_loss?: string | null
+          fabric_key?: string | null
+          fibre_damage?: string | null
+          finish_damage?: string | null
+          foreign_material?: string | null
+          heat_exposed?: boolean | null
+          id?: string
+          master_stain_id?: string
+          odour_hygiene?: string | null
+          outcome_class?: string
+          previously_treated?: boolean | null
+          remaining_pigment?: string | null
+          stain_age?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_expected_outcomes_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_fabric_rules: {
+        Row: {
+          confidence: number
+          created_at: string
+          evidence_type: string | null
+          fabric_key: string
+          first_response_boundary: string | null
+          id: string
+          is_component_part: boolean
+          main_risk: string
+          master_stain_id: string
+          prohibited_principles: string[]
+          referral_condition: string | null
+          reviewer: string | null
+          test_required: boolean
+          updated_at: string
+          why_risk: string | null
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          evidence_type?: string | null
+          fabric_key: string
+          first_response_boundary?: string | null
+          id?: string
+          is_component_part?: boolean
+          main_risk: string
+          master_stain_id: string
+          prohibited_principles?: string[]
+          referral_condition?: string | null
+          reviewer?: string | null
+          test_required?: boolean
+          updated_at?: string
+          why_risk?: string | null
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          evidence_type?: string | null
+          fabric_key?: string
+          first_response_boundary?: string | null
+          id?: string
+          is_component_part?: boolean
+          main_risk?: string
+          master_stain_id?: string
+          prohibited_principles?: string[]
+          referral_condition?: string | null
+          reviewer?: string | null
+          test_required?: boolean
+          updated_at?: string
+          why_risk?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_fabric_rules_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_failure_profiles: {
+        Row: {
+          created_at: string
+          dye_loss_indicators: string[]
+          escalation_point: string | null
+          evidence_type: string | null
+          fibre_damage_indicators: string[]
+          finish_damage_indicators: string[]
+          further_attempt_safe: string
+          id: string
+          mandatory_stop: string[]
+          master_stain_id: string
+          max_attempt_policy: string | null
+          next_assessment: string | null
+          residue_indicators: string[]
+          updated_at: string
+          why_may_fail: string[]
+        }
+        Insert: {
+          created_at?: string
+          dye_loss_indicators?: string[]
+          escalation_point?: string | null
+          evidence_type?: string | null
+          fibre_damage_indicators?: string[]
+          finish_damage_indicators?: string[]
+          further_attempt_safe?: string
+          id?: string
+          mandatory_stop?: string[]
+          master_stain_id: string
+          max_attempt_policy?: string | null
+          next_assessment?: string | null
+          residue_indicators?: string[]
+          updated_at?: string
+          why_may_fail?: string[]
+        }
+        Update: {
+          created_at?: string
+          dye_loss_indicators?: string[]
+          escalation_point?: string | null
+          evidence_type?: string | null
+          fibre_damage_indicators?: string[]
+          finish_damage_indicators?: string[]
+          further_attempt_safe?: string
+          id?: string
+          mandatory_stop?: string[]
+          master_stain_id?: string
+          max_attempt_policy?: string | null
+          next_assessment?: string | null
+          residue_indicators?: string[]
+          updated_at?: string
+          why_may_fail?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_failure_profiles_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_faqs: {
+        Row: {
+          answer: string
+          approval_status: Database["public"]["Enums"]["content_status"]
+          audience: string
+          country: string | null
+          created_at: string
+          display_order: number
+          evidence_type: string | null
+          id: string
+          language: string
+          master_stain_id: string
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          audience?: string
+          country?: string | null
+          created_at?: string
+          display_order?: number
+          evidence_type?: string | null
+          id?: string
+          language?: string
+          master_stain_id: string
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          audience?: string
+          country?: string | null
+          created_at?: string
+          display_order?: number
+          evidence_type?: string | null
+          id?: string
+          language?: string
+          master_stain_id?: string
+          question?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_faqs_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_first_responses: {
+        Row: {
+          action: string
+          approval_status: Database["public"]["Enums"]["content_status"]
+          created_at: string
+          eligible_fabric_conditions: string | null
+          eligible_roles: string[]
+          eligible_stain_conditions: string | null
+          escalation_trigger: string | null
+          evidence_type: string | null
+          heat_warning: string | null
+          id: string
+          master_stain_id: string
+          max_delay_before_assessment: string | null
+          prohibited_circumstances: string[]
+          purpose: string | null
+          updated_at: string
+        }
+        Insert: {
+          action: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          eligible_fabric_conditions?: string | null
+          eligible_roles?: string[]
+          eligible_stain_conditions?: string | null
+          escalation_trigger?: string | null
+          evidence_type?: string | null
+          heat_warning?: string | null
+          id?: string
+          master_stain_id: string
+          max_delay_before_assessment?: string | null
+          prohibited_circumstances?: string[]
+          purpose?: string | null
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          eligible_fabric_conditions?: string | null
+          eligible_roles?: string[]
+          eligible_stain_conditions?: string | null
+          escalation_trigger?: string | null
+          evidence_type?: string | null
+          heat_warning?: string | null
+          id?: string
+          master_stain_id?: string
+          max_delay_before_assessment?: string | null
+          prohibited_circumstances?: string[]
+          purpose?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_first_responses_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       stain_identification_reviews: {
         Row: {
@@ -2714,6 +3447,263 @@ export type Database = {
         }
         Relationships: []
       }
+      stain_prohibitions: {
+        Row: {
+          affected_roles: string[]
+          applies_condition: string
+          created_at: string
+          evidence_type: string | null
+          id: string
+          master_stain_id: string
+          prohibition_type: string
+          reason: string
+          reviewer: string | null
+          severity: string
+          updated_at: string
+        }
+        Insert: {
+          affected_roles?: string[]
+          applies_condition: string
+          created_at?: string
+          evidence_type?: string | null
+          id?: string
+          master_stain_id: string
+          prohibition_type: string
+          reason: string
+          reviewer?: string | null
+          severity?: string
+          updated_at?: string
+        }
+        Update: {
+          affected_roles?: string[]
+          applies_condition?: string
+          created_at?: string
+          evidence_type?: string | null
+          id?: string
+          master_stain_id?: string
+          prohibition_type?: string
+          reason?: string
+          reviewer?: string | null
+          severity?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_prohibitions_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_public_contents: {
+        Row: {
+          before_you_start: string | null
+          common_mistakes: string[]
+          created_at: string
+          disclaimer: string | null
+          id: string
+          language: string
+          master_stain_id: string
+          materials_cautious: string[]
+          materials_professional: string[]
+          page_title: string
+          professional_summary: string | null
+          short_answer: string | null
+          source_version: number
+          updated_at: string
+          why_difficult: string | null
+        }
+        Insert: {
+          before_you_start?: string | null
+          common_mistakes?: string[]
+          created_at?: string
+          disclaimer?: string | null
+          id?: string
+          language?: string
+          master_stain_id: string
+          materials_cautious?: string[]
+          materials_professional?: string[]
+          page_title: string
+          professional_summary?: string | null
+          short_answer?: string | null
+          source_version?: number
+          updated_at?: string
+          why_difficult?: string | null
+        }
+        Update: {
+          before_you_start?: string | null
+          common_mistakes?: string[]
+          created_at?: string
+          disclaimer?: string | null
+          id?: string
+          language?: string
+          master_stain_id?: string
+          materials_cautious?: string[]
+          materials_professional?: string[]
+          page_title?: string
+          professional_summary?: string | null
+          short_answer?: string | null
+          source_version?: number
+          updated_at?: string
+          why_difficult?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_public_contents_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_relations: {
+        Row: {
+          created_at: string
+          directional: boolean
+          evidence_type: string | null
+          explanation: string | null
+          id: string
+          master_stain_id: string
+          related_key: string | null
+          related_stain_id: string | null
+          relation_kind: string
+          reviewer: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          directional?: boolean
+          evidence_type?: string | null
+          explanation?: string | null
+          id?: string
+          master_stain_id: string
+          related_key?: string | null
+          related_stain_id?: string | null
+          relation_kind: string
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          directional?: boolean
+          evidence_type?: string | null
+          explanation?: string | null
+          id?: string
+          master_stain_id?: string
+          related_key?: string | null
+          related_stain_id?: string | null
+          relation_kind?: string
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_relations_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_relations_related_stain_id_fkey"
+            columns: ["related_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_review_flags: {
+        Row: {
+          created_at: string
+          id: string
+          master_stain_id: string
+          note: string | null
+          resolved: boolean
+          resolved_by: string | null
+          sections: string[]
+          trigger_key: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          master_stain_id: string
+          note?: string | null
+          resolved?: boolean
+          resolved_by?: string | null
+          sections?: string[]
+          trigger_key: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          master_stain_id?: string
+          note?: string | null
+          resolved?: boolean
+          resolved_by?: string | null
+          sections?: string[]
+          trigger_key?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_review_flags_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_revisions: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          changed_by: string | null
+          content_version: number
+          created_at: string
+          id: string
+          master_stain_id: string
+          reason: string | null
+          sections: string[]
+          snapshot: Json | null
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          changed_by?: string | null
+          content_version: number
+          created_at?: string
+          id?: string
+          master_stain_id: string
+          reason?: string | null
+          sections?: string[]
+          snapshot?: Json | null
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          changed_by?: string | null
+          content_version?: number
+          created_at?: string
+          id?: string
+          master_stain_id?: string
+          reason?: string | null
+          sections?: string[]
+          snapshot?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_revisions_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stain_source_types: {
         Row: {
           archived: boolean
@@ -2747,6 +3737,59 @@ export type Database = {
         }
         Relationships: []
       }
+      stain_stage_links: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          created_at: string
+          evidence_type: string | null
+          id: string
+          inspection_point: string | null
+          master_stain_id: string
+          preconditions: string[]
+          prohibited_conditions: string[]
+          stage_key: string
+          stage_order: number
+          stop_condition: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          evidence_type?: string | null
+          id?: string
+          inspection_point?: string | null
+          master_stain_id: string
+          preconditions?: string[]
+          prohibited_conditions?: string[]
+          stage_key: string
+          stage_order?: number
+          stop_condition?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          created_at?: string
+          evidence_type?: string | null
+          id?: string
+          inspection_point?: string | null
+          master_stain_id?: string
+          preconditions?: string[]
+          prohibited_conditions?: string[]
+          stage_key?: string
+          stage_order?: number
+          stop_condition?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_stage_links_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stain_tags: {
         Row: {
           stain_id: string
@@ -2773,6 +3816,65 @@ export type Database = {
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_translations: {
+        Row: {
+          country: string | null
+          created_at: string
+          display_name: string
+          id: string
+          language: string
+          master_stain_id: string
+          script: string | null
+          short_description: string | null
+          source_version: number
+          technical_review_of_translation: string | null
+          translation_status: string
+          translator: string | null
+          units: string
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          language: string
+          master_stain_id: string
+          script?: string | null
+          short_description?: string | null
+          source_version?: number
+          technical_review_of_translation?: string | null
+          translation_status?: string
+          translator?: string | null
+          units?: string
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          language?: string
+          master_stain_id?: string
+          script?: string | null
+          short_description?: string | null
+          source_version?: number
+          technical_review_of_translation?: string | null
+          translation_status?: string
+          translator?: string | null
+          units?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_translations_master_stain_id_fkey"
+            columns: ["master_stain_id"]
+            isOneToOne: false
+            referencedRelation: "master_stains"
             referencedColumns: ["id"]
           },
         ]
