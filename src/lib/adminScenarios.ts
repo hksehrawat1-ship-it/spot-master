@@ -73,7 +73,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     run: () => {
       const prev = makeVersion({
         version: "1.0",
-        signatures: [{ reviewerId: "rv-1", reviewerName: "Reviewer", role: "textile_technical_reviewer", scopes: ["textile_fibres"], reviewType: "technical", decision: "approve", at: "2025-01-01", versionApproved: "1.0", checklistCompleted: true, comments: "" }],
+        signatures: [{ reviewerId: "rv-1", reviewerName: "Reviewer", role: "textile_technical_reviewer", scopes: ["textile_fibres"], reviewType: "technical", decision: "approve", at: "2025-01-01", versionApproved: "1.0", checklistCompleted: true, comments: "", authenticated: true }],
       });
       const carried = signaturesCarryForward(prev, "2.0");
       return ok(carried.length === 0, `carried=${carried.length}`);
