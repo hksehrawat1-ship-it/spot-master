@@ -91,13 +91,13 @@ export function actionsForRecord(
   const reviewing: GovStatus[] = ["technical_review", "safety_review", "country_review", "translation_review"];
   if (reviewer && reviewing.includes(record.status)) {
     out.push("request_changes");
-    const decision = canApprove(record, reviewer, "technical");
-    const safety = canApprove(record, reviewer, "safety");
-    if (decision.allowed || safety.allowed) out.push("approve");
+    const technical = canApprove(reviewer, record, "technical");
+    const safety = canApprove(reviewer, record, "safety");
+    if (technical.ok || safety.ok) out.push("approve");
   }
   if (record.status === "approved" && user.roles.includes("publisher")) {
     out.push("schedule");
-    if (canPublish(record, ctx).allowed) out.push("publish");
+    if (canPublish(record, ctx).ok) out.push("publish");
   }
   if (reviewer?.roles.includes("chemical_safety_reviewer") || reviewer?.roles.includes("textile_technical_reviewer")) {
     out.push("suspend");
@@ -113,9 +113,9 @@ export function publicationBlockers(
   ctx: { documents: GovDocument[]; reviewers: Reviewer[]; records: GovRecord[]; translations: TranslationRecord[] },
 ): string[] {
   const check = canPublish(record, ctx);
-  if (check.allowed) return [];
+  if (check.ok) return [];
   const issues = validateRecord(record, ctx).filter((i) => i.severity === "error").map((i) => i.message);
-  return [check.reason, ...issues].filter(Boolean) as string[];
+  return Array.from(new Set([check.reason, ...issues].filter(Boolean) as string[]));
 }
 
 export function statusPresentation(status: GovStatus) {
@@ -176,7 +176,7 @@ export function dashboardCards(input: DashboardInput): DashboardCard[] {
     { key: "suspended", label: "Suspended guidance", count: byStatus("suspended"), section: "reviews", filter: "status=suspended", tone: "critical" },
     {
       key: "expired_docs", label: "Expired or superseded documents",
-      count: input.documents.filter((d) => d.status === "superseded" || d.status === "expired").length,
+      count: input.documents.filter((d) => d.status === "superseded" || d.status === "expired_review").length,
       section: "documents", filter: "status=superseded", tone: "attention",
     },
     {
@@ -643,7 +643,7 @@ export function adminAnalytics(input: {
     overdueReviews: input.records.filter((r) => isReviewOverdue(r, now)).length,
     evidenceGaps: input.records.filter((r) => r.sourceDocumentIds.length === 0).length,
     documentsExpiring: input.documents.filter((d) => d.reviewDate && d.reviewDate < now).length,
-    translationBacklog: input.translations.filter((t) => t.status === "outdated" || t.status === "draft").length,
+    translationBacklog: input.translations.filter((t) => t.status === "outdated" || t.status === "not_started").length,
     dataCompleteness: Math.round((complete / total) * 100),
     importErrors: input.importErrors,
     permissionDenials: input.permissionDenials,
