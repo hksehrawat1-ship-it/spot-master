@@ -164,6 +164,18 @@ export default function StainMaster() {
       {/* Action cards + Categories grid */}
       {!q && !activeCategory && (
         <div className="space-y-5">
+          <Card className="flex items-center justify-between gap-3 p-4">
+            <div>
+              <p className="font-semibold">Technical stain categories</p>
+              <p className="text-xs text-muted-foreground">
+                The 12 permanent categories used to classify what a stain is made of.
+              </p>
+            </div>
+            <Link to="/stain-categories">
+              <Button size="sm" variant="outline">Open</Button>
+            </Link>
+          </Card>
+
           {/* Categories */}
           <div className="space-y-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
