@@ -60,27 +60,31 @@ export default function StainClassify() {
       .slice(0, 20);
   }, [query]);
 
+  const answers = latest?.answers ?? null;
+
   const input: ClassifyInput = useMemo(
     () => ({
       libraryKey: libraryKey || null,
       additions,
       damageIndicators,
-      conditionTags: latest?.result?.conditionTags ?? [],
-      heatExposed: latest?.input?.heatExposure?.length ? !latest.input.heatExposure.includes("none") : false,
+      conditionTags: [],
+      heatExposed: Boolean(answers?.heatExposure.some((h) => h !== "No" && h !== "Not known")),
       heatSetPossible: Boolean(latest?.result?.heatSetSuspected),
-      previousChemicalUnknown: Boolean(latest?.result?.unknownChemical),
-      chemicalMixing: latest?.input?.chemicalMixing === "yes",
-      dyeTransferring: latest?.input?.dyeTransferring === "yes",
-      crossesColours: latest?.input?.stainCrossesColours === "yes",
-      affectedComponent: latest?.input?.mostSensitiveComponent,
+      previousChemicalUnknown: Boolean(
+        answers?.appliedProducts.some((p) => /unknown|not sure|unlabelled/i.test(p)),
+      ),
+      chemicalMixing: answers?.mixing === "Yes" || answers?.mixing === "Possibly",
+      dyeTransferring: answers?.dyeTransferring === "Yes",
+      crossesColours: answers?.stainCrossesColours === "Yes",
+      affectedComponent: latest?.result?.mostSensitiveComponent,
       riskBefore: (latest?.result?.riskAfter as ClassifyInput["riskBefore"]) ?? "green",
-      readiness: latest?.result?.readiness ?? null,
+      readiness: latest?.result?.status ?? null,
       role,
       confirmation,
       correctionPrimary: correctionPrimary || null,
       correctionNote,
     }),
-    [libraryKey, additions, damageIndicators, latest, role, confirmation, correctionPrimary, correctionNote],
+    [libraryKey, additions, damageIndicators, latest, answers, role, confirmation, correctionPrimary, correctionNote],
   );
 
   const result = useMemo(() => classify(input), [input]);
