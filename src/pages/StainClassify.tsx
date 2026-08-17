@@ -96,7 +96,7 @@ export default function StainClassify() {
   const save = () => {
     const id = createCase(input, {
       readinessCaseId: latest?.id ?? null,
-      identificationId: latest?.input?.identificationId ?? null,
+      identificationId: latest?.identificationId ?? null,
     });
     toast.success("Classification saved", { description: `Case ${id}` });
     navigate("/admin/classification");
