@@ -27,7 +27,7 @@ const chip = (active: boolean) =>
     active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-muted/40 text-muted-foreground"
   }`;
 
-const ROLES = ["domestic_user", "laundry_employee", "professional_spotter", "technical_reviewer"] as const;
+const ROLES = ["domestic_user", "laundry_employee", "professional_spotter", "trainer"] as const;
 
 export default function KitComparison() {
   const mappingStore = useMappings();
@@ -48,7 +48,7 @@ export default function KitComparison() {
     [productStore.productOverrides, productStore.customProducts],
   );
 
-  const audience = comparisonAudience(role, role === "technical_reviewer");
+  const audience = comparisonAudience(role, role === "trainer");
 
   const result = useMemo(() => {
     const ctx = emptyContext({

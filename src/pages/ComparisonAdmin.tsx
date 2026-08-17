@@ -36,7 +36,7 @@ export default function ComparisonAdmin() {
     const ctx = emptyContext({
       comparisonId: store.nextComparisonId(),
       stainKey: "coffee", stageNumber: 5, textile: "cotton", colour: "white",
-      process: "hand_spotting", country: "IN", role: "technical_reviewer", riskLevel: "green",
+      process: "hand_spotting", country: "IN", role: "trainer", riskLevel: "green",
     });
     return universalTechnicalView(buildComparison(ctx, {
       mappings, products, docs: productStore.documents(),
