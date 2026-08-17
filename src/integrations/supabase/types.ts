@@ -274,6 +274,413 @@ export type Database = {
           },
         ]
       }
+      fabric_assessment_audit: {
+        Row: {
+          action: string
+          assessment_id: string
+          changed_by: string | null
+          created_at: string
+          id: string
+          new_data: Json | null
+          previous_data: Json | null
+          reason: string | null
+        }
+        Insert: {
+          action: string
+          assessment_id: string
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_data?: Json | null
+          previous_data?: Json | null
+          reason?: string | null
+        }
+        Update: {
+          action?: string
+          assessment_id?: string
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          new_data?: Json | null
+          previous_data?: Json | null
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabric_assessment_audit_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "fabric_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fabric_assessment_events: {
+        Row: {
+          assessment_id: string | null
+          created_at: string
+          event_name: string
+          id: string
+          properties: Json
+          stage: string | null
+          user_id: string | null
+        }
+        Insert: {
+          assessment_id?: string | null
+          created_at?: string
+          event_name: string
+          id?: string
+          properties?: Json
+          stage?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          assessment_id?: string | null
+          created_at?: string
+          event_name?: string
+          id?: string
+          properties?: Json
+          stage?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabric_assessment_events_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "fabric_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fabric_assessment_photos: {
+        Row: {
+          assessment_id: string
+          created_at: string
+          extracted_text: string | null
+          extraction_confidence: number | null
+          id: string
+          kind: Database["public"]["Enums"]["assessment_photo_kind"]
+          quality_notes: string | null
+          storage_path: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          assessment_id: string
+          created_at?: string
+          extracted_text?: string | null
+          extraction_confidence?: number | null
+          id?: string
+          kind: Database["public"]["Enums"]["assessment_photo_kind"]
+          quality_notes?: string | null
+          storage_path?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          created_at?: string
+          extracted_text?: string | null
+          extraction_confidence?: number | null
+          id?: string
+          kind?: Database["public"]["Enums"]["assessment_photo_kind"]
+          quality_notes?: string | null
+          storage_path?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabric_assessment_photos_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "fabric_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fabric_assessments: {
+        Row: {
+          admin_override_applied: boolean
+          admin_override_reason: string | null
+          assessment_version: number
+          case_id: string | null
+          cleaning_history: string[]
+          cleaning_history_notes: Json
+          colour_description: string[]
+          colour_flags: Json
+          completed_at: string | null
+          confirmed_label: Json
+          construction_features: string[]
+          created_at: string
+          current_stage: string | null
+          damage_risks: string[]
+          existing_damage: string[]
+          extracted_label: Json
+          fabric_appearance: string[]
+          fabric_confidence: Database["public"]["Enums"]["fabric_confidence_level"]
+          fabric_confidence_reason: string | null
+          garment_importance: string[]
+          garment_type: string | null
+          garment_type_other: string | null
+          id: string
+          label_extraction_confidence: number | null
+          label_language: string | null
+          label_status: Database["public"]["Enums"]["label_status"]
+          label_user_confirmed: boolean
+          organization_id: string | null
+          raw_label_text: string | null
+          recommended_next_action: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          risk_factors: Json
+          risk_group: Database["public"]["Enums"]["fabric_risk_group"] | null
+          risk_level: Database["public"]["Enums"]["risk_level"]
+          risk_reason: string | null
+          risk_score: number
+          rules_version: string
+          safety_overrides: Json
+          stain_touches_feature: boolean | null
+          state: Database["public"]["Enums"]["assessment_state"]
+          suspected_material_family: string | null
+          treatment_gate: Database["public"]["Enums"]["treatment_gate_status"]
+          unresolved_label_items: string[]
+          updated_at: string
+          user_id: string | null
+          user_type: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          admin_override_applied?: boolean
+          admin_override_reason?: string | null
+          assessment_version?: number
+          case_id?: string | null
+          cleaning_history?: string[]
+          cleaning_history_notes?: Json
+          colour_description?: string[]
+          colour_flags?: Json
+          completed_at?: string | null
+          confirmed_label?: Json
+          construction_features?: string[]
+          created_at?: string
+          current_stage?: string | null
+          damage_risks?: string[]
+          existing_damage?: string[]
+          extracted_label?: Json
+          fabric_appearance?: string[]
+          fabric_confidence?: Database["public"]["Enums"]["fabric_confidence_level"]
+          fabric_confidence_reason?: string | null
+          garment_importance?: string[]
+          garment_type?: string | null
+          garment_type_other?: string | null
+          id?: string
+          label_extraction_confidence?: number | null
+          label_language?: string | null
+          label_status?: Database["public"]["Enums"]["label_status"]
+          label_user_confirmed?: boolean
+          organization_id?: string | null
+          raw_label_text?: string | null
+          recommended_next_action?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_factors?: Json
+          risk_group?: Database["public"]["Enums"]["fabric_risk_group"] | null
+          risk_level?: Database["public"]["Enums"]["risk_level"]
+          risk_reason?: string | null
+          risk_score?: number
+          rules_version?: string
+          safety_overrides?: Json
+          stain_touches_feature?: boolean | null
+          state?: Database["public"]["Enums"]["assessment_state"]
+          suspected_material_family?: string | null
+          treatment_gate?: Database["public"]["Enums"]["treatment_gate_status"]
+          unresolved_label_items?: string[]
+          updated_at?: string
+          user_id?: string | null
+          user_type?: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          admin_override_applied?: boolean
+          admin_override_reason?: string | null
+          assessment_version?: number
+          case_id?: string | null
+          cleaning_history?: string[]
+          cleaning_history_notes?: Json
+          colour_description?: string[]
+          colour_flags?: Json
+          completed_at?: string | null
+          confirmed_label?: Json
+          construction_features?: string[]
+          created_at?: string
+          current_stage?: string | null
+          damage_risks?: string[]
+          existing_damage?: string[]
+          extracted_label?: Json
+          fabric_appearance?: string[]
+          fabric_confidence?: Database["public"]["Enums"]["fabric_confidence_level"]
+          fabric_confidence_reason?: string | null
+          garment_importance?: string[]
+          garment_type?: string | null
+          garment_type_other?: string | null
+          id?: string
+          label_extraction_confidence?: number | null
+          label_language?: string | null
+          label_status?: Database["public"]["Enums"]["label_status"]
+          label_user_confirmed?: boolean
+          organization_id?: string | null
+          raw_label_text?: string | null
+          recommended_next_action?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_factors?: Json
+          risk_group?: Database["public"]["Enums"]["fabric_risk_group"] | null
+          risk_level?: Database["public"]["Enums"]["risk_level"]
+          risk_reason?: string | null
+          risk_score?: number
+          rules_version?: string
+          safety_overrides?: Json
+          stain_touches_feature?: boolean | null
+          state?: Database["public"]["Enums"]["assessment_state"]
+          suspected_material_family?: string | null
+          treatment_gate?: Database["public"]["Enums"]["treatment_gate_status"]
+          unresolved_label_items?: string[]
+          updated_at?: string
+          user_id?: string | null
+          user_type?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabric_assessments_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fabric_assessments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fabric_compatibility_tests: {
+        Row: {
+          assessment_id: string
+          colour_transfer: string | null
+          created_at: string
+          decision: string | null
+          distortion: string | null
+          id: string
+          medium_used: string | null
+          method_source: string | null
+          notes: string | null
+          operator: string | null
+          performed_at: string
+          photo_path: string | null
+          result: string | null
+          ring_formation: string | null
+          test_location: string | null
+          test_type: string
+          texture_change: string | null
+          updated_at: string
+        }
+        Insert: {
+          assessment_id: string
+          colour_transfer?: string | null
+          created_at?: string
+          decision?: string | null
+          distortion?: string | null
+          id?: string
+          medium_used?: string | null
+          method_source?: string | null
+          notes?: string | null
+          operator?: string | null
+          performed_at?: string
+          photo_path?: string | null
+          result?: string | null
+          ring_formation?: string | null
+          test_location?: string | null
+          test_type: string
+          texture_change?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assessment_id?: string
+          colour_transfer?: string | null
+          created_at?: string
+          decision?: string | null
+          distortion?: string | null
+          id?: string
+          medium_used?: string | null
+          method_source?: string | null
+          notes?: string | null
+          operator?: string | null
+          performed_at?: string
+          photo_path?: string | null
+          result?: string | null
+          ring_formation?: string | null
+          test_location?: string | null
+          test_type?: string
+          texture_change?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fabric_compatibility_tests_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "fabric_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fabric_risk_rules: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          description: string | null
+          forces_risk: Database["public"]["Enums"]["risk_level"] | null
+          id: string
+          is_override: boolean
+          label: string
+          rule_key: string
+          rules_version: string
+          updated_at: string
+          weight: number
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string | null
+          forces_risk?: Database["public"]["Enums"]["risk_level"] | null
+          id?: string
+          is_override?: boolean
+          label: string
+          rule_key: string
+          rules_version: string
+          updated_at?: string
+          weight?: number
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string | null
+          forces_risk?: Database["public"]["Enums"]["risk_level"] | null
+          id?: string
+          is_override?: boolean
+          label?: string
+          rule_key?: string
+          rules_version?: string
+          updated_at?: string
+          weight?: number
+        }
+        Relationships: []
+      }
       fabrics: {
         Row: {
           acid_sensitivity: Database["public"]["Enums"]["sensitivity_level"]
@@ -1303,6 +1710,15 @@ export type Database = {
         | "technical_reviewer"
         | "content_admin"
         | "system_admin"
+      assessment_photo_kind:
+        | "fibre_composition_label"
+        | "care_symbol_label"
+        | "garment_front"
+        | "garment_back"
+        | "existing_damage"
+        | "stain_area"
+        | "professional_test"
+      assessment_state: "in_progress" | "completed" | "abandoned"
       content_status:
         | "draft"
         | "under_review"
@@ -1328,6 +1744,9 @@ export type Database = {
         | "independent_trial"
         | "textile_standard"
         | "none"
+      fabric_confidence_level: "high" | "moderate" | "low" | "unknown"
+      fabric_risk_group: "group_a" | "group_b" | "group_c" | "group_d"
+      label_status: "available" | "no_label" | "unclear" | "unconfirmed"
       record_status: "active" | "discontinued" | "archived"
       risk_level: "green" | "amber" | "red" | "black"
       sensitivity_level:
@@ -1344,6 +1763,13 @@ export type Database = {
         | "domestic_use_suitable"
         | "not_recommended"
         | "insufficient_information"
+      treatment_gate_status:
+        | "proceed"
+        | "proceed_with_testing"
+        | "professional_only"
+        | "blocked_pending_identification"
+        | "blocked_existing_damage"
+        | "specialist_material_route"
       verification_status:
         | "unverified"
         | "pending_review"
@@ -1488,6 +1914,16 @@ export const Constants = {
         "content_admin",
         "system_admin",
       ],
+      assessment_photo_kind: [
+        "fibre_composition_label",
+        "care_symbol_label",
+        "garment_front",
+        "garment_back",
+        "existing_damage",
+        "stain_area",
+        "professional_test",
+      ],
+      assessment_state: ["in_progress", "completed", "abandoned"],
       content_status: [
         "draft",
         "under_review",
@@ -1516,6 +1952,9 @@ export const Constants = {
         "textile_standard",
         "none",
       ],
+      fabric_confidence_level: ["high", "moderate", "low", "unknown"],
+      fabric_risk_group: ["group_a", "group_b", "group_c", "group_d"],
+      label_status: ["available", "no_label", "unclear", "unconfirmed"],
       record_status: ["active", "discontinued", "archived"],
       risk_level: ["green", "amber", "red", "black"],
       sensitivity_level: [
@@ -1533,6 +1972,14 @@ export const Constants = {
         "domestic_use_suitable",
         "not_recommended",
         "insufficient_information",
+      ],
+      treatment_gate_status: [
+        "proceed",
+        "proceed_with_testing",
+        "professional_only",
+        "blocked_pending_identification",
+        "blocked_existing_damage",
+        "specialist_material_route",
       ],
       verification_status: [
         "unverified",

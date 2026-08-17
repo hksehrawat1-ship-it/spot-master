@@ -15,6 +15,8 @@ import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
 import Admin from "@/pages/Admin";
 import FoundationCheck from "@/pages/FoundationCheck";
+import FabricCheck from "@/pages/FabricCheck";
+import FabricCheckAdmin from "@/pages/FabricCheckAdmin";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -34,7 +36,9 @@ const App = () => (
             <Route path="/courses/:slug/certificate" element={<Certificate />} />
             <Route path="/stain-master" element={<StainMaster />} />
             <Route path="/stain-master/identify" element={<StainIdentify />} />
+            <Route path="/fabric-check" element={<FabricCheck />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/foundation" element={<FoundationCheck />} />
