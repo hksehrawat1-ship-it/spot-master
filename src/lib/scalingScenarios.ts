@@ -145,7 +145,7 @@ export const SCALING_SCENARIOS: Scenario[] = [
   { id: "S73", title: "Safety engine failure fails closed", run: () => ok(!safetyEngineFailure().actionableTreatment, safetyEngineFailure().message) },
 
   /* Organizations ----------------------------------------------------- */
-  { id: "S74", title: "A multi-location organization is supported", run: () => ok((ORG_LOCATIONS = orgScopedCases("ORG-001", "ORG-001")).length > 0, "cases visible to owner") },
+  { id: "S74", title: "A multi-location organization is supported", run: () => ok(orgScopedCases("ORG-001", "ORG-001").length > 0, "cases visible to owner") },
   { id: "S75", title: "Organization data stays isolated", run: () => ok(orgScopedCases("ORG-001", "ORG-002").length === 0, "cross-org read denied") },
   { id: "S76", title: "An organization export contains only its own data", run: () => { const e = orgExport("ORG-001", "ORG-001"); const cross = orgExport("ORG-001", "ORG-002"); return ok(e.allowed && !cross.allowed && e.excluded.includes("other_organization_data"), "scoped export"); } },
   { id: "S77", title: "Professional access stays off until onboarding is complete", run: () => { const a = orgActivation("ORG-002"); return ok(!a.active && a.missing.length > 0, `missing=${a.missing.length}`); } },
@@ -195,5 +195,3 @@ export const SCALING_SCENARIOS: Scenario[] = [
   { id: "S107", title: "Every failed audit item produces a remediation task", run: () => { const a = systemAudit(); return ok(a.remediation.every((f) => !!f.remediation), a.remediation.map((f) => f.area).join(",")); } },
   { id: "S108", title: "Timeless architecture invariants hold", run: () => ok(architectureInvariantsHold() && ARCHITECTURE_INVARIANTS.length === 6, "invariants hold") },
 ];
-
-let ORG_LOCATIONS: string[] = [];
