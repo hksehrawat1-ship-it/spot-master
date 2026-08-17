@@ -12,6 +12,8 @@ import StainRecord from "./pages/StainRecord";
 import ProductLibrary from "./pages/ProductLibrary";
 import TreatmentStages from "./pages/TreatmentStages";
 import MappingMatrix from "./pages/MappingMatrix";
+import KitComparison from "./pages/KitComparison";
+import ComparisonAdmin from "./pages/ComparisonAdmin";
 import MappingEditor from "./pages/MappingEditor";
 import ProductDetail from "./pages/ProductDetail";
 import ProductAdmin from "./pages/ProductAdmin";
