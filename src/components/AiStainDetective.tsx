@@ -374,8 +374,8 @@ export default function AiStainDetective() {
             )}
           </div>
 
-          <div className="flex items-start gap-2 rounded-xl border border-warning/40 bg-warning/10 p-3 text-sm">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+          <div className="flex items-start gap-2 rounded-xl border border-accent/50 bg-accent/15 p-3 text-sm">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent-foreground" />
             <span className="text-foreground">{overallNote ? `${overallNote} ${DISCLAIMER}` : DISCLAIMER}</span>
           </div>
 
@@ -454,8 +454,8 @@ export default function AiStainDetective() {
               )}
 
               {r.consultProfessional && (
-                <div className="flex items-start gap-2 rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm">
-                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+                <div className="flex items-start gap-2 rounded-lg border border-accent/50 bg-accent/15 p-3 text-sm">
+                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-accent-foreground" />
                   <span>
                     <span className="font-semibold">Consult a professional. </span>
                     {r.professionalReason || "Confidence is limited for this case."}
