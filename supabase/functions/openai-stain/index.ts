@@ -86,6 +86,37 @@ Deno.serve(async (req) => {
     const apiKey = Deno.env.get("OPENAI_API_KEY");
     if (!apiKey) return json({ error: "AI is not configured on the server." }, 500);
 
+    // 1. Authentication is mandatory: anonymous callers can never spend AI budget.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    if (!authHeader.startsWith("Bearer ")) {
+      return json({ error: "Please sign in to use photo analysis." }, 401);
+    }
+    const userClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      { global: { headers: { Authorization: authHeader } } },
+    );
+    const { data: userData, error: userError } = await userClient.auth.getUser();
+    const uid = userData?.user?.id;
+    if (userError || !uid) return json({ error: "Your session has ended. Please sign in again." }, 401);
+
+    // 2. Per-user rate limit, enforced server-side against a server-only usage table.
+    const admin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    );
+    const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { count } = await admin
+      .from("ai_usage_log")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", uid)
+      .eq("feature", "stain_photo_analysis")
+      .gte("created_at", since);
+    if ((count ?? 0) >= 20) {
+      return json({ error: "You have reached the hourly limit for photo analysis. Please try again later.", retryable: false }, 429);
+    }
+    await admin.from("ai_usage_log").insert({ user_id: uid, feature: "stain_photo_analysis" });
+
     const body = await req.json().catch(() => null);
     const image = typeof body?.image === "string" ? body.image : "";
     if (!image || !/^data:image\/(jpeg|jpg|png|webp|heic);base64,/i.test(image)) {
@@ -225,18 +256,10 @@ Deno.serve(async (req) => {
     };
 
     // Store history for the signed-in user only, under their own row (RLS enforced).
-    const authHeader = req.headers.get("Authorization") ?? "";
-    if (authHeader.startsWith("Bearer ")) {
+    {
       try {
-        const supabase = createClient(
-          Deno.env.get("SUPABASE_URL") ?? "",
-          Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-          { global: { headers: { Authorization: authHeader } } },
-        );
-        const { data: userData } = await supabase.auth.getUser();
-        const uid = userData?.user?.id;
-        if (uid) {
-          const { error: insertError } = await supabase.from("stain_analyses").insert({
+        {
+          const { error: insertError } = await userClient.from("stain_analyses").insert({
             user_id: uid,
             fabric: fabric || null,
             colour: colour || null,

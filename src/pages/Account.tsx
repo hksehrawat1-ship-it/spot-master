@@ -6,7 +6,8 @@ import {
   FileText, Download, LifeBuoy, Mail, Phone, MessageCircle,
   GraduationCap, Calendar, Users, CheckCircle2,
 } from "lucide-react";
-import { useApp, ADMIN_EMAIL, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
+import { useApp, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { courses, formatINR } from "@/data/courses";
 import { toast } from "sonner";
 import {
@@ -16,7 +17,14 @@ import {
 import { Lock } from "lucide-react";
 
 export default function Account() {
-  const { user, signOut, completed } = useApp();
+  const { completed } = useApp();
+  const { user: authUser, isAdmin, signOut } = useAuth();
+  const user = authUser
+    ? {
+        name: (authUser.user_metadata?.full_name as string | undefined) || authUser.email || "Stain Master user",
+        email: authUser.email ?? "",
+      }
+    : null;
   const { t } = useTranslation();
 
   if (!user) {
@@ -62,7 +70,7 @@ export default function Account() {
         {certificates.length > 0 && (
           <Row to={`/courses/${certificates[0].slug}/certificate`} icon={Award} label={t("account.myCertificates")} />
         )}
-        {user.email === ADMIN_EMAIL && (
+        {isAdmin && (
           <Row to="/admin" icon={Shield} label={t("account.adminDashboard")} />
         )}
       </div>

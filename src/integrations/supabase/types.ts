@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          reason: string | null
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
+      ai_usage_log: {
+        Row: {
+          created_at: string
+          feature: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feature?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feature?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       applied_product_history: {
         Row: {
           assessment_id: string
@@ -8454,6 +8508,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_publish_content: { Args: { _user_id: string }; Returns: boolean }
+      ensure_default_role: { Args: never; Returns: undefined }
+      has_any_role: {
+        Args: {
+          _roles: Database["public"]["Enums"]["app_role"][]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -8462,6 +8525,7 @@ export type Database = {
         Returns: boolean
       }
       is_content_maintainer: { Args: { _user_id: string }; Returns: boolean }
+      is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role:
@@ -8474,6 +8538,12 @@ export type Database = {
         | "technical_reviewer"
         | "content_admin"
         | "system_admin"
+        | "owner"
+        | "administrator"
+        | "content_editor"
+        | "translator"
+        | "auditor"
+        | "support"
       assessment_photo_kind:
         | "fibre_composition_label"
         | "care_symbol_label"
@@ -8697,6 +8767,12 @@ export const Constants = {
         "technical_reviewer",
         "content_admin",
         "system_admin",
+        "owner",
+        "administrator",
+        "content_editor",
+        "translator",
+        "auditor",
+        "support",
       ],
       assessment_photo_kind: [
         "fibre_composition_label",

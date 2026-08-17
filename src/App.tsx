@@ -56,6 +56,9 @@ import AdminPilot from "@/pages/admin/AdminPilot";
 import AdminScaling from "@/pages/admin/AdminScaling";
 
 import NotFound from "./pages/NotFound.tsx";
+import { AuthProvider } from "@/auth/AuthProvider";
+import ProtectedRoute, { RequireSignIn } from "@/components/auth/ProtectedRoute";
+import { FEATURES } from "@/config/features";
 
 const queryClient = new QueryClient();
 
@@ -65,13 +68,53 @@ const App = () => (
       <Toaster />
       <Sonner position="top-center" />
       <BrowserRouter>
+        <AuthProvider>
         <Routes>
           <Route element={<MobileShell />}>
             <Route path="/" element={<Navigate to="/stain-master" replace />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/:slug" element={<CourseDetail />} />
-            <Route path="/courses/:slug/lesson/:lessonId" element={<LessonPlayer />} />
-            <Route path="/courses/:slug/certificate" element={<Certificate />} />
+
+            {/* Legacy GILM course platform — isolated behind a feature flag (Constitution R24). */}
+            {FEATURES.legacyCourses && (
+              <Route element={<RequireSignIn />}>
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:slug" element={<CourseDetail />} />
+                <Route path="/courses/:slug/lesson/:lessonId" element={<LessonPlayer />} />
+                <Route path="/courses/:slug/certificate" element={<Certificate />} />
+              </Route>
+            )}
+
+            {/* Every administration route passes through one protected gate. */}
+            <Route element={<ProtectedRoute label="the administration area" />}>
+              <Route path="/admin/products" element={<ProductAdmin />} />
+              <Route path="/admin/mapping-matrix" element={<MappingMatrix />} />
+              <Route path="/admin/mapping-editor" element={<MappingEditor />} />
+              <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
+              <Route path="/admin/classification" element={<ClassificationAdmin />} />
+              <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
+              <Route path="/admin/stain-id" element={<StainIdAdmin />} />
+              <Route path="/admin/readiness" element={<ReadinessAdmin />} />
+              <Route path="/admin/safety" element={<SafetyAdmin />} />
+              <Route path="/admin/domestic" element={<DomesticAdmin />} />
+              <Route path="/admin/comparison" element={<ComparisonAdmin />} />
+              <Route path="/admin/outcome-analytics" element={<OutcomeAnalytics />} />
+              <Route path="/admin/outcome-review" element={<OutcomeReview />} />
+              <Route path="/admin/governance" element={<GovernanceDashboard />} />
+              <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
+              <Route path="/admin/pilot" element={<AdminPilot />} />
+              <Route path="/admin/scaling" element={<AdminScaling />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/courses" element={<Admin />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
+              <Route path="/admin/organizations" element={<AdminOrganizations />} />
+              <Route path="/admin/documents" element={<AdminDocuments />} />
+              <Route path="/admin/training" element={<AdminTraining />} />
+              <Route path="/admin/translations" element={<AdminTranslations />} />
+              <Route path="/admin/countries" element={<AdminCountries />} />
+              <Route path="/admin/import-export" element={<AdminImportExport />} />
+              <Route path="/admin/audit" element={<AdminAudit />} />
+              <Route path="/admin/system-health" element={<AdminSystemHealth />} />
+              <Route path="/admin/foundation" element={<FoundationCheck />} />
+            </Route>
             <Route path="/stain-master" element={<StainMaster />} />
             <Route path="/stain-master/identify" element={<StainIdentify />} />
             <Route path="/stain-id" element={<StainIdentifyFlow />} />
@@ -81,48 +124,22 @@ const App = () => (
             <Route path="/classify" element={<StainClassify />} />
             <Route path="/products" element={<ProductLibrary />} />
             <Route path="/products/:productKey" element={<ProductDetail />} />
-            <Route path="/admin/products" element={<ProductAdmin />} />
             <Route path="/treatment-stages" element={<TreatmentStages />} />
             <Route path="/treatment-stages/:stageNumber" element={<TreatmentStages />} />
-            <Route path="/admin/mapping-matrix" element={<MappingMatrix />} />
-            <Route path="/admin/mapping-editor" element={<MappingEditor />} />
             <Route path="/stain/:stainKey" element={<StainRecord />} />
-            <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
-            <Route path="/admin/classification" element={<ClassificationAdmin />} />
             <Route path="/fabric-check" element={<FabricCheck />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
-            <Route path="/admin/stain-id" element={<StainIdAdmin />} />
-            <Route path="/admin/readiness" element={<ReadinessAdmin />} />
-            <Route path="/admin/safety" element={<SafetyAdmin />} />
+            <Route element={<RequireSignIn />}>
+              <Route path="/account" element={<Account />} />
+            </Route>
             <Route path="/domestic-treatment" element={<DomesticTreatmentPage />} />
-            <Route path="/admin/domestic" element={<DomesticAdmin />} />
             <Route path="/kit-comparison" element={<KitComparison />} />
-            <Route path="/admin/comparison" element={<ComparisonAdmin />} />
             <Route path="/treatment-outcome" element={<TreatmentOutcome />} />
-            <Route path="/admin/outcome-analytics" element={<OutcomeAnalytics />} />
-            <Route path="/admin/outcome-review" element={<OutcomeReview />} />
-            <Route path="/admin/governance" element={<GovernanceDashboard />} />
-            <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
-            <Route path="/admin/pilot" element={<AdminPilot />} />
-            <Route path="/admin/scaling" element={<AdminScaling />} />
             <Route path="/sign-in" element={<SignIn />} />
 
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/courses" element={<Admin />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
-            <Route path="/admin/organizations" element={<AdminOrganizations />} />
-            <Route path="/admin/documents" element={<AdminDocuments />} />
-            <Route path="/admin/training" element={<AdminTraining />} />
-            <Route path="/admin/translations" element={<AdminTranslations />} />
-            <Route path="/admin/countries" element={<AdminCountries />} />
-            <Route path="/admin/import-export" element={<AdminImportExport />} />
-            <Route path="/admin/audit" element={<AdminAudit />} />
-            <Route path="/admin/system-health" element={<AdminSystemHealth />} />
-            <Route path="/admin/foundation" element={<FoundationCheck />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

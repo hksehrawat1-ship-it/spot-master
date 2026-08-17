@@ -9,6 +9,9 @@ import type { AdminSection } from "@/data/adminWorkspace";
 import { globalSearch, modesForRoles, sectionsForUser } from "@/lib/adminEngine";
 import { currentAdminUser, useAdmin } from "@/store/useAdmin";
 import { useGovernance } from "@/store/useGovernance";
+import { useAuth } from "@/auth/AuthProvider";
+import { FEATURES } from "@/config/features";
+import { DemoDataBadge } from "@/components/system/StatusStates";
 
 type Props = { section: AdminSection; title: string; children: React.ReactNode };
 
@@ -17,6 +20,7 @@ export default function AdminShell({ section, title, children }: Props) {
   const admin = useAdmin();
   const user = useAdmin(currentAdminUser);
   const gov = useGovernance();
+  const { user: authUser } = useAuth();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [showMore, setShowMore] = useState(false);
@@ -66,19 +70,31 @@ export default function AdminShell({ section, title, children }: Props) {
         </select>
         <p className="mt-1 text-[11px] text-muted-foreground">{ADMIN_MODE_HINT[admin.mode]}</p>
 
-        <label className="mt-3 block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="admin-user">
-          Acting as
-        </label>
-        <select
-          id="admin-user"
-          value={admin.currentUserId}
-          onChange={(e) => admin.setCurrentUser(e.target.value)}
-          className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm"
-        >
-          {admin.users.map((u) => (
-            <option key={u.userId} value={u.userId}>{u.name}</option>
-          ))}
-        </select>
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          Signed in as <strong>{authUser?.email ?? "unknown"}</strong>. Your real access is set by your account
+          permissions, not by anything on this screen.
+        </p>
+
+        {FEATURES.demoAuth && (
+          <>
+            <label className="mt-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="admin-user">
+              Preview as <DemoDataBadge label="Demonstration only" />
+            </label>
+            <select
+              id="admin-user"
+              value={admin.currentUserId}
+              onChange={(e) => admin.setCurrentUser(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm"
+            >
+              {admin.users.map((u) => (
+                <option key={u.userId} value={u.userId}>{u.name}</option>
+              ))}
+            </select>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              This only changes the sample records shown here. It grants no real permission.
+            </p>
+          </>
+        )}
       </header>
 
       <div className="relative">

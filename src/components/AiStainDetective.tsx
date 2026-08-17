@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/auth/AuthProvider";
 
 type AiProduct = { name: string; type: string; notes: string };
 
@@ -84,6 +85,7 @@ function loadLocalHistory(): AnalysisRun[] {
 type Step = "photo" | "details" | "results";
 
 export default function AiStainDetective() {
+  const { status: authStatus } = useAuth();
   const fileRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("photo");
@@ -153,6 +155,10 @@ export default function AiStainDetective() {
 
   const analyse = async () => {
     if (!image) return;
+    if (authStatus !== "signed_in") {
+      setErrorMsg("Please sign in to use photo analysis.");
+      return;
+    }
     setLoading(true);
     setErrorMsg(null);
     try {
