@@ -1190,15 +1190,40 @@ export function buildLocks(
   };
 }
 
-export const STOPPING_FINDINGS: InspectionField[] = INSPECTION_FIELDS.filter((f) =>
-  ["spread", "ring_formed", "dye_transferred", "colour_changed", "texture_changed", "fibre_weakened",
-    "coating_changed", "adhesive_loosened", "decoration_affected", "unexpected_reaction", "not_sure"].includes(f),
-) as InspectionField[];
+/** Step 11 §15 observation vocabulary — superset of the Step 8 inspection fields. */
+export const OBSERVATION_FIELDS = [
+  "removed", "reduced", "no_change", "spread", "ring_formed", "pigment_remains",
+  "dye_transferred", "colour_changed", "texture_changed", "fibre_weakened",
+  "coating_changed", "adhesive_loosened", "decoration_affected", "unexpected_reaction",
+  "other", "not_sure",
+] as const;
+export type ObservationField = (typeof OBSERVATION_FIELDS)[number];
 
-export const inspectionStops = (findings: InspectionField[]) =>
+export const OBSERVATION_LABEL: Record<ObservationField, string> = {
+  removed: "Removed", reduced: "Reduced", no_change: "No change", spread: "Spread",
+  ring_formed: "Ring formed", pigment_remains: "Pigment remains", dye_transferred: "Dye transferred",
+  colour_changed: "Colour changed", texture_changed: "Texture changed", fibre_weakened: "Fibre weakened",
+  coating_changed: "Coating changed", adhesive_loosened: "Adhesive loosened",
+  decoration_affected: "Decoration affected", unexpected_reaction: "Unexpected reaction",
+  other: "Other", not_sure: "Not sure",
+};
+
+/** Findings that force an immediate system block (§16). */
+export const STOPPING_FINDINGS: ObservationField[] = [
+  "spread", "ring_formed", "dye_transferred", "colour_changed", "texture_changed",
+  "fibre_weakened", "coating_changed", "adhesive_loosened", "decoration_affected",
+  "unexpected_reaction", "not_sure",
+];
+
+export const inspectionStops = (findings: ObservationField[]) =>
   findings.some((f) => STOPPING_FINDINGS.includes(f));
 
+/** An inspection passes only when it is recorded and contains no stopping finding. */
+export const inspectionPassed = (findings: ObservationField[]) =>
+  findings.length > 0 && !inspectionStops(findings);
+
 export { INSPECTION_FIELDS, INSPECTION_LABEL };
+
 
 /* ------------------------------------------------------------------ */
 /* Assembled result                                                    */
