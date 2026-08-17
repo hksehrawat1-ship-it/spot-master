@@ -6,7 +6,8 @@ import {
   FileText, Download, LifeBuoy, Mail, Phone, MessageCircle,
   GraduationCap, Calendar, Users, CheckCircle2,
 } from "lucide-react";
-import { useApp, ADMIN_EMAIL, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
+import { useApp, GILM_CONTACT, PRACTICAL_SEATS_PER_MONTH } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { courses, formatINR } from "@/data/courses";
 import { toast } from "sonner";
 import {
@@ -62,7 +63,7 @@ export default function Account() {
         {certificates.length > 0 && (
           <Row to={`/courses/${certificates[0].slug}/certificate`} icon={Award} label={t("account.myCertificates")} />
         )}
-        {user.email === ADMIN_EMAIL && (
+        {isAdmin && (
           <Row to="/admin" icon={Shield} label={t("account.adminDashboard")} />
         )}
       </div>

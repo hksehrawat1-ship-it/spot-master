@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { ADMIN_EMAIL, useApp } from "@/store/useApp";
+
 import { useFabricCheck } from "@/store/useFabricCheck";
 import { GATE_LABEL, riskWord, runSeedScenarios, type GateStatus, type RiskLevel } from "@/lib/fabricSafety";
 

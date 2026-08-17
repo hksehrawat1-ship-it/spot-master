@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { CheckCircle2, AlertCircle, Database, ShieldCheck, RefreshCw, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useApp, ADMIN_EMAIL } from "@/store/useApp";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -61,7 +61,6 @@ const RISK_LEVELS = [
 const STATUSES = ["draft", "under_review", "approved", "published", "needs_review", "suspended", "archived"];
 
 export default function FoundationCheck() {
-  const { user } = useApp();
   const [counts, setCounts] = useState<CountState[]>([]);
   const [connected, setConnected] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
@@ -89,7 +88,6 @@ export default function FoundationCheck() {
     load();
   }, []);
 
-  if (!user || user.email !== ADMIN_EMAIL) return <Navigate to="/" replace />;
 
   return (
     <div className="space-y-5 px-4 pb-28 pt-5">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Upload, Users, FileText, Video, Plus, Vault, Trash2, Droplets, Pencil, X } from "lucide-react";
-import { useApp, ADMIN_EMAIL, type VaultItem, type StainEntry } from "@/store/useApp";
+import { useApp, type VaultItem, type StainEntry } from "@/store/useApp";
 import { courses } from "@/data/courses";
 import { toast } from "sonner";
 
@@ -16,7 +16,6 @@ export default function Admin() {
   const { user } = useApp();
   const [tab, setTab] = useState<"upload" | "vault" | "stains" | "students" | "courses">("upload");
 
-  if (!user || user.email !== ADMIN_EMAIL) return <Navigate to="/" replace />;
 
   return (
     <div className="space-y-5 px-4 py-5">
