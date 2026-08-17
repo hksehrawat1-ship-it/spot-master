@@ -8474,6 +8474,12 @@ export type Database = {
         | "technical_reviewer"
         | "content_admin"
         | "system_admin"
+        | "owner"
+        | "administrator"
+        | "content_editor"
+        | "translator"
+        | "auditor"
+        | "support"
       assessment_photo_kind:
         | "fibre_composition_label"
         | "care_symbol_label"
@@ -8697,6 +8703,12 @@ export const Constants = {
         "technical_reviewer",
         "content_admin",
         "system_admin",
+        "owner",
+        "administrator",
+        "content_editor",
+        "translator",
+        "auditor",
+        "support",
       ],
       assessment_photo_kind: [
         "fibre_composition_label",
