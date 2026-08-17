@@ -33,7 +33,7 @@ export default function AdminDashboard() {
         mappingsAwaitingReview: 0,
         unrankedComparisons: 0,
         adverseOutcomes: outcomes.adverse.length,
-        hazardReports: outcomes.adverse.filter((a) => a.kind === "hazardous_reaction").length,
+        hazardReports: outcomes.adverse.filter((a) => a.severity === "severe" || a.severity === "catastrophic").length,
         repeatedFailures: 0,
         pendingReleases: gov.releases.filter((r) => r.deployment === "pending").length,
         systemWarnings: admin.safetyEngineAvailable ? 0 : 1,
@@ -51,7 +51,7 @@ export default function AdminDashboard() {
     [gov.records, gov.documents, gov.translations, admin.imports, admin.permissionDenials],
   );
 
-  const openTasks = admin.setupTasks.filter((t) => !t.done);
+  const openTasks = admin.setupTasks.filter((t) => t.open);
 
   return (
     <AdminShell section="dashboard" title="Administration workspace">
