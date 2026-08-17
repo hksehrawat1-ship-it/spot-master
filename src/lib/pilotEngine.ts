@@ -217,7 +217,7 @@ export function technicalGate(confirmed: Partial<Record<(typeof TECHNICAL_GATE_F
 }
 
 /** A spotting chart alone can never justify an exact professional procedure. */
-export function relíesOnlyOnSpottingChart(evidence: string[]) {
+export function reliesOnlyOnSpottingChart(evidence: string[]) {
   const lowered = evidence.map((e) => e.toLowerCase());
   const hasChart = lowered.some((e) => e.includes("spotting chart"));
   const hasOther = lowered.some((e) => !e.includes("spotting chart"));
@@ -422,7 +422,7 @@ export function releaseGate(): { pass: boolean; results: GateResult[]; blockers:
   push("Domestic confidence gate", domesticOk, `${publishedDomesticMethods().length} domestic methods, all at 9/10 or above`);
 
   push("No procedure relies only on a spotting chart",
-    PILOT_RECORDS.every((r) => !relíesOnlyOnSpottingChart(r.evidence)), "Every record carries non-chart evidence");
+    PILOT_RECORDS.every((r) => !reliesOnlyOnSpottingChart(r.evidence)), "Every record carries non-chart evidence");
 
   const noInvented = productReport().every((row) => row.publicationEligibility !== "actionable" || row.missing.length === 0);
   push("No invented chemical values", noInvented, "Unverified products show Insufficient Information");
