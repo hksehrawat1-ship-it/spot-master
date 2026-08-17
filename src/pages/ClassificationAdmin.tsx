@@ -248,10 +248,16 @@ export default function ClassificationAdmin() {
                 <div key={m.legacy} className="rounded-lg border p-2 text-sm">
                   <p className="font-medium">{m.legacy}</p>
                   <p className="text-xs text-muted-foreground">
-                    → {m.targets.map((t) => CATEGORY_BY_KEY[t].name).join(" or ")}
-                    {m.requiresRecordReview ? " · record-level review required" : " · direct mapping"}
+                    → {m.routedToDamage
+                      ? "Damage diagnosis (not a stain category)"
+                      : (m.target ? CATEGORY_BY_KEY[m.target].name
+                        : m.split.map((t) => CATEGORY_BY_KEY[t].name).join(" or ") || "Chemistry category kept, tags added")}
+                    {m.reviewerStatus === "needs_manual_review" ? " · record-level review required" : " · direct mapping"}
                   </p>
-                  <p className="text-xs text-muted-foreground">{m.note}</p>
+                  {m.tagsAdded.length > 0 && (
+                    <p className="text-xs text-muted-foreground">Tags added: {m.tagsAdded.join(", ")}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground">{m.reason}</p>
                 </div>
               ))}
             </div>
