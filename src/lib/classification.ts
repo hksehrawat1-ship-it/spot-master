@@ -35,11 +35,13 @@ export const MODE_LABEL: Record<ClassificationMode, string> = {
   technical: "Technical Mode",
 };
 
-export function modeForRole(role: UserRoleKey): ClassificationMode {
+/** Reviewer and admin roles reach Technical Mode through the admin console. */
+export const TECHNICAL_MODE_ROLES: UserRoleKey[] = ["trainer", "professional_spotter"];
+
+export function modeForRole(role: UserRoleKey, isReviewer = false): ClassificationMode {
+  if (isReviewer) return "technical";
   if (role === "domestic_user" || role === "learner") return "domestic";
-  if (role === "technical_reviewer" || role === "content_admin" || role === "system_admin" || role === "trainer") {
-    return "technical";
-  }
+  if (TECHNICAL_MODE_ROLES.includes(role)) return "technical";
   return "quick_professional";
 }
 
