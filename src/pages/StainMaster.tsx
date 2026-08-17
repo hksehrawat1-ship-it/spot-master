@@ -188,6 +188,18 @@ export default function StainMaster() {
             </Link>
           </Card>
 
+          <Card className="flex items-center justify-between gap-3 p-4">
+            <div>
+              <p className="font-semibold">Professional product library</p>
+              <p className="text-xs text-muted-foreground">
+                Companies, kits and products with documents, safety data and verification status. Professional use only.
+              </p>
+            </div>
+            <Link to="/products">
+              <Button size="sm" variant="outline">Open</Button>
+            </Link>
+          </Card>
+
 
 
           {/* Categories */}
