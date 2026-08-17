@@ -10,6 +10,8 @@ import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
 import StainMaster from "@/pages/StainMaster";
 import StainIdentify from "@/pages/StainIdentify";
+import StainIdentifyFlow from "@/pages/StainIdentifyFlow";
+import StainIdAdmin from "@/pages/StainIdAdmin";
 import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
@@ -36,9 +38,11 @@ const App = () => (
             <Route path="/courses/:slug/certificate" element={<Certificate />} />
             <Route path="/stain-master" element={<StainMaster />} />
             <Route path="/stain-master/identify" element={<StainIdentify />} />
+            <Route path="/stain-id" element={<StainIdentifyFlow />} />
             <Route path="/fabric-check" element={<FabricCheck />} />
             <Route path="/account" element={<Account />} />
             <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
+            <Route path="/admin/stain-id" element={<StainIdAdmin />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/foundation" element={<FoundationCheck />} />
