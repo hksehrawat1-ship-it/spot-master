@@ -176,6 +176,20 @@ export default function StainMaster() {
             </Link>
           </Card>
 
+          <Card className="flex items-center justify-between gap-3 p-4">
+            <div>
+              <p className="font-semibold">Master stain library</p>
+              <p className="text-xs text-muted-foreground">
+                Reviewed master records with sources, risks, safe first response and expected outcome.
+              </p>
+            </div>
+            <Link to="/stain/blood">
+              <Button size="sm" variant="outline">Open</Button>
+            </Link>
+          </Card>
+
+
+
           {/* Categories */}
           <div className="space-y-3">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">

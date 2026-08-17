@@ -8,6 +8,8 @@ import MobileShell from "@/layouts/MobileShell";
 import Courses from "@/pages/Courses";
 import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
+import StainRecord from "./pages/StainRecord";
+import MasterStainAdmin from "./pages/MasterStainAdmin";
 import StainMaster from "@/pages/StainMaster";
 import StainIdentify from "@/pages/StainIdentify";
 import StainIdentifyFlow from "@/pages/StainIdentifyFlow";
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/stain-categories" element={<StainCategories />} />
             <Route path="/stain-categories/:categoryKey" element={<StainCategories />} />
             <Route path="/classify" element={<StainClassify />} />
+            <Route path="/stain/:stainKey" element={<StainRecord />} />
+            <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
             <Route path="/admin/classification" element={<ClassificationAdmin />} />
             <Route path="/fabric-check" element={<FabricCheck />} />
             <Route path="/account" element={<Account />} />
