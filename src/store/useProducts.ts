@@ -294,7 +294,7 @@ export const useProducts = create<ProductsState>()(
 
       reset: () =>
         set({
-          companyOverrides: {}, customCompanies: [], kitOverrides: {}, customKits: {} as never && [],
+          companyOverrides: {}, customCompanies: [], kitOverrides: {}, customKits: [],
           productOverrides: {}, customProducts: [], documentOverrides: {}, customDocuments: [],
           kitLinks: [...KIT_PRODUCTS], extractions: [], inventory: [], audit: [],
         }),
