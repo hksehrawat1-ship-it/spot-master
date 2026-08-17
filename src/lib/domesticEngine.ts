@@ -361,7 +361,7 @@ export function computeConfidence(c: DomesticCase, t: DomesticTreatment): Confid
       c.careLabelStatus === "conflicting" ? 1
         : c.careLabelProhibitions.some((p) => t.careLabelProhibitors.includes(p)) ? 1
         : c.careLabelStatus === "available" ? 10
-        : c.safeBoundaryEstablished ? 8 : 4,
+        : c.safeBoundaryEstablished ? 9 : 4,
     method_evidence: 10,
     household_product_verification:
       !t.householdProductKey ? 10
