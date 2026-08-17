@@ -31,6 +31,16 @@ import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
 import Admin from "@/pages/Admin";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminOrganizations from "@/pages/admin/AdminOrganizations";
+import AdminDocuments from "@/pages/admin/AdminDocuments";
+import AdminTraining from "@/pages/admin/AdminTraining";
+import AdminTranslations from "@/pages/admin/AdminTranslations";
+import AdminCountries from "@/pages/admin/AdminCountries";
+import AdminImportExport from "@/pages/admin/AdminImportExport";
+import AdminAudit from "@/pages/admin/AdminAudit";
+import AdminSystemHealth from "@/pages/admin/AdminSystemHealth";
 import FoundationCheck from "@/pages/FoundationCheck";
 import FabricCheck from "@/pages/FabricCheck";
 import FabricCheckAdmin from "@/pages/FabricCheckAdmin";
@@ -94,7 +104,17 @@ const App = () => (
             <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
             <Route path="/sign-in" element={<SignIn />} />
 
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/courses" element={<Admin />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/organizations" element={<AdminOrganizations />} />
+            <Route path="/admin/documents" element={<AdminDocuments />} />
+            <Route path="/admin/training" element={<AdminTraining />} />
+            <Route path="/admin/translations" element={<AdminTranslations />} />
+            <Route path="/admin/countries" element={<AdminCountries />} />
+            <Route path="/admin/import-export" element={<AdminImportExport />} />
+            <Route path="/admin/audit" element={<AdminAudit />} />
+            <Route path="/admin/system-health" element={<AdminSystemHealth />} />
             <Route path="/admin/foundation" element={<FoundationCheck />} />
           </Route>
           <Route path="*" element={<NotFound />} />
