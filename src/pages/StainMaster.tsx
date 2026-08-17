@@ -200,6 +200,18 @@ export default function StainMaster() {
             </Link>
           </Card>
 
+          <Card className="flex items-center justify-between gap-3 p-4">
+            <div>
+              <p className="font-semibold">Universal treatment stages</p>
+              <p className="text-xs text-muted-foreground">
+                The 18 company-independent stages and treatment pathways. Products belong to verified stages —
+                they never define the stain science.
+              </p>
+            </div>
+            <Link to="/treatment-stages">
+              <Button size="sm" variant="outline">Open</Button>
+            </Link>
+          </Card>
 
 
           {/* Categories */}
