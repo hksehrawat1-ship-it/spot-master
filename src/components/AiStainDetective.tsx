@@ -159,7 +159,20 @@ export default function AiStainDetective() {
       const payload = { image, fabric, color, source, age, notes };
       // Secure server function — the OpenAI key never leaves the backend.
       const { data, error } = await supabase.functions.invoke("openai-stain", { body: payload });
-      if (error) throw new Error(error.message || "Analysis failed. Please retry.");
+      if (error) {
+        // Non-2xx responses carry our readable message in the response body.
+        let message = "Analysis failed. Please retry.";
+        const ctx = (error as { context?: Response }).context;
+        if (ctx && typeof ctx.json === "function") {
+          try {
+            const body = await ctx.json();
+            if (body?.error) message = body.error;
+          } catch {
+            // keep the default message
+          }
+        }
+        throw new Error(message);
+      }
       if (data?.error) throw new Error(data.error);
       const list: AiResult[] = data?.results ?? [];
       if (!list.length) throw new Error("Could not read the stain. Try a clearer, closer photo.");
