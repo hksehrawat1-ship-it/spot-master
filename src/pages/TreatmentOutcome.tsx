@@ -124,13 +124,25 @@ export default function TreatmentOutcome() {
       store.addAdverse({
         outcomeId: saved.outcomeId,
         severity: assessment.severity,
-        description: assessment.classification.reasons.join(" "),
-        context: saved.context,
+        caseVersion: saved.context.caseVersion,
+        productKey: saved.context.productKey,
+        productBatch: saved.context.productBatch,
+        operator: reporter,
+        garmentDescription: saved.context.garmentDescription,
+        stainKey: saved.context.stainKey,
+        approvedMethodKey: saved.approvedMethod?.methodVersionKey,
+        actualMethodSummary: saved.attempts.map((a) => `${a.action} · ${a.quantity} · ${a.contactTime}`).join(" | "),
+        deviation: assessment.compliance.primary,
+        immediateSymptoms: saved.immediate.observations,
+        damageTypes: saved.remainingMark ? [saved.remainingMark] : [],
+        photos: Object.values(saved.baseline.photos),
+        requiredFirstResponse: assessment.safetyStop.message,
+        escalationRoute: "Technical reviewer",
         investigationStatus: "open",
-        reportedBy: reporter,
-        reportedAt: new Date().toISOString(),
+        correctiveActions: [],
       }, reporter);
     }
+
     assessment.triggers.forEach((t) => saved && store.openReview(saved.outcomeId, t, assessment.severity, reporter));
     if (saved) store.closeCase(saved.outcomeId, closureCheck.ok ? closure : "escalated", reporter, closureCheck.ok ? undefined : closureCheck.message);
     toast.success(`Outcome recorded${assessment.triggers.length ? " — technical review opened." : "."}`);
