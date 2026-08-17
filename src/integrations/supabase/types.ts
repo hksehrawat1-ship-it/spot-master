@@ -935,6 +935,471 @@ export type Database = {
         }
         Relationships: []
       }
+      domestic_adverse_events: {
+        Row: {
+          case_access_blocked: boolean
+          case_id: string | null
+          created_at: string
+          damage_type: string
+          domestic_treatment_id: string
+          household_product_key: string | null
+          id: string
+          method_version: number
+          observations: string | null
+          photographs: string[]
+          product_version: string | null
+          reported_by: string | null
+          resolution: string | null
+          review_status: string
+          reviewer: string | null
+          updated_at: string
+        }
+        Insert: {
+          case_access_blocked?: boolean
+          case_id?: string | null
+          created_at?: string
+          damage_type: string
+          domestic_treatment_id: string
+          household_product_key?: string | null
+          id?: string
+          method_version?: number
+          observations?: string | null
+          photographs?: string[]
+          product_version?: string | null
+          reported_by?: string | null
+          resolution?: string | null
+          review_status?: string
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Update: {
+          case_access_blocked?: boolean
+          case_id?: string | null
+          created_at?: string
+          damage_type?: string
+          domestic_treatment_id?: string
+          household_product_key?: string | null
+          id?: string
+          method_version?: number
+          observations?: string | null
+          photographs?: string[]
+          product_version?: string | null
+          reported_by?: string | null
+          resolution?: string | null
+          review_status?: string
+          reviewer?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      domestic_content_migration: {
+        Row: {
+          classification: string
+          created_at: string
+          id: string
+          original_content: string
+          publicly_visible: boolean
+          rejection_reason: string | null
+          reviewed_at: string
+          reviewer: string | null
+          source_location: string
+          stain_key: string | null
+        }
+        Insert: {
+          classification: string
+          created_at?: string
+          id?: string
+          original_content: string
+          publicly_visible?: boolean
+          rejection_reason?: string | null
+          reviewed_at?: string
+          reviewer?: string | null
+          source_location: string
+          stain_key?: string | null
+        }
+        Update: {
+          classification?: string
+          created_at?: string
+          id?: string
+          original_content?: string
+          publicly_visible?: boolean
+          rejection_reason?: string | null
+          reviewed_at?: string
+          reviewer?: string | null
+          source_location?: string
+          stain_key?: string | null
+        }
+        Relationships: []
+      }
+      domestic_treatment_evidence: {
+        Row: {
+          claim: string
+          colour_tested: string | null
+          control: string | null
+          country: string | null
+          created_at: string
+          damage_observed: string | null
+          domestic_treatment_id: string
+          fabric_tested: string | null
+          id: string
+          issuer: string | null
+          method: string | null
+          publication_date: string | null
+          relevant_section: string | null
+          repeatability: string | null
+          result: string | null
+          reviewer: string | null
+          source: string
+          source_type: Database["public"]["Enums"]["document_type"] | null
+          source_version: string | null
+          stain_condition: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          claim: string
+          colour_tested?: string | null
+          control?: string | null
+          country?: string | null
+          created_at?: string
+          damage_observed?: string | null
+          domestic_treatment_id: string
+          fabric_tested?: string | null
+          id?: string
+          issuer?: string | null
+          method?: string | null
+          publication_date?: string | null
+          relevant_section?: string | null
+          repeatability?: string | null
+          result?: string | null
+          reviewer?: string | null
+          source: string
+          source_type?: Database["public"]["Enums"]["document_type"] | null
+          source_version?: string | null
+          stain_condition?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          claim?: string
+          colour_tested?: string | null
+          control?: string | null
+          country?: string | null
+          created_at?: string
+          damage_observed?: string | null
+          domestic_treatment_id?: string
+          fabric_tested?: string | null
+          id?: string
+          issuer?: string | null
+          method?: string | null
+          publication_date?: string | null
+          relevant_section?: string | null
+          repeatability?: string | null
+          result?: string | null
+          reviewer?: string | null
+          source?: string
+          source_type?: Database["public"]["Enums"]["document_type"] | null
+          source_version?: string | null
+          stain_condition?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: []
+      }
+      domestic_treatment_feedback: {
+        Row: {
+          attempt_number: number
+          case_id: string | null
+          colour_changed: boolean
+          created_at: string
+          domestic_treatment_id: string
+          garment_damaged: boolean
+          household_product_key: string | null
+          id: string
+          method_version: number
+          notes: string | null
+          odour_remains: boolean
+          outcome: string
+          photographs: string[]
+          product_version: string | null
+          professional_referral_used: boolean
+          ring_formed: boolean
+          texture_changed: boolean
+          user_id: string | null
+          user_stopped: boolean
+        }
+        Insert: {
+          attempt_number?: number
+          case_id?: string | null
+          colour_changed?: boolean
+          created_at?: string
+          domestic_treatment_id: string
+          garment_damaged?: boolean
+          household_product_key?: string | null
+          id?: string
+          method_version?: number
+          notes?: string | null
+          odour_remains?: boolean
+          outcome: string
+          photographs?: string[]
+          product_version?: string | null
+          professional_referral_used?: boolean
+          ring_formed?: boolean
+          texture_changed?: boolean
+          user_id?: string | null
+          user_stopped?: boolean
+        }
+        Update: {
+          attempt_number?: number
+          case_id?: string | null
+          colour_changed?: boolean
+          created_at?: string
+          domestic_treatment_id?: string
+          garment_damaged?: boolean
+          household_product_key?: string | null
+          id?: string
+          method_version?: number
+          notes?: string | null
+          odour_remains?: boolean
+          outcome?: string
+          photographs?: string[]
+          product_version?: string | null
+          professional_referral_used?: boolean
+          ring_formed?: boolean
+          texture_changed?: boolean
+          user_id?: string | null
+          user_stopped?: boolean
+        }
+        Relationships: []
+      }
+      domestic_treatment_tests: {
+        Row: {
+          control_sample: string | null
+          created_at: string
+          damage_observed: string | null
+          decision: string | null
+          domestic_treatment_id: string
+          drying_result: string | null
+          fabric: string | null
+          fabric_colour: string | null
+          fabric_finish: string | null
+          household_product_key: string | null
+          id: string
+          method: string | null
+          method_version: number
+          odour: string | null
+          photographs: string[]
+          repeatability: string | null
+          residue: string | null
+          result: string | null
+          result_after_laundering: string | null
+          reviewer: string | null
+          ring_formation: boolean
+          stain_age: string | null
+          stain_key: string | null
+          stain_quantity: string | null
+          test_date: string | null
+          test_id: string
+          updated_at: string
+        }
+        Insert: {
+          control_sample?: string | null
+          created_at?: string
+          damage_observed?: string | null
+          decision?: string | null
+          domestic_treatment_id: string
+          drying_result?: string | null
+          fabric?: string | null
+          fabric_colour?: string | null
+          fabric_finish?: string | null
+          household_product_key?: string | null
+          id?: string
+          method?: string | null
+          method_version?: number
+          odour?: string | null
+          photographs?: string[]
+          repeatability?: string | null
+          residue?: string | null
+          result?: string | null
+          result_after_laundering?: string | null
+          reviewer?: string | null
+          ring_formation?: boolean
+          stain_age?: string | null
+          stain_key?: string | null
+          stain_quantity?: string | null
+          test_date?: string | null
+          test_id: string
+          updated_at?: string
+        }
+        Update: {
+          control_sample?: string | null
+          created_at?: string
+          damage_observed?: string | null
+          decision?: string | null
+          domestic_treatment_id?: string
+          drying_result?: string | null
+          fabric?: string | null
+          fabric_colour?: string | null
+          fabric_finish?: string | null
+          household_product_key?: string | null
+          id?: string
+          method?: string | null
+          method_version?: number
+          odour?: string | null
+          photographs?: string[]
+          repeatability?: string | null
+          residue?: string | null
+          result?: string | null
+          result_after_laundering?: string | null
+          reviewer?: string | null
+          ring_formation?: boolean
+          stain_age?: string | null
+          stain_key?: string | null
+          stain_quantity?: string | null
+          test_date?: string | null
+          test_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      domestic_treatment_versions: {
+        Row: {
+          actions_to_avoid: string[]
+          care_label_requirements: string[]
+          confidence_factors: Json
+          confidence_score: number
+          created_at: string
+          domestic_treatment_id: string
+          drying_restrictions: string[]
+          eligible_colours: string[]
+          eligible_constructions: string[]
+          eligible_countries: string[]
+          eligible_fabrics: string[]
+          eligible_roles: string[]
+          escalation_point: string | null
+          expected_outcome: string | null
+          fabric_confidence_requirement: string
+          hidden_area_test: Json | null
+          household_product_key: string | null
+          id: string
+          inspection_points: string[]
+          intended_condition: string[]
+          last_reviewed_date: string | null
+          maximum_attempts: number | null
+          maximum_risk_level: Database["public"]["Enums"]["risk_level"]
+          method_steps: Json
+          minimum_stain_confidence: number
+          next_review_date: string | null
+          preparation: Json
+          product_label_requirement: string | null
+          prohibited_colours: string[]
+          prohibited_constructions: string[]
+          prohibited_fabrics: string[]
+          required_materials: Json
+          revision_history: Json
+          safety_reviewer: string | null
+          stain_key: string
+          stain_variant: string | null
+          stop_conditions: string[]
+          technical_reviewer: string | null
+          treatment_key: string
+          treatment_name: string
+          updated_at: string
+          version: number
+          workflow_status: string
+        }
+        Insert: {
+          actions_to_avoid?: string[]
+          care_label_requirements?: string[]
+          confidence_factors?: Json
+          confidence_score?: number
+          created_at?: string
+          domestic_treatment_id: string
+          drying_restrictions?: string[]
+          eligible_colours?: string[]
+          eligible_constructions?: string[]
+          eligible_countries?: string[]
+          eligible_fabrics?: string[]
+          eligible_roles?: string[]
+          escalation_point?: string | null
+          expected_outcome?: string | null
+          fabric_confidence_requirement?: string
+          hidden_area_test?: Json | null
+          household_product_key?: string | null
+          id?: string
+          inspection_points?: string[]
+          intended_condition?: string[]
+          last_reviewed_date?: string | null
+          maximum_attempts?: number | null
+          maximum_risk_level?: Database["public"]["Enums"]["risk_level"]
+          method_steps?: Json
+          minimum_stain_confidence?: number
+          next_review_date?: string | null
+          preparation?: Json
+          product_label_requirement?: string | null
+          prohibited_colours?: string[]
+          prohibited_constructions?: string[]
+          prohibited_fabrics?: string[]
+          required_materials?: Json
+          revision_history?: Json
+          safety_reviewer?: string | null
+          stain_key: string
+          stain_variant?: string | null
+          stop_conditions?: string[]
+          technical_reviewer?: string | null
+          treatment_key: string
+          treatment_name: string
+          updated_at?: string
+          version?: number
+          workflow_status?: string
+        }
+        Update: {
+          actions_to_avoid?: string[]
+          care_label_requirements?: string[]
+          confidence_factors?: Json
+          confidence_score?: number
+          created_at?: string
+          domestic_treatment_id?: string
+          drying_restrictions?: string[]
+          eligible_colours?: string[]
+          eligible_constructions?: string[]
+          eligible_countries?: string[]
+          eligible_fabrics?: string[]
+          eligible_roles?: string[]
+          escalation_point?: string | null
+          expected_outcome?: string | null
+          fabric_confidence_requirement?: string
+          hidden_area_test?: Json | null
+          household_product_key?: string | null
+          id?: string
+          inspection_points?: string[]
+          intended_condition?: string[]
+          last_reviewed_date?: string | null
+          maximum_attempts?: number | null
+          maximum_risk_level?: Database["public"]["Enums"]["risk_level"]
+          method_steps?: Json
+          minimum_stain_confidence?: number
+          next_review_date?: string | null
+          preparation?: Json
+          product_label_requirement?: string | null
+          prohibited_colours?: string[]
+          prohibited_constructions?: string[]
+          prohibited_fabrics?: string[]
+          required_materials?: Json
+          revision_history?: Json
+          safety_reviewer?: string | null
+          stain_key?: string
+          stain_variant?: string | null
+          stop_conditions?: string[]
+          technical_reviewer?: string | null
+          treatment_key?: string
+          treatment_name?: string
+          updated_at?: string
+          version?: number
+          workflow_status?: string
+        }
+        Relationships: []
+      }
       domestic_treatments: {
         Row: {
           actions_to_avoid: string[]
@@ -942,6 +1407,7 @@ export type Database = {
           confidence_score: number
           country_applicability: string[]
           created_at: string
+          domestic_treatment_id: string | null
           eligible_colours: string[]
           eligible_fabrics: string[]
           escalation_point: string | null
@@ -960,6 +1426,7 @@ export type Database = {
           title: string | null
           updated_at: string
           version: number
+          workflow_status: string | null
         }
         Insert: {
           actions_to_avoid?: string[]
@@ -967,6 +1434,7 @@ export type Database = {
           confidence_score?: number
           country_applicability?: string[]
           created_at?: string
+          domestic_treatment_id?: string | null
           eligible_colours?: string[]
           eligible_fabrics?: string[]
           escalation_point?: string | null
@@ -985,6 +1453,7 @@ export type Database = {
           title?: string | null
           updated_at?: string
           version?: number
+          workflow_status?: string | null
         }
         Update: {
           actions_to_avoid?: string[]
@@ -992,6 +1461,7 @@ export type Database = {
           confidence_score?: number
           country_applicability?: string[]
           created_at?: string
+          domestic_treatment_id?: string | null
           eligible_colours?: string[]
           eligible_fabrics?: string[]
           escalation_point?: string | null
@@ -1010,6 +1480,7 @@ export type Database = {
           title?: string | null
           updated_at?: string
           version?: number
+          workflow_status?: string | null
         }
         Relationships: [
           {
@@ -1581,6 +2052,102 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           waterproof_finish?: boolean
+        }
+        Relationships: []
+      }
+      household_products: {
+        Row: {
+          application_instructions: string | null
+          brand: string
+          colour_restrictions: string[]
+          contact_time: string | null
+          country: string
+          created_at: string
+          dilution: string | null
+          fabric_restrictions: string[]
+          household_product_id: string
+          id: string
+          incompatibilities: string[]
+          ingredient_disclosure: string | null
+          intended_stain_use: string[]
+          intended_textile_use: string[]
+          label_version: string | null
+          pack_size: string | null
+          product_key: string
+          product_name: string
+          product_type: string
+          quantity: string | null
+          review_date: string | null
+          rinsing: string | null
+          source_documents: Json
+          status: Database["public"]["Enums"]["record_status"]
+          storage: string | null
+          temperature: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          warnings: string[]
+        }
+        Insert: {
+          application_instructions?: string | null
+          brand: string
+          colour_restrictions?: string[]
+          contact_time?: string | null
+          country: string
+          created_at?: string
+          dilution?: string | null
+          fabric_restrictions?: string[]
+          household_product_id: string
+          id?: string
+          incompatibilities?: string[]
+          ingredient_disclosure?: string | null
+          intended_stain_use?: string[]
+          intended_textile_use?: string[]
+          label_version?: string | null
+          pack_size?: string | null
+          product_key: string
+          product_name: string
+          product_type: string
+          quantity?: string | null
+          review_date?: string | null
+          rinsing?: string | null
+          source_documents?: Json
+          status?: Database["public"]["Enums"]["record_status"]
+          storage?: string | null
+          temperature?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          warnings?: string[]
+        }
+        Update: {
+          application_instructions?: string | null
+          brand?: string
+          colour_restrictions?: string[]
+          contact_time?: string | null
+          country?: string
+          created_at?: string
+          dilution?: string | null
+          fabric_restrictions?: string[]
+          household_product_id?: string
+          id?: string
+          incompatibilities?: string[]
+          ingredient_disclosure?: string | null
+          intended_stain_use?: string[]
+          intended_textile_use?: string[]
+          label_version?: string | null
+          pack_size?: string | null
+          product_key?: string
+          product_name?: string
+          product_type?: string
+          quantity?: string | null
+          review_date?: string | null
+          rinsing?: string | null
+          source_documents?: Json
+          status?: Database["public"]["Enums"]["record_status"]
+          storage?: string | null
+          temperature?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          warnings?: string[]
         }
         Relationships: []
       }
