@@ -213,7 +213,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     id: "A21", title: "Historical cases retain suspended version references",
     run: () => {
       const r = rec({ status: "suspended", versions: [makeVersion({ version: "1.0" })] });
-      return ok(r.versions.length === 1, "version retained after suspension"),
+      return ok(r.versions.length === 1, "version retained after suspension");
     },
   },
   {
