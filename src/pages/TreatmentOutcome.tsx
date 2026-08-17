@@ -66,7 +66,7 @@ export default function TreatmentOutcome() {
     outcomeId: store.nextOutcomeId(),
     version: 1,
     recordType,
-    context: makeContext({ garmentDescription: garment, stainKey, fabricKey, operator: reporter, role: user?.role ?? "professional_spotter" }),
+    context: makeContext({ garmentDescription: garment, stainKey, fabricKey, operator: reporter, role: "professional_spotter" }),
     baseline: baselinePhotos ? fullBaseline({ existingDyeLoss }) : emptyBaseline({ existingDyeLoss }),
     attempts: Array.from({ length: attempts }, (_, i) => makeAttempt({
       attemptNumber: i + 1,
@@ -126,13 +126,13 @@ export default function TreatmentOutcome() {
         severity: assessment.severity,
         description: assessment.classification.reasons.join(" "),
         context: saved.context,
-        investigationStatus: "reported",
+        investigationStatus: "open",
         reportedBy: reporter,
         reportedAt: new Date().toISOString(),
       }, reporter);
     }
     assessment.triggers.forEach((t) => saved && store.openReview(saved.outcomeId, t, assessment.severity, reporter));
-    if (saved) store.closeCase(saved.outcomeId, closureCheck.ok ? closure : "requires_technical_review", reporter, closureCheck.ok ? undefined : closureCheck.message);
+    if (saved) store.closeCase(saved.outcomeId, closureCheck.ok ? closure : "escalated", reporter, closureCheck.ok ? undefined : closureCheck.message);
     toast.success(`Outcome recorded${assessment.triggers.length ? " — technical review opened." : "."}`);
   };
 
