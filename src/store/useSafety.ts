@@ -127,13 +127,15 @@ export const useSafety = create<SafetyState>()(
         set((s) => {
           const overlay = { ...s.ruleOverlay };
           delete overlay[ruleId];
+          const entry: RuleAudit = {
+            id: uid("aud"), at: new Date().toISOString(), ruleId, action: "rolled_back",
+            justification, changedBy,
+          };
           return {
             ruleOverlay: overlay,
-            audit: [{
-              id: uid("aud"), at: new Date().toISOString(), ruleId, action: "rolled_back",
-              justification, changedBy,
-            }, ...s.audit].slice(0, 500),
+            audit: [entry, ...s.audit].slice(0, 500),
           };
+
         }),
 
       clearHistory: () => set({ evaluations: [] }),
