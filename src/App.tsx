@@ -52,6 +52,7 @@ import OutcomeAnalytics from "@/pages/OutcomeAnalytics";
 import OutcomeReview from "@/pages/OutcomeReview";
 import GovernanceDashboard from "@/pages/GovernanceDashboard";
 import GovernanceRecord from "@/pages/GovernanceRecord";
+import AdminPilot from "@/pages/admin/AdminPilot";
 
 import NotFound from "./pages/NotFound.tsx";
 
