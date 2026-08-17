@@ -2055,6 +2055,517 @@ export type Database = {
         }
         Relationships: []
       }
+      governance_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_role: string | null
+          approval_impact: boolean
+          country: string | null
+          created_at: string
+          id: string
+          new_value: string | null
+          organization: string | null
+          previous_value: string | null
+          reason: string | null
+          record_stable_id: string | null
+          session_meta: string | null
+          source: string | null
+          version: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_role?: string | null
+          approval_impact?: boolean
+          country?: string | null
+          created_at?: string
+          id?: string
+          new_value?: string | null
+          organization?: string | null
+          previous_value?: string | null
+          reason?: string | null
+          record_stable_id?: string | null
+          session_meta?: string | null
+          source?: string | null
+          version?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_role?: string | null
+          approval_impact?: boolean
+          country?: string | null
+          created_at?: string
+          id?: string
+          new_value?: string | null
+          organization?: string | null
+          previous_value?: string | null
+          reason?: string | null
+          record_stable_id?: string | null
+          session_meta?: string | null
+          source?: string | null
+          version?: string | null
+        }
+        Relationships: []
+      }
+      governance_case_snapshots: {
+        Row: {
+          case_id: string
+          created_at: string
+          id: string
+          payload: Json
+          record_stable_id: string
+          used_at: string
+          version: string
+        }
+        Insert: {
+          case_id: string
+          created_at?: string
+          id?: string
+          payload?: Json
+          record_stable_id: string
+          used_at?: string
+          version: string
+        }
+        Update: {
+          case_id?: string
+          created_at?: string
+          id?: string
+          payload?: Json
+          record_stable_id?: string
+          used_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      governance_change_requests: {
+        Row: {
+          assigned_owner: string | null
+          category: string
+          created_at: string
+          evidence: string | null
+          id: string
+          linked_record_id: string | null
+          priority: string
+          reporter_id: string | null
+          request_id: string
+          resolution: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_owner?: string | null
+          category: string
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          linked_record_id?: string | null
+          priority?: string
+          reporter_id?: string | null
+          request_id: string
+          resolution?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_owner?: string | null
+          category?: string
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          linked_record_id?: string | null
+          priority?: string
+          reporter_id?: string | null
+          request_id?: string
+          resolution?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      governance_findings: {
+        Row: {
+          assigned_role: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          kind: string
+          record_stable_id: string
+          severity: string
+          status: string
+          task_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_role?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind: string
+          record_stable_id: string
+          severity?: string
+          status?: string
+          task_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_role?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          kind?: string
+          record_stable_id?: string
+          severity?: string
+          status?: string
+          task_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      governance_notifications: {
+        Row: {
+          created_at: string
+          critical: boolean
+          id: string
+          kind: string
+          message: string
+          read_at: string | null
+          recipient_id: string | null
+          record_stable_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          critical?: boolean
+          id?: string
+          kind: string
+          message: string
+          read_at?: string | null
+          recipient_id?: string | null
+          record_stable_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          critical?: boolean
+          id?: string
+          kind?: string
+          message?: string
+          read_at?: string | null
+          recipient_id?: string | null
+          record_stable_id?: string | null
+        }
+        Relationships: []
+      }
+      governance_records: {
+        Row: {
+          approval_notes: string | null
+          approved_at: string | null
+          archived_at: string | null
+          author_id: string | null
+          content_type: string
+          countries: string[]
+          country_reviewer_id: string | null
+          created_at: string
+          current_version: string
+          domestic_confidence: number | null
+          id: string
+          language: string
+          last_reviewed_at: string | null
+          next_review_at: string | null
+          owner_id: string | null
+          provisional: boolean
+          published_at: string | null
+          reason_for_change: string | null
+          recommendation_count: number | null
+          review_interval_days: number | null
+          reviewed_at: string | null
+          revision_summary: string | null
+          risk_level: string
+          safety_reviewer_id: string | null
+          schedule_kind: string
+          source_document_ids: string[]
+          stable_id: string
+          status: string
+          submitted_at: string | null
+          superseded_at: string | null
+          suspended_at: string | null
+          suspension_reason: string | null
+          technical_reviewer_id: string | null
+          title: string
+          translation_reviewer_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          archived_at?: string | null
+          author_id?: string | null
+          content_type: string
+          countries?: string[]
+          country_reviewer_id?: string | null
+          created_at?: string
+          current_version?: string
+          domestic_confidence?: number | null
+          id?: string
+          language?: string
+          last_reviewed_at?: string | null
+          next_review_at?: string | null
+          owner_id?: string | null
+          provisional?: boolean
+          published_at?: string | null
+          reason_for_change?: string | null
+          recommendation_count?: number | null
+          review_interval_days?: number | null
+          reviewed_at?: string | null
+          revision_summary?: string | null
+          risk_level?: string
+          safety_reviewer_id?: string | null
+          schedule_kind?: string
+          source_document_ids?: string[]
+          stable_id: string
+          status?: string
+          submitted_at?: string | null
+          superseded_at?: string | null
+          suspended_at?: string | null
+          suspension_reason?: string | null
+          technical_reviewer_id?: string | null
+          title: string
+          translation_reviewer_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          archived_at?: string | null
+          author_id?: string | null
+          content_type?: string
+          countries?: string[]
+          country_reviewer_id?: string | null
+          created_at?: string
+          current_version?: string
+          domestic_confidence?: number | null
+          id?: string
+          language?: string
+          last_reviewed_at?: string | null
+          next_review_at?: string | null
+          owner_id?: string | null
+          provisional?: boolean
+          published_at?: string | null
+          reason_for_change?: string | null
+          recommendation_count?: number | null
+          review_interval_days?: number | null
+          reviewed_at?: string | null
+          revision_summary?: string | null
+          risk_level?: string
+          safety_reviewer_id?: string | null
+          schedule_kind?: string
+          source_document_ids?: string[]
+          stable_id?: string
+          status?: string
+          submitted_at?: string | null
+          superseded_at?: string | null
+          suspended_at?: string | null
+          suspension_reason?: string | null
+          technical_reviewer_id?: string | null
+          title?: string
+          translation_reviewer_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      governance_releases: {
+        Row: {
+          approved_by: string | null
+          countries: string[]
+          created_at: string
+          deployment: string
+          id: string
+          kind: string
+          languages: string[]
+          name: string
+          notes: string | null
+          owner_id: string | null
+          record_ids: string[]
+          release_id: string
+          rollback_plan: string | null
+          scheduled_date: string | null
+          updated_at: string
+          validation_issues: string[]
+          validation_passed: boolean
+          version: string
+        }
+        Insert: {
+          approved_by?: string | null
+          countries?: string[]
+          created_at?: string
+          deployment?: string
+          id?: string
+          kind?: string
+          languages?: string[]
+          name: string
+          notes?: string | null
+          owner_id?: string | null
+          record_ids?: string[]
+          release_id: string
+          rollback_plan?: string | null
+          scheduled_date?: string | null
+          updated_at?: string
+          validation_issues?: string[]
+          validation_passed?: boolean
+          version?: string
+        }
+        Update: {
+          approved_by?: string | null
+          countries?: string[]
+          created_at?: string
+          deployment?: string
+          id?: string
+          kind?: string
+          languages?: string[]
+          name?: string
+          notes?: string | null
+          owner_id?: string | null
+          record_ids?: string[]
+          release_id?: string
+          rollback_plan?: string | null
+          scheduled_date?: string | null
+          updated_at?: string
+          validation_issues?: string[]
+          validation_passed?: boolean
+          version?: string
+        }
+        Relationships: []
+      }
+      governance_review_tasks: {
+        Row: {
+          assigned_reviewer: string | null
+          checklist: Json
+          comments: string | null
+          completed_at: string | null
+          created_at: string
+          decision: string | null
+          due_date: string | null
+          id: string
+          priority: string
+          record_stable_id: string
+          required_documents: string[]
+          review_type: string
+          risk: string | null
+          task_id: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          assigned_reviewer?: string | null
+          checklist?: Json
+          comments?: string | null
+          completed_at?: string | null
+          created_at?: string
+          decision?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          record_stable_id: string
+          required_documents?: string[]
+          review_type: string
+          risk?: string | null
+          task_id: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          assigned_reviewer?: string | null
+          checklist?: Json
+          comments?: string | null
+          completed_at?: string | null
+          created_at?: string
+          decision?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string
+          record_stable_id?: string
+          required_documents?: string[]
+          review_type?: string
+          risk?: string | null
+          task_id?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_review_tasks_record_stable_id_fkey"
+            columns: ["record_stable_id"]
+            isOneToOne: false
+            referencedRelation: "governance_records"
+            referencedColumns: ["stable_id"]
+          },
+        ]
+      }
+      governance_versions: {
+        Row: {
+          approval_notes: string | null
+          approved_at: string | null
+          change_kinds: string[]
+          created_at: string
+          id: string
+          immutable: boolean
+          payload: Json
+          published_at: string | null
+          reason_for_change: string | null
+          record_stable_id: string
+          revision_summary: string | null
+          signatures: Json
+          source_document_ids: string[]
+          status: string
+          version: string
+          withdrawn_at: string | null
+        }
+        Insert: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          change_kinds?: string[]
+          created_at?: string
+          id?: string
+          immutable?: boolean
+          payload?: Json
+          published_at?: string | null
+          reason_for_change?: string | null
+          record_stable_id: string
+          revision_summary?: string | null
+          signatures?: Json
+          source_document_ids?: string[]
+          status?: string
+          version: string
+          withdrawn_at?: string | null
+        }
+        Update: {
+          approval_notes?: string | null
+          approved_at?: string | null
+          change_kinds?: string[]
+          created_at?: string
+          id?: string
+          immutable?: boolean
+          payload?: Json
+          published_at?: string | null
+          reason_for_change?: string | null
+          record_stable_id?: string
+          revision_summary?: string | null
+          signatures?: Json
+          source_document_ids?: string[]
+          status?: string
+          version?: string
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_versions_record_stable_id_fkey"
+            columns: ["record_stable_id"]
+            isOneToOne: false
+            referencedRelation: "governance_records"
+            referencedColumns: ["stable_id"]
+          },
+        ]
+      }
       household_products: {
         Row: {
           application_instructions: string | null
