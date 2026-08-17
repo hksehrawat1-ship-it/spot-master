@@ -3036,6 +3036,204 @@ export type Database = {
         }
         Relationships: []
       }
+      outcome_adverse_records: {
+        Row: {
+          actual_method_summary: string
+          adverse_id: string
+          approved_method_key: string | null
+          case_version: number
+          closure_date: string | null
+          corrective_actions: Json
+          created_at: string
+          damage_types: string[]
+          deviation: string | null
+          escalation_route: string | null
+          garment_description: string
+          id: string
+          immediate_symptoms: string[]
+          investigation_status: string
+          operator: string | null
+          outcome_id: string
+          photos: string[]
+          product_batch: string | null
+          product_key: string | null
+          required_first_response: string | null
+          reviewer: string | null
+          root_cause_conclusion: string | null
+          severity: number
+          stain_key: string | null
+          updated_at: string
+        }
+        Insert: {
+          actual_method_summary: string
+          adverse_id: string
+          approved_method_key?: string | null
+          case_version?: number
+          closure_date?: string | null
+          corrective_actions?: Json
+          created_at?: string
+          damage_types?: string[]
+          deviation?: string | null
+          escalation_route?: string | null
+          garment_description: string
+          id?: string
+          immediate_symptoms?: string[]
+          investigation_status?: string
+          operator?: string | null
+          outcome_id: string
+          photos?: string[]
+          product_batch?: string | null
+          product_key?: string | null
+          required_first_response?: string | null
+          reviewer?: string | null
+          root_cause_conclusion?: string | null
+          severity: number
+          stain_key?: string | null
+          updated_at?: string
+        }
+        Update: {
+          actual_method_summary?: string
+          adverse_id?: string
+          approved_method_key?: string | null
+          case_version?: number
+          closure_date?: string | null
+          corrective_actions?: Json
+          created_at?: string
+          damage_types?: string[]
+          deviation?: string | null
+          escalation_route?: string | null
+          garment_description?: string
+          id?: string
+          immediate_symptoms?: string[]
+          investigation_status?: string
+          operator?: string | null
+          outcome_id?: string
+          photos?: string[]
+          product_batch?: string | null
+          product_key?: string | null
+          required_first_response?: string | null
+          reviewer?: string | null
+          root_cause_conclusion?: string | null
+          severity?: number
+          stain_key?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      outcome_audit_log: {
+        Row: {
+          action: string
+          changed_by: string | null
+          created_at: string
+          field: string | null
+          id: string
+          new_value: string | null
+          outcome_id: string
+          previous_value: string | null
+          reason: string
+        }
+        Insert: {
+          action: string
+          changed_by?: string | null
+          created_at?: string
+          field?: string | null
+          id?: string
+          new_value?: string | null
+          outcome_id: string
+          previous_value?: string | null
+          reason: string
+        }
+        Update: {
+          action?: string
+          changed_by?: string | null
+          created_at?: string
+          field?: string | null
+          id?: string
+          new_value?: string | null
+          outcome_id?: string
+          previous_value?: string | null
+          reason?: string
+        }
+        Relationships: []
+      }
+      outcome_evidence_promotions: {
+        Row: {
+          created_at: string
+          decision: string
+          from_stage: string
+          id: string
+          outcome_id: string
+          reason: string
+          reviewer: string | null
+          to_stage: string
+        }
+        Insert: {
+          created_at?: string
+          decision: string
+          from_stage: string
+          id?: string
+          outcome_id: string
+          reason: string
+          reviewer?: string | null
+          to_stage: string
+        }
+        Update: {
+          created_at?: string
+          decision?: string
+          from_stage?: string
+          id?: string
+          outcome_id?: string
+          reason?: string
+          reviewer?: string | null
+          to_stage?: string
+        }
+        Relationships: []
+      }
+      outcome_reviews: {
+        Row: {
+          answers: Json
+          conclusion: string | null
+          corrective_actions: Json
+          created_at: string
+          id: string
+          outcome_id: string
+          priority: string
+          review_id: string
+          reviewer: string | null
+          status: string
+          trigger: string
+          updated_at: string
+        }
+        Insert: {
+          answers?: Json
+          conclusion?: string | null
+          corrective_actions?: Json
+          created_at?: string
+          id?: string
+          outcome_id: string
+          priority?: string
+          review_id: string
+          reviewer?: string | null
+          status?: string
+          trigger: string
+          updated_at?: string
+        }
+        Update: {
+          answers?: Json
+          conclusion?: string | null
+          corrective_actions?: Json
+          created_at?: string
+          id?: string
+          outcome_id?: string
+          priority?: string
+          review_id?: string
+          reviewer?: string | null
+          status?: string
+          trigger?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pathway_stages: {
         Row: {
           condition_text: string | null
@@ -7379,6 +7577,93 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      treatment_outcomes: {
+        Row: {
+          approved_method: Json | null
+          attempts: Json
+          baseline: Json
+          classification: string | null
+          client_record_key: string
+          closure_exception_reason: string | null
+          closure_state: string | null
+          context: Json
+          corrects_outcome_id: string | null
+          created_at: string
+          evidence_stage: string
+          failure_hypotheses: string[]
+          follow_up: Json | null
+          id: string
+          immediate_inspection: Json
+          organization_key: string | null
+          outcome_id: string
+          post_drying: Json | null
+          post_rinse: Json | null
+          record_type: string
+          remaining_mark: string | null
+          reported_by: string | null
+          severity: number | null
+          superseded: boolean
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          approved_method?: Json | null
+          attempts?: Json
+          baseline?: Json
+          classification?: string | null
+          client_record_key: string
+          closure_exception_reason?: string | null
+          closure_state?: string | null
+          context?: Json
+          corrects_outcome_id?: string | null
+          created_at?: string
+          evidence_stage?: string
+          failure_hypotheses?: string[]
+          follow_up?: Json | null
+          id?: string
+          immediate_inspection?: Json
+          organization_key?: string | null
+          outcome_id: string
+          post_drying?: Json | null
+          post_rinse?: Json | null
+          record_type: string
+          remaining_mark?: string | null
+          reported_by?: string | null
+          severity?: number | null
+          superseded?: boolean
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          approved_method?: Json | null
+          attempts?: Json
+          baseline?: Json
+          classification?: string | null
+          client_record_key?: string
+          closure_exception_reason?: string | null
+          closure_state?: string | null
+          context?: Json
+          corrects_outcome_id?: string | null
+          created_at?: string
+          evidence_stage?: string
+          failure_hypotheses?: string[]
+          follow_up?: Json | null
+          id?: string
+          immediate_inspection?: Json
+          organization_key?: string | null
+          outcome_id?: string
+          post_drying?: Json | null
+          post_rinse?: Json | null
+          record_type?: string
+          remaining_mark?: string | null
+          reported_by?: string | null
+          severity?: number | null
+          superseded?: boolean
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
       }
       treatment_pathways: {
         Row: {

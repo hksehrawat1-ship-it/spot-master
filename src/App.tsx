@@ -37,6 +37,9 @@ import FabricCheckAdmin from "@/pages/FabricCheckAdmin";
 import SafetyAdmin from "@/pages/SafetyAdmin";
 import DomesticTreatmentPage from "@/pages/DomesticTreatment";
 import DomesticAdmin from "@/pages/DomesticAdmin";
+import TreatmentOutcome from "@/pages/TreatmentOutcome";
+import OutcomeAnalytics from "@/pages/OutcomeAnalytics";
+import OutcomeReview from "@/pages/OutcomeReview";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -82,6 +85,9 @@ const App = () => (
             <Route path="/admin/domestic" element={<DomesticAdmin />} />
             <Route path="/kit-comparison" element={<KitComparison />} />
             <Route path="/admin/comparison" element={<ComparisonAdmin />} />
+            <Route path="/treatment-outcome" element={<TreatmentOutcome />} />
+            <Route path="/admin/outcome-analytics" element={<OutcomeAnalytics />} />
+            <Route path="/admin/outcome-review" element={<OutcomeReview />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<Admin />} />
