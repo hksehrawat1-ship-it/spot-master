@@ -82,13 +82,15 @@ export const useSafety = create<SafetyState>()(
           overrideId: uid("ovr"), caseId, ruleId, reason, approvedBy,
           approvedAt: new Date().toISOString(), expiresAt,
         };
+        const auditEntry: RuleAudit = {
+          id: uid("aud"), at: override.approvedAt, ruleId, action: "status_changed",
+          field: "override", newValue: caseId, justification: reason, changedBy: approvedBy,
+        };
         set((s) => ({
           overrides: [override, ...s.overrides],
-          audit: [{
-            id: uid("aud"), at: override.approvedAt, ruleId, action: "status_changed",
-            field: "override", newValue: caseId, justification: reason, changedBy: approvedBy,
-          }, ...s.audit].slice(0, 500),
+          audit: [auditEntry, ...s.audit].slice(0, 500),
         }));
+
         return { ok: true, message: check.message };
       },
 
