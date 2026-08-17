@@ -17,7 +17,14 @@ import {
 import { Lock } from "lucide-react";
 
 export default function Account() {
-  const { user, signOut, completed } = useApp();
+  const { completed } = useApp();
+  const { user: authUser, isAdmin, signOut } = useAuth();
+  const user = authUser
+    ? {
+        name: (authUser.user_metadata?.full_name as string | undefined) || authUser.email || "Stain Master user",
+        email: authUser.email ?? "",
+      }
+    : null;
   const { t } = useTranslation();
 
   if (!user) {
