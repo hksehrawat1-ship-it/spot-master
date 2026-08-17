@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, Sparkles, AlertTriangle, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Search, Sparkles, AlertTriangle, ArrowLeft, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -62,8 +63,28 @@ export default function StainMaster() {
         />
       </div>
 
+      {/* Fabric safety check */}
+      {!q && !activeCategory && (
+        <Link
+          to="/fabric-check"
+          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-elevated"
+        >
+          <span className="rounded-full bg-primary/10 p-2.5">
+            <ShieldCheck className="h-5 w-5 text-primary" aria-hidden />
+          </span>
+          <span className="flex-1">
+            <span className="block text-base font-semibold">Check the Garment First</span>
+            <span className="block text-xs text-muted-foreground">
+              Fabric Safety Check — do this before any stain treatment
+            </span>
+          </span>
+        </Link>
+      )}
+
       {/* AI stain detective */}
       {!q && !activeCategory && <AiStainDetective />}
+
+
 
 
 
