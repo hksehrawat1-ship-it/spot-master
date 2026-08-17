@@ -48,9 +48,9 @@ export const emptyContext = (over: Partial<ComparisonContext> = {}): ComparisonC
   comparisonId: formatComparisonId(1),
   components: [],
   stageNumber: 4,
-  textile: "unknown",
+  textile: "unknown_material",
   riskLevel: "amber",
-  colour: "unknown",
+  colour: "white",
   constructions: [],
   previousChemistry: [],
   appliedProductKeys: [],
@@ -73,8 +73,8 @@ export function contextIsSufficient(ctx: ComparisonContext): { ok: boolean; miss
   const missing: string[] = [];
   if (!ctx.stainKey && !ctx.categoryKey) missing.push("Stain or primary category");
   if (ctx.stageNumber === undefined || ctx.stageNumber === null) missing.push("Treatment stage");
-  if (!ctx.textile || ctx.textile === "unknown") missing.push("Fabric");
-  if (!ctx.colour || ctx.colour === "unknown") missing.push("Colour condition");
+  if (!ctx.textile || ctx.textile === "unknown_material") missing.push("Fabric");
+  if (!ctx.colour) missing.push("Colour condition");
   if (!ctx.process) missing.push("Cleaning process");
   if (!ctx.country || ctx.country === "unspecified") missing.push("Country");
   if (!ctx.role) missing.push("User role");
