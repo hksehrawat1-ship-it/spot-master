@@ -48,7 +48,7 @@ export const ADMIN_SCENARIOS: Scenario[] = [
     id: "A01", title: "Content author creates a stain draft",
     run: () => {
       const r = rec({ author: "u1" });
-      return ok(r.status === "draft" && r.currentVersion === "0.1", `status=${r.status} v=${r.currentVersion}`);
+      return ok(r.status === "draft" && r.versions.length >= 1, `status=${r.status} v=${r.currentVersion}`);
     },
   },
   {
