@@ -14,6 +14,302 @@ export type Database = {
   }
   public: {
     Tables: {
+      applied_product_history: {
+        Row: {
+          assessment_id: string
+          company: string | null
+          contact_time_minutes: number | null
+          created_at: string
+          diluted: string | null
+          heat_after: string | null
+          id: string
+          label_photo_path: string | null
+          linked_product_id: string | null
+          neutralized: string | null
+          observed_result: string | null
+          product_name: string | null
+          product_photo_path: string | null
+          product_type: string
+          reported_amount: string | null
+          reported_dilution: string | null
+          reported_unverified: boolean
+          rinsed: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          assessment_id: string
+          company?: string | null
+          contact_time_minutes?: number | null
+          created_at?: string
+          diluted?: string | null
+          heat_after?: string | null
+          id?: string
+          label_photo_path?: string | null
+          linked_product_id?: string | null
+          neutralized?: string | null
+          observed_result?: string | null
+          product_name?: string | null
+          product_photo_path?: string | null
+          product_type: string
+          reported_amount?: string | null
+          reported_dilution?: string | null
+          reported_unverified?: boolean
+          rinsed?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          company?: string | null
+          contact_time_minutes?: number | null
+          created_at?: string
+          diluted?: string | null
+          heat_after?: string | null
+          id?: string
+          label_photo_path?: string | null
+          linked_product_id?: string | null
+          neutralized?: string | null
+          observed_result?: string | null
+          product_name?: string | null
+          product_photo_path?: string | null
+          product_type?: string
+          reported_amount?: string | null
+          reported_dilution?: string | null
+          reported_unverified?: boolean
+          rinsed?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applied_product_history_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "case_condition_assessments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "applied_product_history_linked_product_id_fkey"
+            columns: ["linked_product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      case_condition_assessments: {
+        Row: {
+          affected_components: string[]
+          assessment_version: string
+          available_equipment: string[]
+          blockers: string[]
+          buildup: string | null
+          can_document_results: boolean
+          can_run_tests: boolean
+          capability_context: string | null
+          case_id: string | null
+          chemical_mixing: string | null
+          chemical_mixing_products: string | null
+          chemical_mixing_reaction: string[]
+          colour_changed_after_treatment: string | null
+          colour_group: string | null
+          colourfastness_status: string
+          completed_at: string | null
+          completed_test: Json
+          country: string | null
+          created_at: string
+          current_condition: string[]
+          dye_transferring: string | null
+          experience_level: string | null
+          fabric_assessment_id: string | null
+          has_print: string | null
+          heat_exposure: string[]
+          heat_result: string[]
+          heat_set_suspected: boolean
+          id: string
+          identification_id: string | null
+          language: string | null
+          local_case_ref: string | null
+          missing_answers: string[]
+          most_sensitive_component: string | null
+          next_action: string | null
+          notes: Json
+          organization_id: string | null
+          organization_location: string | null
+          penetration: string[]
+          previous_treatment_result: string[]
+          product_kits: string[]
+          product_market_country: string | null
+          readiness: Database["public"]["Enums"]["readiness_status"]
+          readiness_reason: string | null
+          risk_after: Database["public"]["Enums"]["risk_level"]
+          risk_before: Database["public"]["Enums"]["risk_level"]
+          risk_explanation: string | null
+          stain_age: string | null
+          stain_age_is_approximate: boolean
+          stain_crosses_colours: string | null
+          stain_size: string | null
+          summary_confirmed: string | null
+          supervision_available: string | null
+          test_feasible: string | null
+          training_completed: string | null
+          treatment_changing_factors: string[]
+          updated_at: string
+          user_id: string | null
+          version: number
+        }
+        Insert: {
+          affected_components?: string[]
+          assessment_version?: string
+          available_equipment?: string[]
+          blockers?: string[]
+          buildup?: string | null
+          can_document_results?: boolean
+          can_run_tests?: boolean
+          capability_context?: string | null
+          case_id?: string | null
+          chemical_mixing?: string | null
+          chemical_mixing_products?: string | null
+          chemical_mixing_reaction?: string[]
+          colour_changed_after_treatment?: string | null
+          colour_group?: string | null
+          colourfastness_status?: string
+          completed_at?: string | null
+          completed_test?: Json
+          country?: string | null
+          created_at?: string
+          current_condition?: string[]
+          dye_transferring?: string | null
+          experience_level?: string | null
+          fabric_assessment_id?: string | null
+          has_print?: string | null
+          heat_exposure?: string[]
+          heat_result?: string[]
+          heat_set_suspected?: boolean
+          id?: string
+          identification_id?: string | null
+          language?: string | null
+          local_case_ref?: string | null
+          missing_answers?: string[]
+          most_sensitive_component?: string | null
+          next_action?: string | null
+          notes?: Json
+          organization_id?: string | null
+          organization_location?: string | null
+          penetration?: string[]
+          previous_treatment_result?: string[]
+          product_kits?: string[]
+          product_market_country?: string | null
+          readiness?: Database["public"]["Enums"]["readiness_status"]
+          readiness_reason?: string | null
+          risk_after?: Database["public"]["Enums"]["risk_level"]
+          risk_before?: Database["public"]["Enums"]["risk_level"]
+          risk_explanation?: string | null
+          stain_age?: string | null
+          stain_age_is_approximate?: boolean
+          stain_crosses_colours?: string | null
+          stain_size?: string | null
+          summary_confirmed?: string | null
+          supervision_available?: string | null
+          test_feasible?: string | null
+          training_completed?: string | null
+          treatment_changing_factors?: string[]
+          updated_at?: string
+          user_id?: string | null
+          version?: number
+        }
+        Update: {
+          affected_components?: string[]
+          assessment_version?: string
+          available_equipment?: string[]
+          blockers?: string[]
+          buildup?: string | null
+          can_document_results?: boolean
+          can_run_tests?: boolean
+          capability_context?: string | null
+          case_id?: string | null
+          chemical_mixing?: string | null
+          chemical_mixing_products?: string | null
+          chemical_mixing_reaction?: string[]
+          colour_changed_after_treatment?: string | null
+          colour_group?: string | null
+          colourfastness_status?: string
+          completed_at?: string | null
+          completed_test?: Json
+          country?: string | null
+          created_at?: string
+          current_condition?: string[]
+          dye_transferring?: string | null
+          experience_level?: string | null
+          fabric_assessment_id?: string | null
+          has_print?: string | null
+          heat_exposure?: string[]
+          heat_result?: string[]
+          heat_set_suspected?: boolean
+          id?: string
+          identification_id?: string | null
+          language?: string | null
+          local_case_ref?: string | null
+          missing_answers?: string[]
+          most_sensitive_component?: string | null
+          next_action?: string | null
+          notes?: Json
+          organization_id?: string | null
+          organization_location?: string | null
+          penetration?: string[]
+          previous_treatment_result?: string[]
+          product_kits?: string[]
+          product_market_country?: string | null
+          readiness?: Database["public"]["Enums"]["readiness_status"]
+          readiness_reason?: string | null
+          risk_after?: Database["public"]["Enums"]["risk_level"]
+          risk_before?: Database["public"]["Enums"]["risk_level"]
+          risk_explanation?: string | null
+          stain_age?: string | null
+          stain_age_is_approximate?: boolean
+          stain_crosses_colours?: string | null
+          stain_size?: string | null
+          summary_confirmed?: string | null
+          supervision_available?: string | null
+          test_feasible?: string | null
+          training_completed?: string | null
+          treatment_changing_factors?: string[]
+          updated_at?: string
+          user_id?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_condition_assessments_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_condition_assessments_fabric_assessment_id_fkey"
+            columns: ["fabric_assessment_id"]
+            isOneToOne: false
+            referencedRelation: "fabric_assessments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_condition_assessments_identification_id_fkey"
+            columns: ["identification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_identifications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_condition_assessments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cases: {
         Row: {
           available_equipment: string[]
@@ -837,6 +1133,94 @@ export type Database = {
         }
         Relationships: []
       }
+      organization_product_inventory: {
+        Row: {
+          bottle_size: string | null
+          company: string | null
+          country: string | null
+          created_at: string
+          eligible_for_guidance: boolean
+          expiry_or_review: string | null
+          id: string
+          kit_id: string | null
+          kit_name: string | null
+          label_available: boolean
+          notes: string | null
+          organization_approved: boolean
+          organization_id: string | null
+          product_id: string | null
+          product_name: string
+          sds_available: boolean
+          tds_available: boolean
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          bottle_size?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          eligible_for_guidance?: boolean
+          expiry_or_review?: string | null
+          id?: string
+          kit_id?: string | null
+          kit_name?: string | null
+          label_available?: boolean
+          notes?: string | null
+          organization_approved?: boolean
+          organization_id?: string | null
+          product_id?: string | null
+          product_name: string
+          sds_available?: boolean
+          tds_available?: boolean
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          bottle_size?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          eligible_for_guidance?: boolean
+          expiry_or_review?: string | null
+          id?: string
+          kit_id?: string | null
+          kit_name?: string | null
+          label_available?: boolean
+          notes?: string | null
+          organization_approved?: boolean
+          organization_id?: string | null
+          product_id?: string | null
+          product_name?: string
+          sds_available?: boolean
+          tds_available?: boolean
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_product_inventory_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "product_kits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_product_inventory_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_product_inventory_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           active_product_kits: Json
@@ -875,6 +1259,56 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      previous_cleaning_events: {
+        Row: {
+          assessment_id: string
+          attempts: number
+          created_at: string
+          heat_applied_after: boolean
+          id: string
+          notes: string | null
+          outcomes: string[]
+          process: string
+          solvent_known: boolean
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          assessment_id: string
+          attempts?: number
+          created_at?: string
+          heat_applied_after?: boolean
+          id?: string
+          notes?: string | null
+          outcomes?: string[]
+          process: string
+          solvent_known?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          attempts?: number
+          created_at?: string
+          heat_applied_after?: boolean
+          id?: string
+          notes?: string | null
+          outcomes?: string[]
+          process?: string
+          solvent_known?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "previous_cleaning_events_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "case_condition_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       product_kits: {
         Row: {
@@ -1225,6 +1659,88 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      readiness_overrides: {
+        Row: {
+          assessment_id: string
+          created_at: string
+          id: string
+          justification: string
+          new_status: Database["public"]["Enums"]["readiness_status"]
+          previous_snapshot: Json | null
+          previous_status: Database["public"]["Enums"]["readiness_status"]
+          reviewer_id: string | null
+        }
+        Insert: {
+          assessment_id: string
+          created_at?: string
+          id?: string
+          justification: string
+          new_status: Database["public"]["Enums"]["readiness_status"]
+          previous_snapshot?: Json | null
+          previous_status: Database["public"]["Enums"]["readiness_status"]
+          reviewer_id?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          created_at?: string
+          id?: string
+          justification?: string
+          new_status?: Database["public"]["Enums"]["readiness_status"]
+          previous_snapshot?: Json | null
+          previous_status?: Database["public"]["Enums"]["readiness_status"]
+          reviewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "readiness_overrides_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "case_condition_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      readiness_risk_events: {
+        Row: {
+          assessment_id: string
+          assessment_version: string
+          created_at: string
+          id: string
+          risk_from: Database["public"]["Enums"]["risk_level"]
+          risk_to: Database["public"]["Enums"]["risk_level"]
+          rule: string
+          user_id: string | null
+        }
+        Insert: {
+          assessment_id: string
+          assessment_version?: string
+          created_at?: string
+          id?: string
+          risk_from: Database["public"]["Enums"]["risk_level"]
+          risk_to: Database["public"]["Enums"]["risk_level"]
+          rule: string
+          user_id?: string | null
+        }
+        Update: {
+          assessment_id?: string
+          assessment_version?: string
+          created_at?: string
+          id?: string
+          risk_from?: Database["public"]["Enums"]["risk_level"]
+          risk_to?: Database["public"]["Enums"]["risk_level"]
+          rule?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "readiness_risk_events_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "case_condition_assessments"
             referencedColumns: ["id"]
           },
         ]
@@ -1908,6 +2424,15 @@ export type Database = {
       fabric_confidence_level: "high" | "moderate" | "low" | "unknown"
       fabric_risk_group: "group_a" | "group_b" | "group_c" | "group_d"
       label_status: "available" | "no_label" | "unclear" | "unconfirmed"
+      readiness_status:
+        | "ready_for_classification"
+        | "more_information_required"
+        | "compatibility_test_required"
+        | "professional_only"
+        | "specialist_referral_required"
+        | "blocked_previous_chemical"
+        | "blocked_existing_damage"
+        | "blocked_possible_hazard"
       record_status: "active" | "discontinued" | "archived"
       risk_level: "green" | "amber" | "red" | "black"
       sensitivity_level:
@@ -2116,6 +2641,16 @@ export const Constants = {
       fabric_confidence_level: ["high", "moderate", "low", "unknown"],
       fabric_risk_group: ["group_a", "group_b", "group_c", "group_d"],
       label_status: ["available", "no_label", "unclear", "unconfirmed"],
+      readiness_status: [
+        "ready_for_classification",
+        "more_information_required",
+        "compatibility_test_required",
+        "professional_only",
+        "specialist_referral_required",
+        "blocked_previous_chemical",
+        "blocked_existing_damage",
+        "blocked_possible_hazard",
+      ],
       record_status: ["active", "discontinued", "archived"],
       risk_level: ["green", "amber", "red", "black"],
       sensitivity_level: [

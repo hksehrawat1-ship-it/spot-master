@@ -812,6 +812,11 @@ function ResultView({
           {result.nextAction === "Answer More Questions" && (
             <Button onClick={onMoreQuestions}>Answer more questions</Button>
           )}
+          {!result.documentationOnly && !result.hazardStop && (
+            <Link to="/treatment-readiness">
+              <Button className="w-full">Continue: treatment-changing details</Button>
+            </Link>
+          )}
           <Button variant="outline" onClick={onRestart}>Start another identification</Button>
         </div>
       </Card>
