@@ -110,6 +110,7 @@ Deno.serve(async (req) => {
     const decoder = new TextDecoder();
     let buffer = "";
     let text = "";
+    let streamError: { code?: string; message?: string } | null = null;
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -126,13 +127,28 @@ Deno.serve(async (req) => {
             text += evt.delta;
           } else if (evt.type === "response.completed" && evt.response?.output_text) {
             text = evt.response.output_text;
-          } else if (evt.type === "error") {
+          } else if (evt.type === "error" || evt.type === "response.failed") {
+            streamError = evt.error ?? evt.response?.error ?? { message: "AI request failed." };
             console.error("OpenAI stream error:", payload);
           }
         } catch {
           // ignore malformed keep-alive chunks
         }
       }
+    }
+
+    if (streamError && !text) {
+      const quota =
+        streamError.code === "credit_balance_exhausted" || streamError.code === "insufficient_quota";
+      return json(
+        {
+          error: quota
+            ? "The OpenAI account linked to this server has no credits left. Add credits to your OpenAI billing to continue."
+            : streamError.message || "The AI request failed. Please try again.",
+          code: streamError.code,
+        },
+        quota ? 402 : 502,
+      );
     }
 
     let parsed: { results?: unknown[] } = {};
