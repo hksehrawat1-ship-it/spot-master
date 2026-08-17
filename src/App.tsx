@@ -14,6 +14,9 @@ import StainIdentifyFlow from "@/pages/StainIdentifyFlow";
 import StainIdAdmin from "@/pages/StainIdAdmin";
 import TreatmentReadiness from "@/pages/TreatmentReadiness";
 import ReadinessAdmin from "@/pages/ReadinessAdmin";
+import StainCategories from "@/pages/StainCategories";
+import StainClassify from "@/pages/StainClassify";
+import ClassificationAdmin from "@/pages/ClassificationAdmin";
 import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
@@ -42,6 +45,10 @@ const App = () => (
             <Route path="/stain-master/identify" element={<StainIdentify />} />
             <Route path="/stain-id" element={<StainIdentifyFlow />} />
             <Route path="/treatment-readiness" element={<TreatmentReadiness />} />
+            <Route path="/stain-categories" element={<StainCategories />} />
+            <Route path="/stain-categories/:categoryKey" element={<StainCategories />} />
+            <Route path="/classify" element={<StainClassify />} />
+            <Route path="/admin/classification" element={<ClassificationAdmin />} />
             <Route path="/fabric-check" element={<FabricCheck />} />
             <Route path="/account" element={<Account />} />
             <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
