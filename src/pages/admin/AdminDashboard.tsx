@@ -33,7 +33,7 @@ export default function AdminDashboard() {
         mappingsAwaitingReview: 0,
         unrankedComparisons: 0,
         adverseOutcomes: outcomes.adverse.length,
-        hazardReports: outcomes.adverse.filter((a) => a.severity === "severe" || a.severity === "catastrophic").length,
+        hazardReports: outcomes.adverse.filter((a) => a.severity >= 4).length,
         repeatedFailures: 0,
         pendingReleases: gov.releases.filter((r) => r.deployment === "pending").length,
         systemWarnings: admin.safetyEngineAvailable ? 0 : 1,
