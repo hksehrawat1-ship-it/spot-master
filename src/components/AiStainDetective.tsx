@@ -71,9 +71,16 @@ export default function AiStainDetective() {
     if (!image) return;
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("analyze-stain", {
-        body: { image, fabric, color, age, notes },
-      });
+      const payload = { image, fabric, color, age, notes };
+      // Primary: secure server function on OpenAI's Responses API (key stays server-side).
+      let { data, error } = await supabase.functions.invoke("openai-stain", { body: payload });
+      if (error || data?.error) {
+        const fallback = await supabase.functions.invoke("analyze-stain", { body: payload });
+        if (!fallback.error && !fallback.data?.error) {
+          data = fallback.data;
+          error = null;
+        }
+      }
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       const list: AiResult[] = data?.results ?? [];
