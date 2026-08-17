@@ -14,6 +14,7 @@ import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
 import Admin from "@/pages/Admin";
+import FoundationCheck from "@/pages/FoundationCheck";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
