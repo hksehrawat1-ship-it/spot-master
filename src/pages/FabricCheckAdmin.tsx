@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/auth/AuthProvider";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ const GATES: GateStatus[] = [
 ];
 
 export default function FabricCheckAdmin() {
+  const { user } = useAuth();
   const { assessments, applyOverride, remove } = useFabricCheck();
   const [openId, setOpenId] = useState<string | null>(null);
   const [reason, setReason] = useState("");
@@ -93,7 +95,7 @@ export default function FabricCheckAdmin() {
                     size="sm"
                     disabled={!reason.trim()}
                     onClick={() => {
-                      applyOverride(a.id, { riskLevel: risk, gate, reason: reason.trim(), reviewer: user.email });
+                      applyOverride(a.id, { riskLevel: risk, gate, reason: reason.trim(), reviewer: user?.email ?? "reviewer" });
                       setReason("");
                       setOpenId(null);
                       toast.success("Override recorded in the audit trail.");
