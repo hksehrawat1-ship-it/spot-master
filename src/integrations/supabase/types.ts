@@ -1350,6 +1350,167 @@ export type Database = {
         }
         Relationships: []
       }
+      stain_identification_reviews: {
+        Row: {
+          corrected_stain_key: string | null
+          created_at: string
+          id: string
+          identification_id: string
+          previous_snapshot: Json | null
+          reason: string
+          reviewer_id: string | null
+        }
+        Insert: {
+          corrected_stain_key?: string | null
+          created_at?: string
+          id?: string
+          identification_id: string
+          previous_snapshot?: Json | null
+          reason: string
+          reviewer_id?: string | null
+        }
+        Update: {
+          corrected_stain_key?: string | null
+          created_at?: string
+          id?: string
+          identification_id?: string
+          previous_snapshot?: Json | null
+          reason?: string
+          reviewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_identification_reviews_identification_id_fkey"
+            columns: ["identification_id"]
+            isOneToOne: false
+            referencedRelation: "stain_identifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_identifications: {
+        Row: {
+          ai_model_version: string | null
+          ai_suggestions: Json
+          answers: Json
+          assessment_version: string
+          candidates: Json
+          confidence_explanation: string | null
+          confirmed_stain_key: string | null
+          created_at: string
+          damage_answers: string[]
+          documentation_only: boolean
+          entry_route: string | null
+          fabric_assessment_id: string | null
+          gate_after: string | null
+          gate_before: string | null
+          hazard_answers: string[]
+          id: string
+          identification_confidence: number | null
+          image_quality: Json
+          local_case_ref: string | null
+          local_name_used: string | null
+          next_action: string | null
+          organization_id: string | null
+          outcome: string | null
+          photos: Json
+          previous_treatment: string[]
+          primary_category_key: string | null
+          rejected_stain_keys: string[]
+          risk_after: string | null
+          risk_before: string | null
+          risk_rule: string | null
+          search_terms: string[]
+          secondary_component_keys: string[]
+          selected_category_key: string | null
+          selected_source_key: string | null
+          selected_stain_key: string | null
+          stain_age: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          ai_model_version?: string | null
+          ai_suggestions?: Json
+          answers?: Json
+          assessment_version?: string
+          candidates?: Json
+          confidence_explanation?: string | null
+          confirmed_stain_key?: string | null
+          created_at?: string
+          damage_answers?: string[]
+          documentation_only?: boolean
+          entry_route?: string | null
+          fabric_assessment_id?: string | null
+          gate_after?: string | null
+          gate_before?: string | null
+          hazard_answers?: string[]
+          id?: string
+          identification_confidence?: number | null
+          image_quality?: Json
+          local_case_ref?: string | null
+          local_name_used?: string | null
+          next_action?: string | null
+          organization_id?: string | null
+          outcome?: string | null
+          photos?: Json
+          previous_treatment?: string[]
+          primary_category_key?: string | null
+          rejected_stain_keys?: string[]
+          risk_after?: string | null
+          risk_before?: string | null
+          risk_rule?: string | null
+          search_terms?: string[]
+          secondary_component_keys?: string[]
+          selected_category_key?: string | null
+          selected_source_key?: string | null
+          selected_stain_key?: string | null
+          stain_age?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          ai_model_version?: string | null
+          ai_suggestions?: Json
+          answers?: Json
+          assessment_version?: string
+          candidates?: Json
+          confidence_explanation?: string | null
+          confirmed_stain_key?: string | null
+          created_at?: string
+          damage_answers?: string[]
+          documentation_only?: boolean
+          entry_route?: string | null
+          fabric_assessment_id?: string | null
+          gate_after?: string | null
+          gate_before?: string | null
+          hazard_answers?: string[]
+          id?: string
+          identification_confidence?: number | null
+          image_quality?: Json
+          local_case_ref?: string | null
+          local_name_used?: string | null
+          next_action?: string | null
+          organization_id?: string | null
+          outcome?: string | null
+          photos?: Json
+          previous_treatment?: string[]
+          primary_category_key?: string | null
+          rejected_stain_keys?: string[]
+          risk_after?: string | null
+          risk_before?: string | null
+          risk_rule?: string | null
+          search_terms?: string[]
+          secondary_component_keys?: string[]
+          selected_category_key?: string | null
+          selected_source_key?: string | null
+          selected_stain_key?: string | null
+          stain_age?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       stain_tags: {
         Row: {
           stain_id: string
