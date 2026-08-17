@@ -103,6 +103,7 @@ const App = () => (
             <Route path="/admin/outcome-review" element={<OutcomeReview />} />
             <Route path="/admin/governance" element={<GovernanceDashboard />} />
             <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
+            <Route path="/admin/pilot" element={<AdminPilot />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<AdminDashboard />} />
