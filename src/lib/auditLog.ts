@@ -24,7 +24,7 @@ export async function recordAdminAction(entry: AdminAuditEntry): Promise<{ ok: b
       target_type: entry.targetType?.slice(0, 80) ?? null,
       target_id: entry.targetId?.slice(0, 120) ?? null,
       reason: entry.reason?.slice(0, 500) ?? null,
-      metadata: entry.metadata ?? {},
+      metadata: JSON.parse(JSON.stringify(entry.metadata ?? {})),
     });
     return { ok: !error };
   } catch {
