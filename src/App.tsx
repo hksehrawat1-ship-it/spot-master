@@ -40,6 +40,8 @@ import DomesticAdmin from "@/pages/DomesticAdmin";
 import TreatmentOutcome from "@/pages/TreatmentOutcome";
 import OutcomeAnalytics from "@/pages/OutcomeAnalytics";
 import OutcomeReview from "@/pages/OutcomeReview";
+import GovernanceDashboard from "@/pages/GovernanceDashboard";
+import GovernanceRecord from "@/pages/GovernanceRecord";
 
 import NotFound from "./pages/NotFound.tsx";
 
@@ -88,6 +90,8 @@ const App = () => (
             <Route path="/treatment-outcome" element={<TreatmentOutcome />} />
             <Route path="/admin/outcome-analytics" element={<OutcomeAnalytics />} />
             <Route path="/admin/outcome-review" element={<OutcomeReview />} />
+            <Route path="/admin/governance" element={<GovernanceDashboard />} />
+            <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
             <Route path="/sign-in" element={<SignIn />} />
 
             <Route path="/admin" element={<Admin />} />
