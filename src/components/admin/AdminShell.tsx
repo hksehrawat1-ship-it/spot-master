@@ -9,6 +9,9 @@ import type { AdminSection } from "@/data/adminWorkspace";
 import { globalSearch, modesForRoles, sectionsForUser } from "@/lib/adminEngine";
 import { currentAdminUser, useAdmin } from "@/store/useAdmin";
 import { useGovernance } from "@/store/useGovernance";
+import { useAuth } from "@/auth/AuthProvider";
+import { FEATURES } from "@/config/features";
+import { DemoDataBadge } from "@/components/system/StatusStates";
 
 type Props = { section: AdminSection; title: string; children: React.ReactNode };
 
@@ -17,6 +20,7 @@ export default function AdminShell({ section, title, children }: Props) {
   const admin = useAdmin();
   const user = useAdmin(currentAdminUser);
   const gov = useGovernance();
+  const { user: authUser } = useAuth();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [showMore, setShowMore] = useState(false);
