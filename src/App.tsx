@@ -53,6 +53,9 @@ const App = () => (
             <Route path="/stain-categories" element={<StainCategories />} />
             <Route path="/stain-categories/:categoryKey" element={<StainCategories />} />
             <Route path="/classify" element={<StainClassify />} />
+            <Route path="/products" element={<ProductLibrary />} />
+            <Route path="/products/:productKey" element={<ProductDetail />} />
+            <Route path="/admin/products" element={<ProductAdmin />} />
             <Route path="/stain/:stainKey" element={<StainRecord />} />
             <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
             <Route path="/admin/classification" element={<ClassificationAdmin />} />
