@@ -1638,6 +1638,530 @@ export type Database = {
           },
         ]
       }
+      mapping_approval_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          from_status: string | null
+          id: string
+          justification: string
+          mapping_code: string
+          mapping_id: string | null
+          safety_critical: boolean
+          to_status: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          from_status?: string | null
+          id?: string
+          justification: string
+          mapping_code: string
+          mapping_id?: string | null
+          safety_critical?: boolean
+          to_status: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          from_status?: string | null
+          id?: string
+          justification?: string
+          mapping_code?: string
+          mapping_id?: string | null
+          safety_critical?: boolean
+          to_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_approval_history_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_conditions: {
+        Row: {
+          condition_kind: string
+          created_at: string
+          id: string
+          mapping_id: string
+          note: string | null
+          source: string | null
+          target_key: string
+          verdict: string
+        }
+        Insert: {
+          condition_kind: string
+          created_at?: string
+          id?: string
+          mapping_id: string
+          note?: string | null
+          source?: string | null
+          target_key: string
+          verdict?: string
+        }
+        Update: {
+          condition_kind?: string
+          created_at?: string
+          id?: string
+          mapping_id?: string
+          note?: string | null
+          source?: string | null
+          target_key?: string
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_conditions_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_eligibility_results: {
+        Row: {
+          blocking_checks: string[]
+          case_id: string | null
+          created_at: string
+          decision: Database["public"]["Enums"]["suitability_decision"]
+          engine_version: string
+          id: string
+          mapping_code: string
+          mapping_id: string | null
+          mapping_version: number
+          outcome: string
+          passed_checks: string[]
+          product_key: string
+          product_version_key: string
+          reason: string
+          stage_number: number
+        }
+        Insert: {
+          blocking_checks?: string[]
+          case_id?: string | null
+          created_at?: string
+          decision?: Database["public"]["Enums"]["suitability_decision"]
+          engine_version?: string
+          id?: string
+          mapping_code: string
+          mapping_id?: string | null
+          mapping_version?: number
+          outcome: string
+          passed_checks?: string[]
+          product_key: string
+          product_version_key: string
+          reason: string
+          stage_number: number
+        }
+        Update: {
+          blocking_checks?: string[]
+          case_id?: string | null
+          created_at?: string
+          decision?: Database["public"]["Enums"]["suitability_decision"]
+          engine_version?: string
+          id?: string
+          mapping_code?: string
+          mapping_id?: string | null
+          mapping_version?: number
+          outcome?: string
+          passed_checks?: string[]
+          product_key?: string
+          product_version_key?: string
+          reason?: string
+          stage_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_eligibility_results_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_eligibility_results_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_evidence: {
+        Row: {
+          created_at: string
+          description: string
+          document_id: string | null
+          document_key: string | null
+          document_version: string | null
+          evidence_level: string
+          id: string
+          mapping_id: string
+          reviewer: string | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          document_id?: string | null
+          document_key?: string | null
+          document_version?: string | null
+          evidence_level: string
+          id?: string
+          mapping_id: string
+          reviewer?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          document_id?: string | null
+          document_key?: string | null
+          document_version?: string | null
+          evidence_level?: string
+          id?: string
+          mapping_id?: string
+          reviewer?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_evidence_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_evidence_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_inspection_gates: {
+        Row: {
+          case_id: string | null
+          created_at: string
+          findings: string[]
+          heat_allowed: boolean
+          id: string
+          mapping_id: string | null
+          notes: string | null
+          operator: string | null
+          photograph_path: string | null
+          repeat_allowed: boolean
+          stage_number: number
+          stopped: boolean
+        }
+        Insert: {
+          case_id?: string | null
+          created_at?: string
+          findings?: string[]
+          heat_allowed?: boolean
+          id?: string
+          mapping_id?: string | null
+          notes?: string | null
+          operator?: string | null
+          photograph_path?: string | null
+          repeat_allowed?: boolean
+          stage_number: number
+          stopped?: boolean
+        }
+        Update: {
+          case_id?: string | null
+          created_at?: string
+          findings?: string[]
+          heat_allowed?: boolean
+          id?: string
+          mapping_id?: string | null
+          notes?: string | null
+          operator?: string | null
+          photograph_path?: string | null
+          repeat_allowed?: boolean
+          stage_number?: number
+          stopped?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_inspection_gates_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mapping_inspection_gates_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_quantities: {
+        Row: {
+          applicable_material: string | null
+          applicable_process: string | null
+          approval_status: string
+          contact_time: string | null
+          country: string | null
+          created_at: string
+          dilution: string | null
+          document_version: string | null
+          id: string
+          mapping_id: string
+          maximum_attempts: string | null
+          quantity: string | null
+          reapplication_limit: string | null
+          reviewer: string | null
+          source: string | null
+          temperature: string | null
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          applicable_material?: string | null
+          applicable_process?: string | null
+          approval_status?: string
+          contact_time?: string | null
+          country?: string | null
+          created_at?: string
+          dilution?: string | null
+          document_version?: string | null
+          id?: string
+          mapping_id: string
+          maximum_attempts?: string | null
+          quantity?: string | null
+          reapplication_limit?: string | null
+          reviewer?: string | null
+          source?: string | null
+          temperature?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applicable_material?: string | null
+          applicable_process?: string | null
+          approval_status?: string
+          contact_time?: string | null
+          country?: string | null
+          created_at?: string
+          dilution?: string | null
+          document_version?: string | null
+          id?: string
+          mapping_id?: string
+          maximum_attempts?: string | null
+          quantity?: string | null
+          reapplication_limit?: string | null
+          reviewer?: string | null
+          source?: string | null
+          temperature?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_quantities_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_requirements: {
+        Row: {
+          approved: boolean
+          created_at: string
+          id: string
+          mapping_id: string
+          method_source: string | null
+          requirement_key: string
+          requirement_kind: string
+          requirement_level: string
+        }
+        Insert: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          mapping_id: string
+          method_source?: string | null
+          requirement_key: string
+          requirement_kind: string
+          requirement_level?: string
+        }
+        Update: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          mapping_id?: string
+          method_source?: string | null
+          requirement_key?: string
+          requirement_kind?: string
+          requirement_level?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_requirements_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_rinse_requirements: {
+        Row: {
+          country: string | null
+          created_at: string
+          document_version: string | null
+          duration: string | null
+          equipment: string | null
+          fallback_text: string
+          id: string
+          inspection_required: boolean
+          mapping_id: string
+          medium: string | null
+          method: string | null
+          process_destination: string | null
+          product_version_key: string | null
+          quantity: string | null
+          requirement: string
+          reviewer: string | null
+          source_document_key: string | null
+          temperature: string | null
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          document_version?: string | null
+          duration?: string | null
+          equipment?: string | null
+          fallback_text?: string
+          id?: string
+          inspection_required?: boolean
+          mapping_id: string
+          medium?: string | null
+          method?: string | null
+          process_destination?: string | null
+          product_version_key?: string | null
+          quantity?: string | null
+          requirement?: string
+          reviewer?: string | null
+          source_document_key?: string | null
+          temperature?: string | null
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          document_version?: string | null
+          duration?: string | null
+          equipment?: string | null
+          fallback_text?: string
+          id?: string
+          inspection_required?: boolean
+          mapping_id?: string
+          medium?: string | null
+          method?: string | null
+          process_destination?: string | null
+          product_version_key?: string | null
+          quantity?: string | null
+          requirement?: string
+          reviewer?: string | null
+          source_document_key?: string | null
+          temperature?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_rinse_requirements_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_role_conditions: {
+        Row: {
+          created_at: string
+          id: string
+          mapping_id: string
+          roles: string[]
+          supervision_required: boolean
+          training_requirements: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mapping_id: string
+          roles?: string[]
+          supervision_required?: boolean
+          training_requirements?: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mapping_id?: string
+          roles?: string[]
+          supervision_required?: boolean
+          training_requirements?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_role_conditions_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mapping_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          mapping_code: string
+          mapping_id: string | null
+          snapshot: Json
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          mapping_code: string
+          mapping_id?: string | null
+          snapshot: Json
+          version: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          mapping_code?: string
+          mapping_id?: string | null
+          snapshot?: Json
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_versions_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       master_stains: {
         Row: {
           added_components: string[]
@@ -1945,6 +2469,51 @@ export type Database = {
         }
         Relationships: []
       }
+      pathway_stages: {
+        Row: {
+          condition_text: string | null
+          created_at: string
+          id: string
+          optional: boolean
+          pathway_id: string
+          position: number
+          stage_id: string
+        }
+        Insert: {
+          condition_text?: string | null
+          created_at?: string
+          id?: string
+          optional?: boolean
+          pathway_id: string
+          position: number
+          stage_id: string
+        }
+        Update: {
+          condition_text?: string | null
+          created_at?: string
+          id?: string
+          optional?: boolean
+          pathway_id?: string
+          position?: number
+          stage_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pathway_stages_pathway_id_fkey"
+            columns: ["pathway_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_pathways"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pathway_stages_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       previous_cleaning_events: {
         Row: {
           assessment_id: string
@@ -1991,6 +2560,60 @@ export type Database = {
             columns: ["assessment_id"]
             isOneToOne: false
             referencedRelation: "case_condition_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prior_chemical_checks: {
+        Row: {
+          applied_product_keys: string[]
+          blocked: boolean
+          case_id: string | null
+          created_at: string
+          id: string
+          mapping_id: string | null
+          outcome: string
+          previous_chemistry: string[]
+          reasons: string[]
+          requires_flushing: boolean
+        }
+        Insert: {
+          applied_product_keys?: string[]
+          blocked?: boolean
+          case_id?: string | null
+          created_at?: string
+          id?: string
+          mapping_id?: string | null
+          outcome: string
+          previous_chemistry?: string[]
+          reasons?: string[]
+          requires_flushing?: boolean
+        }
+        Update: {
+          applied_product_keys?: string[]
+          blocked?: boolean
+          case_id?: string | null
+          created_at?: string
+          id?: string
+          mapping_id?: string | null
+          outcome?: string
+          previous_chemistry?: string[]
+          reasons?: string[]
+          requires_flushing?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prior_chemical_checks_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prior_chemical_checks_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "product_stage_mappings"
             referencedColumns: ["id"]
           },
         ]
@@ -3243,6 +3866,154 @@ export type Database = {
           },
         ]
       }
+      product_stage_mappings: {
+        Row: {
+          approval_status: string
+          category_key: string | null
+          company_key: string
+          component_key: string | null
+          country: string
+          created_at: string
+          decision: Database["public"]["Enums"]["suitability_decision"]
+          effective_date: string | null
+          evidence_level: string
+          flags: string[]
+          id: string
+          kit_key: string | null
+          manufacturer_claim: string | null
+          mapping_code: string
+          not_recommended_reason: string | null
+          notes: string | null
+          product_id: string | null
+          product_key: string
+          product_version_id: string | null
+          product_version_key: string
+          prohibited_prior_chemistry: string[]
+          provisional: boolean
+          repetition_rule: string
+          required_following_stage: number | null
+          required_prior_stage: number | null
+          review_date: string | null
+          reviewer: string | null
+          source_document_keys: string[]
+          source_type: string | null
+          specificity: string
+          stage_id: string | null
+          stage_number: number
+          stain_key: string | null
+          stop_conditions: string[]
+          supersedes_mapping_code: string | null
+          updated_at: string
+          ventilation_requirement: string
+          verified_use: boolean
+          version: number
+        }
+        Insert: {
+          approval_status?: string
+          category_key?: string | null
+          company_key: string
+          component_key?: string | null
+          country: string
+          created_at?: string
+          decision?: Database["public"]["Enums"]["suitability_decision"]
+          effective_date?: string | null
+          evidence_level?: string
+          flags?: string[]
+          id?: string
+          kit_key?: string | null
+          manufacturer_claim?: string | null
+          mapping_code: string
+          not_recommended_reason?: string | null
+          notes?: string | null
+          product_id?: string | null
+          product_key: string
+          product_version_id?: string | null
+          product_version_key: string
+          prohibited_prior_chemistry?: string[]
+          provisional?: boolean
+          repetition_rule?: string
+          required_following_stage?: number | null
+          required_prior_stage?: number | null
+          review_date?: string | null
+          reviewer?: string | null
+          source_document_keys?: string[]
+          source_type?: string | null
+          specificity?: string
+          stage_id?: string | null
+          stage_number: number
+          stain_key?: string | null
+          stop_conditions?: string[]
+          supersedes_mapping_code?: string | null
+          updated_at?: string
+          ventilation_requirement?: string
+          verified_use?: boolean
+          version?: number
+        }
+        Update: {
+          approval_status?: string
+          category_key?: string | null
+          company_key?: string
+          component_key?: string | null
+          country?: string
+          created_at?: string
+          decision?: Database["public"]["Enums"]["suitability_decision"]
+          effective_date?: string | null
+          evidence_level?: string
+          flags?: string[]
+          id?: string
+          kit_key?: string | null
+          manufacturer_claim?: string | null
+          mapping_code?: string
+          not_recommended_reason?: string | null
+          notes?: string | null
+          product_id?: string | null
+          product_key?: string
+          product_version_id?: string | null
+          product_version_key?: string
+          prohibited_prior_chemistry?: string[]
+          provisional?: boolean
+          repetition_rule?: string
+          required_following_stage?: number | null
+          required_prior_stage?: number | null
+          review_date?: string | null
+          reviewer?: string | null
+          source_document_keys?: string[]
+          source_type?: string | null
+          specificity?: string
+          stage_id?: string | null
+          stage_number?: number
+          stain_key?: string | null
+          stop_conditions?: string[]
+          supersedes_mapping_code?: string | null
+          updated_at?: string
+          ventilation_requirement?: string
+          verified_use?: boolean
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_stage_mappings_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_stage_mappings_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_stage_mappings_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_textile_compatibility: {
         Row: {
           approval_status: Database["public"]["Enums"]["content_status"]
@@ -3339,6 +4110,75 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      product_transitions: {
+        Row: {
+          approval_status: string
+          country: string
+          created_at: string
+          from_chemistry_family: string | null
+          from_product_key: string | null
+          from_product_version_key: string | null
+          id: string
+          inspection_required: boolean
+          notes: string | null
+          permission: string
+          required_neutralization: string | null
+          required_rinse: string | null
+          reviewer: string | null
+          source: string
+          to_chemistry_family: string | null
+          to_product_key: string | null
+          to_product_version_key: string | null
+          transition_code: string
+          updated_at: string
+          waiting_requirement: string | null
+        }
+        Insert: {
+          approval_status?: string
+          country?: string
+          created_at?: string
+          from_chemistry_family?: string | null
+          from_product_key?: string | null
+          from_product_version_key?: string | null
+          id?: string
+          inspection_required?: boolean
+          notes?: string | null
+          permission?: string
+          required_neutralization?: string | null
+          required_rinse?: string | null
+          reviewer?: string | null
+          source: string
+          to_chemistry_family?: string | null
+          to_product_key?: string | null
+          to_product_version_key?: string | null
+          transition_code: string
+          updated_at?: string
+          waiting_requirement?: string | null
+        }
+        Update: {
+          approval_status?: string
+          country?: string
+          created_at?: string
+          from_chemistry_family?: string | null
+          from_product_key?: string | null
+          from_product_version_key?: string | null
+          id?: string
+          inspection_required?: boolean
+          notes?: string | null
+          permission?: string
+          required_neutralization?: string | null
+          required_rinse?: string | null
+          reviewer?: string | null
+          source?: string
+          to_chemistry_family?: string | null
+          to_product_key?: string | null
+          to_product_version_key?: string | null
+          transition_code?: string
+          updated_at?: string
+          waiting_requirement?: string | null
+        }
+        Relationships: []
       }
       product_use_verifications: {
         Row: {
@@ -5715,6 +6555,54 @@ export type Database = {
           },
         ]
       }
+      treatment_pathways: {
+        Row: {
+          categories: string[]
+          completion_requirements: string[]
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          pathway_code: string
+          pathway_key: string
+          plain_name: string
+          professional_only: boolean
+          status: Database["public"]["Enums"]["content_status"]
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          categories?: string[]
+          completion_requirements?: string[]
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          pathway_code: string
+          pathway_key: string
+          plain_name: string
+          professional_only?: boolean
+          status?: Database["public"]["Enums"]["content_status"]
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          categories?: string[]
+          completion_requirements?: string[]
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          pathway_code?: string
+          pathway_key?: string
+          plain_name?: string
+          professional_only?: boolean
+          status?: Database["public"]["Enums"]["content_status"]
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       treatment_principles: {
         Row: {
           applicable_stain_categories: string[]
@@ -5778,6 +6666,96 @@ export type Database = {
           stop_conditions?: string[]
           treatment_stage?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      treatment_stages: {
+        Row: {
+          actionable: boolean
+          applicable_categories: string[]
+          applicable_components: string[]
+          created_at: string
+          evidence_requirement: string
+          exit_conditions: string[]
+          id: string
+          name: string
+          next_allowed_stages: number[]
+          plain_name: string
+          prohibited_conditions: string[]
+          purpose: string | null
+          required_equipment: string[]
+          required_inputs: string[]
+          required_inspection: boolean
+          required_ppe: string[]
+          required_preconditions: string[]
+          required_roles: string[]
+          required_training: string[]
+          stage_code: string
+          stage_key: string
+          stage_number: number
+          status: Database["public"]["Enums"]["content_status"]
+          stop_conditions: string[]
+          technical_description: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          actionable?: boolean
+          applicable_categories?: string[]
+          applicable_components?: string[]
+          created_at?: string
+          evidence_requirement?: string
+          exit_conditions?: string[]
+          id?: string
+          name: string
+          next_allowed_stages?: number[]
+          plain_name: string
+          prohibited_conditions?: string[]
+          purpose?: string | null
+          required_equipment?: string[]
+          required_inputs?: string[]
+          required_inspection?: boolean
+          required_ppe?: string[]
+          required_preconditions?: string[]
+          required_roles?: string[]
+          required_training?: string[]
+          stage_code: string
+          stage_key: string
+          stage_number: number
+          status?: Database["public"]["Enums"]["content_status"]
+          stop_conditions?: string[]
+          technical_description: string
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          actionable?: boolean
+          applicable_categories?: string[]
+          applicable_components?: string[]
+          created_at?: string
+          evidence_requirement?: string
+          exit_conditions?: string[]
+          id?: string
+          name?: string
+          next_allowed_stages?: number[]
+          plain_name?: string
+          prohibited_conditions?: string[]
+          purpose?: string | null
+          required_equipment?: string[]
+          required_inputs?: string[]
+          required_inspection?: boolean
+          required_ppe?: string[]
+          required_preconditions?: string[]
+          required_roles?: string[]
+          required_training?: string[]
+          stage_code?: string
+          stage_key?: string
+          stage_number?: number
+          status?: Database["public"]["Enums"]["content_status"]
+          stop_conditions?: string[]
+          technical_description?: string
+          updated_at?: string
+          version?: string
         }
         Relationships: []
       }

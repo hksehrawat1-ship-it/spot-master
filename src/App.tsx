@@ -10,6 +10,9 @@ import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
 import StainRecord from "./pages/StainRecord";
 import ProductLibrary from "./pages/ProductLibrary";
+import TreatmentStages from "./pages/TreatmentStages";
+import MappingMatrix from "./pages/MappingMatrix";
+import MappingEditor from "./pages/MappingEditor";
 import ProductDetail from "./pages/ProductDetail";
 import ProductAdmin from "./pages/ProductAdmin";
 import MasterStainAdmin from "./pages/MasterStainAdmin";
@@ -56,6 +59,10 @@ const App = () => (
             <Route path="/products" element={<ProductLibrary />} />
             <Route path="/products/:productKey" element={<ProductDetail />} />
             <Route path="/admin/products" element={<ProductAdmin />} />
+            <Route path="/treatment-stages" element={<TreatmentStages />} />
+            <Route path="/treatment-stages/:stageNumber" element={<TreatmentStages />} />
+            <Route path="/admin/mapping-matrix" element={<MappingMatrix />} />
+            <Route path="/admin/mapping-editor" element={<MappingEditor />} />
             <Route path="/stain/:stainKey" element={<StainRecord />} />
             <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
             <Route path="/admin/classification" element={<ClassificationAdmin />} />
