@@ -125,7 +125,7 @@ export const useGovernance = create<State>()(
           makeRecord({
             stableId: formatStableId("stain_record", i + 1),
             contentType: "stain_record",
-            title: s.name,
+            title: s.canonicalName,
             status: i < 5 ? "published" : "draft",
             owner: i === 6 ? undefined : "rv-textile",
             author: "rv-chem",
@@ -144,7 +144,7 @@ export const useGovernance = create<State>()(
               status: i < 5 ? "published" : "draft",
               reasonForChange: "Initial governed record",
               revisionSummary: "Migrated from existing Stain Master content.",
-              payload: { key: s.key, category: s.category },
+              payload: { key: s.key, category: s.primaryCategory },
             })],
           }),
         );
@@ -310,7 +310,7 @@ export const useGovernance = create<State>()(
           ? { ...rec, status: "approved" as GovStatus, approvedAt: rec.approvedAt ?? now() }
           : rec;
         const check = canPublish(staged, ctxOf(st));
-        if (!check.ok) return check;
+        if (!check.ok) return { ok: false, message: check.reason };
         const at = now();
         set((s) => ({
           records: s.records.map((r) =>
