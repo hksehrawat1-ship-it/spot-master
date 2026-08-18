@@ -6,6 +6,7 @@ import {
   type ProductTransition, type ProfessionalCase, type VerifiedProduct,
 } from "@/lib/professionalEngine";
 import { classify } from "@/lib/dataSource";
+import type { KitSelection } from "@/lib/retailEngine";
 import { MASTER_ONLY_CAPABILITIES } from "@/data/professionalSpotting";
 
 const baseCase = (over: Partial<ProfessionalCase> = {}): ProfessionalCase => ({
@@ -142,7 +143,7 @@ describe("Layer 2 — Professional Spotting", () => {
   });
 
   it("P12 shows only products eligible for the current component and stage", () => {
-    const kit = { kind: "company", companyId: "c1", companyName: "Seitz", productIds: [] } as const;
+    const kit: KitSelection = { kind: "company", companyId: "c1", companyName: "Seitz", productIds: [] };
     expect(eligibleProducts(approvedProducts(), { kit, component: "oil", stageNumber: 6 })).toHaveLength(1);
     expect(eligibleProducts(approvedProducts(), { kit, component: "protein", stageNumber: 7 })).toHaveLength(0);
   });
