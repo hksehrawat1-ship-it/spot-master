@@ -7143,6 +7143,7 @@ export type Database = {
           description: string | null
           display_order: number | null
           id: string
+          is_legacy: boolean
           name: string
           routing_note: string | null
           short_description: string | null
@@ -7163,6 +7164,7 @@ export type Database = {
           description?: string | null
           display_order?: number | null
           id?: string
+          is_legacy?: boolean
           name: string
           routing_note?: string | null
           short_description?: string | null
@@ -7183,6 +7185,7 @@ export type Database = {
           description?: string | null
           display_order?: number | null
           id?: string
+          is_legacy?: boolean
           name?: string
           routing_note?: string | null
           short_description?: string | null
@@ -8345,9 +8348,12 @@ export type Database = {
           alias_type: string
           created_at: string
           id: string
+          is_active: boolean
           language: string
           region: string | null
+          review_status: string
           source_document_id: string | null
+          source_note: string | null
           stain_record_id: string
           updated_at: string
         }
@@ -8356,9 +8362,12 @@ export type Database = {
           alias_type?: string
           created_at?: string
           id?: string
+          is_active?: boolean
           language?: string
           region?: string | null
+          review_status?: string
           source_document_id?: string | null
+          source_note?: string | null
           stain_record_id: string
           updated_at?: string
         }
@@ -8367,9 +8376,12 @@ export type Database = {
           alias_type?: string
           created_at?: string
           id?: string
+          is_active?: boolean
           language?: string
           region?: string | null
+          review_status?: string
           source_document_id?: string | null
+          source_note?: string | null
           stain_record_id?: string
           updated_at?: string
         }
@@ -8379,6 +8391,54 @@ export type Database = {
             columns: ["stain_record_id"]
             isOneToOne: false
             referencedRelation: "stain_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_record_reroutes: {
+        Row: {
+          created_at: string
+          id: string
+          review_status: string
+          routing_note: string | null
+          sort_order: number
+          stain_record_id: string
+          target_category_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          review_status?: string
+          routing_note?: string | null
+          sort_order?: number
+          stain_record_id: string
+          target_category_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          review_status?: string
+          routing_note?: string | null
+          sort_order?: number
+          stain_record_id?: string
+          target_category_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_record_reroutes_stain_record_id_fkey"
+            columns: ["stain_record_id"]
+            isOneToOne: false
+            referencedRelation: "stain_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_record_reroutes_target_category_id_fkey"
+            columns: ["target_category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
             referencedColumns: ["id"]
           },
         ]
@@ -9490,6 +9550,37 @@ export type Database = {
       }
       is_content_maintainer: { Args: { _user_id: string }; Returns: boolean }
       is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
+      search_stains: {
+        Args: { lim?: number; off?: number; q: string }
+        Returns: {
+          biological_risk: boolean
+          canonical_name: string
+          category_name: string
+          category_slug: string
+          chemical_risk: boolean
+          damage_suspected: boolean
+          fire_risk: boolean
+          hidden_test_required: boolean
+          id: string
+          initial_outcome_class: string
+          mandatory_stop_or_reroute_trigger: string
+          match_rank: number
+          primary_category_id: string
+          reroute_pending: boolean
+          stable_id: string
+          total_count: number
+          typical_chemistry: string
+        }[]
+      }
+      stain_category_counts: {
+        Args: never
+        Returns: {
+          category_id: string
+          record_count: number
+        }[]
+      }
+      stain_norm: { Args: { t: string }; Returns: string }
+      stain_stem: { Args: { tok: string }; Returns: string }
     }
     Enums: {
       app_role:

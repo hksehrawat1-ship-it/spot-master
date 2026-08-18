@@ -14,7 +14,7 @@ import Checkout from "@/pages/Checkout";
 import Setup from "@/pages/Setup";
 import Workspace from "@/pages/Workspace";
 import Cases from "@/pages/Cases";
-import StainRecord from "./pages/StainRecord";
+import StainDetailPage from "./pages/StainDetail";
 import ProductLibrary from "./pages/ProductLibrary";
 import TreatmentStages from "./pages/TreatmentStages";
 import MappingMatrix from "./pages/MappingMatrix";
@@ -61,6 +61,7 @@ import GovernanceDashboard from "@/pages/GovernanceDashboard";
 import GovernanceRecord from "@/pages/GovernanceRecord";
 import AdminPilot from "@/pages/admin/AdminPilot";
 import AdminScaling from "@/pages/admin/AdminScaling";
+import AdminReroutes from "@/pages/admin/AdminReroutes";
 
 import NotFound from "./pages/NotFound.tsx";
 import { AuthProvider } from "@/auth/AuthProvider";
@@ -116,6 +117,7 @@ const App = () => (
               <Route path="/admin/outcome-review" element={<OutcomeReview />} />
               <Route path="/admin/governance" element={<GovernanceDashboard />} />
               <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
+              <Route path="/admin/reroutes" element={<AdminReroutes />} />
               <Route path="/admin/pilot" element={<AdminPilot />} />
               <Route path="/admin/scaling" element={<AdminScaling />} />
               <Route path="/admin" element={<AdminDashboard />} />
@@ -144,7 +146,7 @@ const App = () => (
             <Route path="/products/:productKey" element={<ProductDetail />} />
             <Route path="/treatment-stages" element={<TreatmentStages />} />
             <Route path="/treatment-stages/:stageNumber" element={<TreatmentStages />} />
-            <Route path="/stain/:stainKey" element={<StainRecord />} />
+            <Route path="/stain/:stainKey" element={<StainDetailPage />} />
             <Route path="/fabric-check" element={<FabricCheck />} />
             <Route element={<RequireSignIn />}>
               <Route path="/account" element={<Account />} />

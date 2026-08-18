@@ -101,8 +101,8 @@ export default function PublicShell() {
           <div>
             <Brand />
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              Spot with confidence. Protect every garment. Safety-first spotting guidance for dry cleaners and
-              wet-cleaning professionals.
+              Identify the stain. Choose the safer next step. A classified stain library for dry cleaners and
+              wet-cleaning operators.
             </p>
           </div>
           <nav aria-label="Footer" className="md:col-span-2">
