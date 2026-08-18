@@ -67,7 +67,7 @@ export default function AdminReroutes() {
         .from("stain_record_reroutes")
         .select("id, stain_record_id, target_category_id, evidence_note, review_status")
         .order("sort_order"),
-      supabase.from("source_documents").select("id, title"),
+      supabase.from("source_documents").select("id, document_title"),
     ]);
     if (pendingRes.error) setError(pendingRes.error.message);
     setCategories((catRes.data ?? []) as CategoryRow[]);
@@ -77,7 +77,7 @@ export default function AdminReroutes() {
     const links = (approvedRes.data ?? []) as SuggestionRow[];
     setApprovedLinks(links.filter((l) => l.review_status === "approved").length);
     setSuggestions(links.filter((l) => l.review_status === "suggested"));
-    setDocs(Object.fromEntries(((docRes.data ?? []) as { id: string; title: string }[]).map((d) => [d.id, d.title])));
+    setDocs(Object.fromEntries(((docRes.data ?? []) as { id: string; document_title: string }[]).map((d) => [d.id, d.document_title])));
     setSelection((prev) => {
       const next = { ...prev };
       for (const r of rows) {
