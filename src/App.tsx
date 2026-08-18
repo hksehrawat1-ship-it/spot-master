@@ -62,6 +62,7 @@ import GovernanceRecord from "@/pages/GovernanceRecord";
 import AdminPilot from "@/pages/admin/AdminPilot";
 import AdminScaling from "@/pages/admin/AdminScaling";
 import AdminReroutes from "@/pages/admin/AdminReroutes";
+import AdminAliases from "@/pages/admin/AdminAliases";
 
 import NotFound from "./pages/NotFound.tsx";
 import { AuthProvider } from "@/auth/AuthProvider";
@@ -118,6 +119,8 @@ const App = () => (
               <Route path="/admin/governance" element={<GovernanceDashboard />} />
               <Route path="/admin/governance/:stableId" element={<GovernanceRecord />} />
               <Route path="/admin/reroutes" element={<AdminReroutes />} />
+              <Route path="/admin/aliases" element={<AdminAliases />} />
+
               <Route path="/admin/pilot" element={<AdminPilot />} />
               <Route path="/admin/scaling" element={<AdminScaling />} />
               <Route path="/admin" element={<AdminDashboard />} />
