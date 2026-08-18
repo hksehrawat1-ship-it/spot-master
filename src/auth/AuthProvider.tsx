@@ -160,6 +160,8 @@ export function friendlyAuthError(message: string): string {
   if (m.includes("invalid login")) return "That email address or password is not correct.";
   if (m.includes("already registered")) return "An account already exists for this email address. Please sign in.";
   if (m.includes("email not confirmed")) return "Please confirm your email address, then sign in.";
+  if (m.includes("token") || m.includes("otp") || m.includes("expired"))
+    return "That code is not valid or has expired. Please request a new one.";
   if (m.includes("password")) return "Please use a password of at least 8 characters.";
   if (m.includes("rate") || m.includes("too many")) return "Too many attempts. Please wait a minute and try again.";
   return "We could not complete that just now. Please try again.";
