@@ -123,18 +123,3 @@ export function professionalInstruction(
   const text = instruction.data?.text?.trim();
   return text ? text : LABEL_FALLBACK_INSTRUCTION;
 }
-
-/** R13 — AI suggestions are advisory until the gate approves them. */
-export type AiSuggestion = { name: string; confidence: number; why: string };
-
-export function applySafetyToAiSuggestions(
-  suggestions: AiSuggestion[],
-  facts: Partial<CaseFacts>,
-): { suggestions: AiSuggestion[]; decision: GateDecision; actionableGuidanceAllowed: boolean } {
-  const decision = evaluateGate(facts);
-  return {
-    suggestions: suggestions.slice(0, 3),
-    decision,
-    actionableGuidanceAllowed: decision.outcome === "show" || decision.outcome === "hidden_area_test_required",
-  };
-}

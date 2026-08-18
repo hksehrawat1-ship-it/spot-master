@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { canAccessAdmin, hasPermission, permissionsForRoles } from "@/lib/permissions";
 import {
-  applySafetyToAiSuggestions,
   canShowDomesticTreatment,
   evaluateGate,
   isPublishable,
@@ -129,23 +128,5 @@ describe("data classification", () => {
   it("falls back to the label instruction rather than inventing chemistry", () => {
     expect(professionalInstruction(null)).toMatch(/label|manufacturer/i);
     expect(professionalInstruction(classifyBundled({ text: "Use 50 ml of solvent" }))).toMatch(/label|manufacturer/i);
-  });
-});
-
-describe("AI suggestions stay advisory", () => {
-  it("returns at most three suggestions and no actionable steps when blocked", () => {
-    const out = applySafetyToAiSuggestions(
-      [1, 2, 3, 4, 5].map((n) => ({ name: `s${n}`, confidence: 50, why: "" })),
-      { existingDamage: true, safetyEvaluationAvailable: true },
-    );
-    expect(out.suggestions).toHaveLength(3);
-    expect(out.actionableGuidanceAllowed).toBe(false);
-  });
-
-  it("blocks actionable guidance when the safety check is unavailable", () => {
-    const out = applySafetyToAiSuggestions([{ name: "a", confidence: 90, why: "" }], {
-      safetyEvaluationAvailable: false,
-    });
-    expect(out.actionableGuidanceAllowed).toBe(false);
   });
 });
