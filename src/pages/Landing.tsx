@@ -35,14 +35,17 @@ const BENEFITS = [
 
 const LEVELS = [
   {
+    icon: Store,
     title: "Retail Spotting",
     body: "Simple daily guidance for retail dry cleaners and wet-cleaning operators.",
   },
   {
+    icon: ClipboardCheck,
     title: "Professional Spotting",
     body: "Detailed garment assessment, treatment stages and verified product instructions.",
   },
   {
+    icon: Microscope,
     title: "Master Spotter",
     body: "Advanced diagnosis, technical evidence, chemistry pathways and product-transition controls.",
   },
