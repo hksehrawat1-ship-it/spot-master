@@ -116,8 +116,8 @@ export function StainLibraryIndex() {
           )}
           {!search.searching && !search.error && search.total === 0 && (
             <p className="text-sm text-muted-foreground">
-              No stain record matches that term. Try the canonical name, an alternative name, or browse the
-              categories below.
+              We could not identify this stain confidently. Do not guess. Check the garment, ask the customer for
+              more information, and stop treatment if damage or chemical exposure is suspected.
             </p>
           )}
           {search.total > 0 && (
@@ -236,7 +236,10 @@ export function StainLibraryCategoryDetail({ slug }: { slug: string }) {
             <p className="text-xs text-muted-foreground">Searching…</p>
           )}
           {!search.searching && inCategory.length === 0 && (
-            <p className="text-sm text-muted-foreground">No record in this category matches that term.</p>
+            <p className="text-sm text-muted-foreground">
+              We could not identify this stain confidently. Do not guess. Check the garment, ask the customer for
+              more information, and stop treatment if damage or chemical exposure is suspected.
+            </p>
           )}
           {inCategory.map((r) => (
             <StainRecordCard key={r.id} rec={r} />

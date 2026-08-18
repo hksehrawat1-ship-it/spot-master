@@ -387,6 +387,8 @@ export function useStainDetail(key: string | undefined) {
           .from("stain_record_reroutes")
           .select("routing_note, sort_order, target_category_id")
           .eq("stain_record_id", record.id)
+          .eq("review_status", "approved")
+          .eq("is_suggestion", false)
           .order("sort_order", { ascending: true }),
         supabase
           .from("stain_record_aliases")
