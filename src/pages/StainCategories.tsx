@@ -95,14 +95,6 @@ function StainRow({ rec }: { rec: LibraryClassification }) {
 /* ------------------------------------------------------------------ */
 
 function CategoryIndex() {
-  const counts = categoryCounts();
-  const [query, setQuery] = useState("");
-
-  const matches = useMemo(
-    () => (query.trim() ? filterLibrary({ query, includeDamage: true }) : []),
-    [query],
-  );
-
   return (
     <div className="space-y-4 p-4 pb-24">
       <header>
@@ -112,25 +104,8 @@ function CategoryIndex() {
         </p>
       </header>
 
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-        <Input
-          className="pl-9"
-          placeholder="Search stains by name"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search stains by name"
-        />
-      </div>
+      <StainLibraryIndex />
 
-      {query.trim() && (
-        <div className="space-y-2">
-          <p className="text-xs text-muted-foreground">{matches.length} match(es)</p>
-          {matches.map((m) => (
-            <StainRow key={m.key} rec={m} />
-          ))}
-        </div>
-      )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {PRIMARY_CATEGORIES.map((c) => (
