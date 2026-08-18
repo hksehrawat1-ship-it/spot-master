@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => ({
       manifest: false, // served from public/manifest.webmanifest
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         navigateFallback: "/index.html",
         navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
         cleanupOutdatedCaches: true,
