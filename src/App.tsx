@@ -83,8 +83,27 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
         <Routes>
-          <Route element={<MobileShell />}>
-            <Route path="/" element={<Navigate to="/stain-master" replace />} />
+          {/* Public website */}
+          <Route element={<PublicShell />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/install" element={<Install />} />
+            <Route path="/legal/:slug" element={<Legal />} />
+            <Route element={<RequireSignIn />}>
+              <Route path="/setup" element={<Setup />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Route>
+          </Route>
+
+          {/* Operational workspace */}
+          <Route element={<AppShell />}>
+            <Route element={<RequireSignIn />}>
+              <Route path="/home" element={<Workspace />} />
+              <Route path="/cases" element={<Cases />} />
+              <Route path="/cases/new" element={<StainIdentifyFlow />} />
+            </Route>
+
 
             {/* Legacy GILM course platform — isolated behind a feature flag (Constitution R24). */}
             {FEATURES.legacyCourses && (
