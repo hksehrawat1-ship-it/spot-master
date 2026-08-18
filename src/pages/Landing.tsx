@@ -25,8 +25,8 @@ const BENEFITS = [
   },
   {
     icon: FlaskConical,
-    title: "Select your spotting kit",
-    body: "Receive guidance based on verified products from your selected kit.",
+    title: "Choose your spotting kit",
+    body: "Your selection is saved for future product-specific guidance. No product recommendation is shown until its mapping is approved.",
   },
   {
     icon: ShieldCheck,
@@ -115,7 +115,7 @@ export default function Landing() {
                 <span>stain records</span>
               </div>
               <div className="flex items-center gap-2 rounded-full bg-proceed-surface px-3 py-1.5 text-sm font-bold text-proceed">
-                <CheckCircle2 aria-hidden className="h-4 w-4" /> Highest in the world
+                <CheckCircle2 aria-hidden className="h-4 w-4" /> Safety-first stain guidance
               </div>
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -133,7 +133,7 @@ export default function Landing() {
             <ul className="mt-4 space-y-3 text-sm">
               {[
                 "Fabric checks and concealed-area testing before any chemistry",
-                "Guidance limited to verified products from your own kit",
+                "Product-specific guidance will appear only after the selected kit has been verified and mapped",
                 "Clear stop conditions when the garment is at risk",
                 "Honest states when verified information is not available",
               ].map((item) => (
@@ -193,12 +193,14 @@ export default function Landing() {
       <section id="supported-kits" className="sm-container py-12">
         <h2>Supported spotting kits</h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Guidance is written against the products you actually have. More companies can be added.
+          Product libraries being prepared. Manufacturer products are being documented separately. Approved
+          stain-to-product guidance is not yet available.
         </p>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {shownKits.map((name) => (
             <li key={name} className="sm-card text-center font-semibold text-navy">
               {name}
+              <span className="mt-1 block text-xs font-medium text-muted-foreground">Library being prepared</span>
             </li>
           ))}
           <li className="sm-card text-center text-sm text-muted-foreground">More companies can be added</li>

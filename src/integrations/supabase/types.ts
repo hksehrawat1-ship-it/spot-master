@@ -8352,6 +8352,8 @@ export type Database = {
           language: string
           region: string | null
           review_status: string
+          reviewed_at: string | null
+          reviewed_by: string | null
           source_document_id: string | null
           source_note: string | null
           stain_record_id: string
@@ -8366,6 +8368,8 @@ export type Database = {
           language?: string
           region?: string | null
           review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           source_document_id?: string | null
           source_note?: string | null
           stain_record_id: string
@@ -8380,6 +8384,8 @@ export type Database = {
           language?: string
           region?: string | null
           review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           source_document_id?: string | null
           source_note?: string | null
           stain_record_id?: string
@@ -8398,8 +8404,12 @@ export type Database = {
       stain_record_reroutes: {
         Row: {
           created_at: string
+          evidence_note: string | null
           id: string
+          is_suggestion: boolean
           review_status: string
+          reviewed_at: string | null
+          reviewed_by: string | null
           routing_note: string | null
           sort_order: number
           stain_record_id: string
@@ -8408,8 +8418,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          evidence_note?: string | null
           id?: string
+          is_suggestion?: boolean
           review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           routing_note?: string | null
           sort_order?: number
           stain_record_id: string
@@ -8418,8 +8432,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          evidence_note?: string | null
           id?: string
+          is_suggestion?: boolean
           review_status?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           routing_note?: string | null
           sort_order?: number
           stain_record_id?: string
@@ -9550,6 +9568,10 @@ export type Database = {
       }
       is_content_maintainer: { Args: { _user_id: string }; Returns: boolean }
       is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
+      product_guidance_available: {
+        Args: { _company_id: string; _stain_record_id: string }
+        Returns: boolean
+      }
       search_stains: {
         Args: { lim?: number; off?: number; q: string }
         Returns: {
