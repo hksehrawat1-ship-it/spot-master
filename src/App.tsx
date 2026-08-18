@@ -14,9 +14,6 @@ import Checkout from "@/pages/Checkout";
 import Setup from "@/pages/Setup";
 import Workspace from "@/pages/Workspace";
 import Cases from "@/pages/Cases";
-import Courses from "@/pages/Courses";
-import CourseDetail from "@/pages/CourseDetail";
-import LessonPlayer from "@/pages/LessonPlayer";
 import StainRecord from "./pages/StainRecord";
 import ProductLibrary from "./pages/ProductLibrary";
 import TreatmentStages from "./pages/TreatmentStages";
@@ -39,10 +36,8 @@ import ReadinessAdmin from "@/pages/ReadinessAdmin";
 import StainCategories from "@/pages/StainCategories";
 import StainClassify from "@/pages/StainClassify";
 import ClassificationAdmin from "@/pages/ClassificationAdmin";
-import Certificate from "@/pages/Certificate";
 import SignIn from "@/pages/SignIn";
 import Account from "@/pages/Account";
-import Admin from "@/pages/Admin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminOrganizations from "@/pages/admin/AdminOrganizations";
@@ -70,7 +65,6 @@ import AdminScaling from "@/pages/admin/AdminScaling";
 import NotFound from "./pages/NotFound.tsx";
 import { AuthProvider } from "@/auth/AuthProvider";
 import ProtectedRoute, { RequireSignIn } from "@/components/auth/ProtectedRoute";
-import { FEATURES } from "@/config/features";
 
 const queryClient = new QueryClient();
 
@@ -104,15 +98,6 @@ const App = () => (
             </Route>
 
 
-            {/* Legacy GILM course platform — isolated behind a feature flag (Constitution R24). */}
-            {FEATURES.legacyCourses && (
-              <Route element={<RequireSignIn />}>
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/courses/:slug" element={<CourseDetail />} />
-                <Route path="/courses/:slug/lesson/:lessonId" element={<LessonPlayer />} />
-                <Route path="/courses/:slug/certificate" element={<Certificate />} />
-              </Route>
-            )}
 
             {/* Every administration route passes through one protected gate. */}
             <Route element={<ProtectedRoute label="the administration area" />}>
@@ -134,7 +119,6 @@ const App = () => (
               <Route path="/admin/pilot" element={<AdminPilot />} />
               <Route path="/admin/scaling" element={<AdminScaling />} />
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/courses" element={<Admin />} />
               <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/admin/organizations" element={<AdminOrganizations />} />
               <Route path="/admin/documents" element={<AdminDocuments />} />
