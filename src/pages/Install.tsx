@@ -3,7 +3,7 @@ import { useInstallPrompt } from "@/pwa/useInstallPrompt";
 import StatusNotice from "@/components/system/StatusNotice";
 
 export default function Install() {
-  const { canInstall, promptInstall, installed } = useInstallPrompt();
+  const { canPrompt, install, installed } = useInstallPrompt();
 
   return (
     <div className="sm-container max-w-2xl py-10">
@@ -14,8 +14,8 @@ export default function Install() {
 
       {installed ? (
         <StatusNotice tone="proceed" className="mt-6" title="Stain Master is installed on this device" />
-      ) : canInstall ? (
-        <button type="button" onClick={() => void promptInstall()} className="sm-btn-primary mt-6">
+      ) : canPrompt ? (
+        <button type="button" onClick={() => void install()} className="sm-btn-primary mt-6">
           <Download aria-hidden className="h-4 w-4" /> Install Stain Master
         </button>
       ) : (

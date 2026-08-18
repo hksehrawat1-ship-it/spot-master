@@ -58,7 +58,7 @@ export default function AppShell() {
                   cn(
                     "flex min-h-[44px] items-center gap-3 rounded-[var(--radius)] px-3 text-[15px] font-medium",
                     primary
-                      ? "bg-primary text-primary-foreground hover:bg-primary/92"
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
                       : isActive
                         ? "bg-secondary text-navy"
                         : "text-foreground hover:bg-muted",

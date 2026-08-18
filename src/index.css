@@ -132,7 +132,7 @@
            text-base font-semibold transition-[var(--transition-base)]
            disabled:pointer-events-none disabled:opacity-55;
   }
-  .sm-btn-primary { @apply sm-btn bg-primary text-primary-foreground hover:bg-primary/92 active:scale-[0.99]; }
+  .sm-btn-primary { @apply sm-btn bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.99]; }
   .sm-btn-secondary { @apply sm-btn border border-border bg-surface text-navy hover:bg-secondary; }
   .sm-btn-ghost { @apply sm-btn text-primary hover:bg-secondary; }
   .sm-container { @apply mx-auto w-full max-w-[1200px] px-4 md:px-6; }
