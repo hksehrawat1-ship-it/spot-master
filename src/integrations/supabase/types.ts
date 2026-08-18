@@ -645,6 +645,57 @@ export type Database = {
           },
         ]
       }
+      category_relationships: {
+        Row: {
+          created_at: string
+          from_category_id: string
+          id: string
+          note: string | null
+          relationship_type: string
+          status: string
+          to_category_id: string | null
+          to_category_number: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_category_id: string
+          id?: string
+          note?: string | null
+          relationship_type?: string
+          status?: string
+          to_category_id?: string | null
+          to_category_number: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_category_id?: string
+          id?: string
+          note?: string | null
+          relationship_type?: string
+          status?: string
+          to_category_id?: string | null
+          to_category_number?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "category_relationships_from_category_id_fkey"
+            columns: ["from_category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "category_relationships_to_category_id_fkey"
+            columns: ["to_category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       classification_tags: {
         Row: {
           archived: boolean
@@ -2743,6 +2794,60 @@ export type Database = {
         }
         Relationships: []
       }
+      import_batches: {
+        Row: {
+          batch_name: string
+          batch_number: number
+          completed_at: string | null
+          created_at: string
+          expected_category_numbers: number[]
+          expected_document_count: number
+          id: string
+          started_at: string
+          status: string
+          total_duplicates_prevented: number
+          total_records_imported: number
+          total_records_requiring_review: number
+          total_records_updated: number
+          updated_at: string
+          validation_status: string
+        }
+        Insert: {
+          batch_name: string
+          batch_number: number
+          completed_at?: string | null
+          created_at?: string
+          expected_category_numbers?: number[]
+          expected_document_count?: number
+          id?: string
+          started_at?: string
+          status?: string
+          total_duplicates_prevented?: number
+          total_records_imported?: number
+          total_records_requiring_review?: number
+          total_records_updated?: number
+          updated_at?: string
+          validation_status?: string
+        }
+        Update: {
+          batch_name?: string
+          batch_number?: number
+          completed_at?: string | null
+          created_at?: string
+          expected_category_numbers?: number[]
+          expected_document_count?: number
+          id?: string
+          started_at?: string
+          status?: string
+          total_duplicates_prevented?: number
+          total_records_imported?: number
+          total_records_requiring_review?: number
+          total_records_updated?: number
+          updated_at?: string
+          validation_status?: string
+        }
+        Relationships: []
+      }
       kit_products: {
         Row: {
           bottle_label: string | null
@@ -2796,6 +2901,77 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      manufacturer_products: {
+        Row: {
+          created_at: string
+          id: string
+          manufacturer_id: string
+          product_code: string | null
+          product_name: string
+          source_document_id: string | null
+          updated_at: string
+          verification_status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          manufacturer_id: string
+          product_code?: string | null
+          product_name: string
+          source_document_id?: string | null
+          updated_at?: string
+          verification_status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          manufacturer_id?: string
+          product_code?: string | null
+          product_name?: string
+          source_document_id?: string | null
+          updated_at?: string
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manufacturer_products_manufacturer_id_fkey"
+            columns: ["manufacturer_id"]
+            isOneToOne: false
+            referencedRelation: "manufacturers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manufacturers: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
       }
       mapping_approval_history: {
         Row: {
@@ -5785,6 +5961,54 @@ export type Database = {
           },
         ]
       }
+      product_stain_mappings: {
+        Row: {
+          created_at: string
+          evidence_note: string | null
+          id: string
+          manufacturer_product_id: string
+          source_document_id: string | null
+          stain_record_id: string
+          updated_at: string
+          verification_status: string
+        }
+        Insert: {
+          created_at?: string
+          evidence_note?: string | null
+          id?: string
+          manufacturer_product_id: string
+          source_document_id?: string | null
+          stain_record_id: string
+          updated_at?: string
+          verification_status?: string
+        }
+        Update: {
+          created_at?: string
+          evidence_note?: string | null
+          id?: string
+          manufacturer_product_id?: string
+          source_document_id?: string | null
+          stain_record_id?: string
+          updated_at?: string
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_stain_mappings_manufacturer_product_id_fkey"
+            columns: ["manufacturer_product_id"]
+            isOneToOne: false
+            referencedRelation: "manufacturer_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_stain_mappings_stain_record_id_fkey"
+            columns: ["stain_record_id"]
+            isOneToOne: false
+            referencedRelation: "stain_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_textile_compatibility: {
         Row: {
           approval_status: Database["public"]["Enums"]["content_status"]
@@ -6910,34 +7134,64 @@ export type Database = {
       }
       stain_categories: {
         Row: {
+          active_status: boolean
+          canonical_name: string | null
           category_key: string
+          category_number: number | null
+          core_rule: string | null
           created_at: string
           description: string | null
+          display_order: number | null
           id: string
           name: string
+          routing_note: string | null
+          short_description: string | null
+          slug: string | null
           sort_order: number
+          source_document_id: string | null
           status: Database["public"]["Enums"]["content_status"]
           updated_at: string
+          version: string
         }
         Insert: {
+          active_status?: boolean
+          canonical_name?: string | null
           category_key: string
+          category_number?: number | null
+          core_rule?: string | null
           created_at?: string
           description?: string | null
+          display_order?: number | null
           id?: string
           name: string
+          routing_note?: string | null
+          short_description?: string | null
+          slug?: string | null
           sort_order?: number
+          source_document_id?: string | null
           status?: Database["public"]["Enums"]["content_status"]
           updated_at?: string
+          version?: string
         }
         Update: {
+          active_status?: boolean
+          canonical_name?: string | null
           category_key?: string
+          category_number?: number | null
+          core_rule?: string | null
           created_at?: string
           description?: string | null
+          display_order?: number | null
           id?: string
           name?: string
+          routing_note?: string | null
+          short_description?: string | null
+          slug?: string | null
           sort_order?: number
+          source_document_id?: string | null
           status?: Database["public"]["Enums"]["content_status"]
           updated_at?: string
+          version?: string
         }
         Relationships: []
       }
@@ -8085,6 +8339,185 @@ export type Database = {
           },
         ]
       }
+      stain_record_aliases: {
+        Row: {
+          alias: string
+          alias_type: string
+          created_at: string
+          id: string
+          language: string
+          region: string | null
+          source_document_id: string | null
+          stain_record_id: string
+          updated_at: string
+        }
+        Insert: {
+          alias: string
+          alias_type?: string
+          created_at?: string
+          id?: string
+          language?: string
+          region?: string | null
+          source_document_id?: string | null
+          stain_record_id: string
+          updated_at?: string
+        }
+        Update: {
+          alias?: string
+          alias_type?: string
+          created_at?: string
+          id?: string
+          language?: string
+          region?: string | null
+          source_document_id?: string | null
+          stain_record_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_record_aliases_stain_record_id_fkey"
+            columns: ["stain_record_id"]
+            isOneToOne: false
+            referencedRelation: "stain_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stain_records: {
+        Row: {
+          aged: boolean
+          aliases: string[]
+          biological_risk: boolean
+          canonical_name: string
+          category_version: string | null
+          chemical_risk: boolean
+          contamination_risk: boolean
+          created_at: string
+          cured: boolean
+          damage_suspected: boolean
+          deposit_present: boolean
+          dominant_residue: string | null
+          dried: boolean
+          fire_risk: boolean
+          fresh: boolean
+          heat_set: boolean
+          hidden_test_required: boolean
+          id: string
+          import_batch_id: string | null
+          inhalation_risk: boolean
+          initial_outcome_class: string
+          mandatory_stop_or_reroute_trigger: string | null
+          oxidized: boolean
+          physical_state: string | null
+          previously_treated: boolean
+          primary_category_id: string
+          publication_status: string
+          regional_terms: string[]
+          reroute_pending: boolean
+          reroute_target: string | null
+          review_status: string
+          searchable_secondary_category_ids: string[]
+          source_document_id: string | null
+          source_section: string | null
+          stable_id: string
+          typical_chemistry: string | null
+          updated_at: string
+        }
+        Insert: {
+          aged?: boolean
+          aliases?: string[]
+          biological_risk?: boolean
+          canonical_name: string
+          category_version?: string | null
+          chemical_risk?: boolean
+          contamination_risk?: boolean
+          created_at?: string
+          cured?: boolean
+          damage_suspected?: boolean
+          deposit_present?: boolean
+          dominant_residue?: string | null
+          dried?: boolean
+          fire_risk?: boolean
+          fresh?: boolean
+          heat_set?: boolean
+          hidden_test_required?: boolean
+          id?: string
+          import_batch_id?: string | null
+          inhalation_risk?: boolean
+          initial_outcome_class: string
+          mandatory_stop_or_reroute_trigger?: string | null
+          oxidized?: boolean
+          physical_state?: string | null
+          previously_treated?: boolean
+          primary_category_id: string
+          publication_status?: string
+          regional_terms?: string[]
+          reroute_pending?: boolean
+          reroute_target?: string | null
+          review_status?: string
+          searchable_secondary_category_ids?: string[]
+          source_document_id?: string | null
+          source_section?: string | null
+          stable_id: string
+          typical_chemistry?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aged?: boolean
+          aliases?: string[]
+          biological_risk?: boolean
+          canonical_name?: string
+          category_version?: string | null
+          chemical_risk?: boolean
+          contamination_risk?: boolean
+          created_at?: string
+          cured?: boolean
+          damage_suspected?: boolean
+          deposit_present?: boolean
+          dominant_residue?: string | null
+          dried?: boolean
+          fire_risk?: boolean
+          fresh?: boolean
+          heat_set?: boolean
+          hidden_test_required?: boolean
+          id?: string
+          import_batch_id?: string | null
+          inhalation_risk?: boolean
+          initial_outcome_class?: string
+          mandatory_stop_or_reroute_trigger?: string | null
+          oxidized?: boolean
+          physical_state?: string | null
+          previously_treated?: boolean
+          primary_category_id?: string
+          publication_status?: string
+          regional_terms?: string[]
+          reroute_pending?: boolean
+          reroute_target?: string | null
+          review_status?: string
+          searchable_secondary_category_ids?: string[]
+          source_document_id?: string | null
+          source_section?: string | null
+          stable_id?: string
+          typical_chemistry?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stain_records_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "import_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stain_records_primary_category_id_fkey"
+            columns: ["primary_category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       stain_relations: {
         Row: {
           created_at: string
@@ -8493,6 +8926,60 @@ export type Database = {
             columns: ["primary_category_id"]
             isOneToOne: false
             referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stop_return_rules: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          customer_wording: string | null
+          id: string
+          import_batch_id: string | null
+          rule_order: number
+          rule_text: string
+          rule_type: string
+          source_document_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          customer_wording?: string | null
+          id?: string
+          import_batch_id?: string | null
+          rule_order?: number
+          rule_text: string
+          rule_type?: string
+          source_document_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          customer_wording?: string | null
+          id?: string
+          import_batch_id?: string | null
+          rule_order?: number
+          rule_text?: string
+          rule_type?: string
+          source_document_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stop_return_rules_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stop_return_rules_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "import_batches"
             referencedColumns: ["id"]
           },
         ]
