@@ -47,27 +47,6 @@ export type Database = {
         }
         Relationships: []
       }
-      ai_usage_log: {
-        Row: {
-          created_at: string
-          feature: string
-          id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          feature?: string
-          id?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          feature?: string
-          id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       applied_product_history: {
         Row: {
           assessment_id: string
@@ -6430,51 +6409,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      stain_analyses: {
-        Row: {
-          colour: string | null
-          created_at: string
-          fabric: string | null
-          id: string
-          image_path: string | null
-          model: string | null
-          notes: string | null
-          result: Json
-          stain_age: string | null
-          stain_source: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          colour?: string | null
-          created_at?: string
-          fabric?: string | null
-          id?: string
-          image_path?: string | null
-          model?: string | null
-          notes?: string | null
-          result: Json
-          stain_age?: string | null
-          stain_source?: string | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          colour?: string | null
-          created_at?: string
-          fabric?: string | null
-          id?: string
-          image_path?: string | null
-          model?: string | null
-          notes?: string | null
-          result?: Json
-          stain_age?: string | null
-          stain_source?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
       }
       stain_categories: {
         Row: {
