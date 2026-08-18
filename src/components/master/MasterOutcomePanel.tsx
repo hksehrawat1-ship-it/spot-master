@@ -3,8 +3,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ChipGroup, PanelSection } from "@/components/master/MasterControls";
-import { MASTER_OUTCOMES, NO_AUTO_GUIDANCE_NOTE, NO_STRONGER_CHEMISTRY_NOTE } from "@/data/masterSpotter";
-import { analyseFailure, type MasterOutcome } from "@/lib/masterEngine";
+import { MASTER_OUTCOMES, NO_AUTO_GUIDANCE_NOTE, NO_STRONGER_CHEMISTRY_NOTE, type MasterOutcome } from "@/data/masterSpotter";
+import { analyseFailure } from "@/lib/masterEngine";
 import { useRecordCaseEvent, useSaveMasterCase } from "@/hooks/useMasterCase";
 import { useMaster } from "@/store/useMaster";
 
