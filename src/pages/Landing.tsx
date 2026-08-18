@@ -203,7 +203,8 @@ export default function Landing() {
               <span className="mt-1 block text-xs font-medium text-muted-foreground">Library being prepared</span>
             </li>
           ))}
-          <li className="sm-card text-center text-sm text-muted-foreground">More companies can be added</li>
+          <li className="sm-card text-center text-sm text-muted-foreground">More Spotting&nbsp;</li>
+          <li className="sm-card text-center text-sm text-muted-foreground">More companies are onboarding...&nbsp;</li>
         </ul>
       </section>
 
