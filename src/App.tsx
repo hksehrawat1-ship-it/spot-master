@@ -5,6 +5,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import MobileShell from "@/layouts/MobileShell";
+import PublicShell from "@/layouts/PublicShell";
+import AppShell from "@/layouts/AppShell";
+import Landing from "@/pages/Landing";
+import Legal from "@/pages/Legal";
+import Install from "@/pages/Install";
+import Register from "@/pages/Register";
+import Checkout from "@/pages/Checkout";
+import Setup from "@/pages/Setup";
+import Workspace from "@/pages/Workspace";
+import Cases from "@/pages/Cases";
 import Courses from "@/pages/Courses";
 import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
