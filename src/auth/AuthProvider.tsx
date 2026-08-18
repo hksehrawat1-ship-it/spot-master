@@ -128,6 +128,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await supabase.auth.signOut();
         setRoles([]);
       },
+      sendEmailOtp: async (email, fullName, phone) => {
+        const { error } = await supabase.auth.signInWithOtp({
+          email: email.trim(),
+          options: {
+            shouldCreateUser: true,
+            emailRedirectTo: `${window.location.origin}/`,
+            data: fullName || phone ? { full_name: fullName, phone } : undefined,
+          },
+        });
+        return error ? { error: friendlyAuthError(error.message) } : {};
+      },
+      verifyEmailOtp: async (email, code) => {
+        const { error } = await supabase.auth.verifyOtp({
+          email: email.trim(),
+          token: code.trim(),
+          type: "email",
+        });
+        return error ? { error: friendlyAuthError(error.message) } : {};
+      },
       refreshRoles: async () => loadRoles(session?.user?.id),
     };
   }, [status, session, roles, rolesLoaded, backendUnavailable, loadRoles]);
