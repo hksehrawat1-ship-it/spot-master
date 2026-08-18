@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Search, Sparkles, AlertTriangle, ArrowLeft, ShieldCheck } from "lucide-react";
+import { Search, Sparkles, AlertTriangle, ArrowLeft, ShieldCheck, ClipboardList } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +61,24 @@ export default function StainMaster() {
           className="h-12 rounded-xl border-2 pl-10 text-base"
         />
       </div>
+
+      {/* Retail Spotting — Layer 1 */}
+      {!q && !activeCategory && (
+        <Link
+          to="/retail-spotting"
+          className="flex items-center gap-3 rounded-xl border-2 border-primary bg-primary/5 p-4 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elevated"
+        >
+          <span className="rounded-full bg-primary/10 p-2.5">
+            <ClipboardList className="h-5 w-5 text-primary" aria-hidden />
+          </span>
+          <span className="flex-1">
+            <span className="block text-base font-semibold">Retail Spotting</span>
+            <span className="block text-xs text-muted-foreground">
+              Step-by-step, safety-first guidance for retail dry cleaning and wet cleaning
+            </span>
+          </span>
+        </Link>
+      )}
 
       {/* Fabric safety check */}
       {!q && !activeCategory && (
