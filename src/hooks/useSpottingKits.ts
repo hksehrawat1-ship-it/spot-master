@@ -47,7 +47,7 @@ export function useCompanyProducts(companyId: string | null) {
       const { data, error } = await supabase
         .from("professional_products")
         .select(
-          "id, product_name, display_name, company_id, kit_id, application_method, status, verification_status, label_version, technical_reviewer_id, review_date",
+          "id, product_name, display_name, company_id, kit_id, application_method, status, verification_status, label_version",
         )
         .eq("company_id", companyId!);
       if (error) throw error;
@@ -88,14 +88,14 @@ export function useVerifiedBasicMethods(stainName?: string) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("domestic_treatments")
-        .select("id, title, method_steps, confidence_score, approval_status")
+        .select("id, title, method, confidence_score, approval_status")
         .in("approval_status", ["approved", "published"])
         .gte("confidence_score", 9);
       if (error) throw error;
       return (data ?? []).map((row) => ({
         methodId: row.id,
         title: (row.title as string) ?? "Approved basic method",
-        steps: Array.isArray(row.method_steps) ? (row.method_steps as string[]) : [],
+        steps: Array.isArray(row.method) ? (row.method as string[]) : [],
         confidence: Number(row.confidence_score ?? 0),
         status: String(row.approval_status ?? ""),
       }));
