@@ -189,55 +189,70 @@ ON CONFLICT (category_key) DO UPDATE SET
   version = EXCLUDED.version, active_status = true, source_document_id = EXCLUDED.source_document_id,
   updated_at = now();""")
 
-    # stop/return rules (idempotent: delete rules for this category from batch 2 then insert)
+    # stop/return rules (idempotent: replace this category's rules)
     out.append(f"""
 DELETE FROM stop_return_rules WHERE category_id = (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])});""")
-    for i, r in enumerate(cat["stop_rules"], start=1):
+    rule_vals = ",".join(
+        f"({i},{q(r)})" for i, r in enumerate(cat["stop_rules"], start=1)
+    )
+    if rule_vals:
         out.append(f"""
 INSERT INTO stop_return_rules (category_id, rule_order, rule_text, rule_type, customer_wording,
   source_document_id, import_batch_id)
-VALUES ((SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}), {i}, {q(r)}, 'stop_and_return',
+SELECT (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}), v.o, v.t, 'stop_and_return',
   {q(cat['customer_wording'])}, (SELECT id FROM source_documents WHERE document_ref = {q(meta['doc_ref'])}),
-  (SELECT id FROM import_batches WHERE batch_number = 2));""")
+  (SELECT id FROM import_batches WHERE batch_number = 2)
+FROM (VALUES {rule_vals}) AS v(o,t);""")
 
+    rows = []
+    alias_rows = []
+    reroute_nums = set()
     for rec in cat["records"]:
         stable = f"SM-CAT-{n:02d}-{slugify(rec['name'])}"
         reroute = reroute_of(rec)
+        if reroute:
+            reroute_nums.update(re.findall(r"\d+", reroute))
         name = rec["name"]
         aliases = []
         if "/" in name:
-            head = name.split("/")[0].strip()
-            parts = [p.strip() for p in re.split(r"/", name)]
-            aliases = [p for p in parts if p and p != name]
-            # rebuild "A / B" style names into full alternates where the first token carries context
-            words = head.split()
-            if len(words) > 1:
-                aliases = [parts[0]] + [" ".join(words[:-1] + [p]) if len(p.split()) == 1 else p
-                                        for p in parts[1:]]
+            parts = [p.strip() for p in name.split("/") if p.strip()]
+            head_words = parts[0].split()
+            aliases = [parts[0]]
+            for p in parts[1:]:
+                aliases.append(" ".join(head_words[:-1] + [p]) if len(p.split()) == 1 and len(head_words) > 1 else p)
             aliases = [a for a in dict.fromkeys(aliases) if a.lower() != name.lower()]
         damage = rec["outcome"] == "damage_permanent" or flag(rec, DAMAGE)
         deposit = rec["outcome"] != "damage_permanent"
         hidden = ("controlled testing" in rec["trigger"].lower()
                   or "verify source and textile stability" in rec["trigger"].lower())
         low = name.lower()
-        out.append(f"""
+        b = lambda x: "true" if x else "false"
+        rows.append(
+            f"({q(stable)},{q(name)},{q(rec['chemistry'])},{q(rec['outcome'])},{q(rec['trigger'])},"
+            f"{arr(aliases)},{b(flag(rec, BIO))},{b(flag(rec, CHEM))},{b(flag(rec, FIRE))},"
+            f"{b(flag(rec, INHAL))},{b(flag(rec, CONTAM))},{b(damage)},{b(deposit)},{b(hidden)},"
+            f"{b('aged' in low or 'old' in low)},{b('oxid' in low or 'oxid' in rec['chemistry'].lower())},"
+            f"{b('heat' in low or 'scorch' in low or 'melt' in low or 'press' in low)},"
+            f"{b('previous' in low or 'after' in low or 'residual' in low)},{q(reroute)},{q(rec['section'])})"
+        )
+        for a in aliases:
+            alias_rows.append(f"({q(stable)},{q(a)})")
+
+    out.append(f"""
 INSERT INTO stain_records (stable_id, canonical_name, primary_category_id, typical_chemistry,
   initial_outcome_class, mandatory_stop_or_reroute_trigger, aliases, biological_risk, chemical_risk,
   fire_risk, inhalation_risk, contamination_risk, damage_suspected, deposit_present,
   hidden_test_required, aged, oxidized, heat_set, previously_treated, reroute_target, reroute_pending,
   publication_status, review_status, source_document_id, source_section, category_version, import_batch_id)
-VALUES ({q(stable)}, {q(name)}, (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}),
-  {q(rec['chemistry'])}, {q(rec['outcome'])}, {q(rec['trigger'])}, {arr(aliases)},
-  {str(flag(rec, BIO)).lower()}, {str(flag(rec, CHEM)).lower()}, {str(flag(rec, FIRE)).lower()},
-  {str(flag(rec, INHAL)).lower()}, {str(flag(rec, CONTAM)).lower()}, {str(damage).lower()},
-  {str(deposit).lower()}, {str(hidden).lower()},
-  {str('aged' in low or 'old' in low).lower()},
-  {str('oxid' in low or 'oxid' in rec['chemistry'].lower()).lower()},
-  {str('heat' in low or 'scorch' in low or 'melt' in low or 'press' in low).lower()},
-  {str('previous' in low or 'after' in low or 'residual' in low).lower()},
-  {q(reroute)}, false, 'published', 'approved',
-  (SELECT id FROM source_documents WHERE document_ref = {q(meta['doc_ref'])}), {q(rec['section'])},
-  {q(cat['version'])}, (SELECT id FROM import_batches WHERE batch_number = 2))
+SELECT v.stable_id, v.canonical_name, (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}),
+  v.chem, v.outcome, v.trigger, v.aliases, v.bio, v.chemr, v.fire, v.inhal, v.contam, v.damage,
+  v.deposit, v.hidden, v.aged, v.oxidized, v.heat_set, v.prev, v.reroute, false, 'published', 'approved',
+  (SELECT id FROM source_documents WHERE document_ref = {q(meta['doc_ref'])}), v.section, {q(cat['version'])},
+  (SELECT id FROM import_batches WHERE batch_number = 2)
+FROM (VALUES
+{",".join(rows)}
+) AS v(stable_id, canonical_name, chem, outcome, trigger, aliases, bio, chemr, fire, inhal, contam,
+       damage, deposit, hidden, aged, oxidized, heat_set, prev, reroute, section)
 ON CONFLICT (stable_id) DO UPDATE SET
   canonical_name = EXCLUDED.canonical_name, primary_category_id = EXCLUDED.primary_category_id,
   typical_chemistry = EXCLUDED.typical_chemistry, initial_outcome_class = EXCLUDED.initial_outcome_class,
@@ -250,13 +265,30 @@ ON CONFLICT (stable_id) DO UPDATE SET
   reroute_pending = false, source_document_id = EXCLUDED.source_document_id,
   source_section = EXCLUDED.source_section, category_version = EXCLUDED.category_version,
   import_batch_id = EXCLUDED.import_batch_id, updated_at = now();""")
-        for a in aliases:
-            out.append(f"""
+
+    if alias_rows:
+        out.append(f"""
 INSERT INTO stain_record_aliases (stain_record_id, alias, alias_type, language, source_document_id)
-SELECT r.id, {q(a)}, 'alternative_name', 'en',
+SELECT r.id, v.alias, 'alternative_name', 'en',
   (SELECT id FROM source_documents WHERE document_ref = {q(meta['doc_ref'])})
-FROM stain_records r WHERE r.stable_id = {q(stable)}
-  AND NOT EXISTS (SELECT 1 FROM stain_record_aliases x WHERE x.stain_record_id = r.id AND x.alias = {q(a)});""")
+FROM (VALUES
+{",".join(alias_rows)}
+) AS v(stable_id, alias)
+JOIN stain_records r ON r.stable_id = v.stable_id
+ON CONFLICT (stain_record_id, alias, language) DO NOTHING;""")
+
+    for num in sorted(reroute_nums, key=int):
+        out.append(f"""
+INSERT INTO category_relationships (from_category_id, to_category_number, to_category_id, relationship_type, status, note)
+SELECT (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}), {num},
+  (SELECT id FROM stain_categories WHERE category_number = {num}), 'reroute', 'active',
+  'Derived from approved category document routing guidance.'
+WHERE NOT EXISTS (
+  SELECT 1 FROM category_relationships c
+  WHERE c.from_category_id = (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])})
+    AND c.to_category_number = {num} AND c.relationship_type = 'reroute');""")
+    return "\n".join(out)
+
 
         if reroute:
             for num in re.findall(r"\d+", reroute):
