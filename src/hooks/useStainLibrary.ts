@@ -126,7 +126,7 @@ export function useStainCategoryRecords(slug: string | undefined) {
           .eq("publication_status", "published")
           .order("canonical_name");
         if (!active) return;
-        setRecords((data ?? []) as StainRecordRow[]);
+        setRecords((data ?? []) as unknown as StainRecordRow[]);
       } else {
         setRecords([]);
       }
@@ -170,7 +170,7 @@ export function useStainSearch(query: string) {
       const catName: Record<string, string> = {};
       for (const c of (cats.data ?? []) as { id: string; canonical_name: string }[]) catName[c.id] = c.canonical_name;
 
-      let rows = (byName.data ?? []) as StainRecordRow[];
+      let rows = (byName.data ?? []) as unknown as StainRecordRow[];
       const aliasIds = ((byAlias.data ?? []) as { stain_record_id: string }[]).map((a) => a.stain_record_id);
       const missing = aliasIds.filter((id) => !rows.some((r) => r.id === id));
       if (missing.length) {
@@ -180,7 +180,7 @@ export function useStainSearch(query: string) {
           .in("id", missing)
           .eq("publication_status", "published");
         if (!active) return;
-        rows = rows.concat((data ?? []) as StainRecordRow[]);
+        rows = rows.concat((data ?? []) as unknown as StainRecordRow[]);
       }
       setHits(
         rows
