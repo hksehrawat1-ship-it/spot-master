@@ -149,7 +149,7 @@ export function usableBasicMethod(methods: BasicMethod[]): BasicMethod | null {
 }
 
 function avoidList(c: RetailCase): string[] {
-  const out = [AVOID_LIBRARY.rub, AVOID_LIBRARY.colour, AVOID_LIBRARY.texture];
+  const out: string[] = [AVOID_LIBRARY.rub, AVOID_LIBRARY.colour, AVOID_LIBRARY.texture];
   if (c.heatExposed !== "No" || c.stainAge !== "Fresh") out.splice(1, 0, AVOID_LIBRARY.heat);
   if (c.previouslyTreated !== "No" || c.kit.kind === "basic") out.push(AVOID_LIBRARY.mix);
   return out;
@@ -171,7 +171,6 @@ export function concealedTestRequired(c: RetailCase): boolean {
     !c.fabricKnown ||
     c.careLabel !== "available" ||
     c.colour !== "White" ||
-    c.colour === "Unknown" ||
     c.specialConstruction !== "No"
   );
 }
