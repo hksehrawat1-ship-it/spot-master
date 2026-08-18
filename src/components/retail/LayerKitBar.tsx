@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AlertCircle, Briefcase, ChevronDown, Layers } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import { useRetail } from "@/store/useRetail";
 export default function LayerKitBar() {
   const { layer, setLayer, kit, setKit, otherKitName, setOtherKitName } = useRetail();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const companies = useKitCompanies();
   const products = useCompanyProducts(kit.kind === "company" ? kit.companyId : null);
 
@@ -37,7 +39,14 @@ export default function LayerKitBar() {
             key={l.key}
             type="button"
             aria-pressed={layer === l.key}
-            onClick={() => (l.available ? setLayer(l.key) : toast(LAYER_UNAVAILABLE_MESSAGE))}
+            onClick={() => {
+              if (!l.available) {
+                toast(LAYER_UNAVAILABLE_MESSAGE);
+                return;
+              }
+              setLayer(l.key);
+              navigate(l.key === "professional" ? "/professional-spotting" : "/retail-spotting");
+            }}
             className={`min-h-[36px] rounded-full px-3 text-xs font-semibold transition-colors ${
               layer === l.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
             } ${l.available ? "" : "opacity-60"}`}

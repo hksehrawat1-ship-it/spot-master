@@ -8,7 +8,7 @@
 
 export const WORKING_LAYERS = [
   { key: "retail", label: "Retail Spotting", note: "Simple, safety-first guidance", available: true },
-  { key: "professional", label: "Professional", note: "Coming later", available: false },
+  { key: "professional", label: "Professional", note: "Verified process control", available: true },
   { key: "master", label: "Master Spotter", note: "Coming later", available: false },
 ] as const;
 
