@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useMappings } from "@/store/useMappings";
 import { useProducts } from "@/store/useProducts";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { TREATMENT_STAGES } from "@/data/treatmentStages";
 import {
   DECISION_LABEL, MAPPING_DECISIONS, MAPPING_STATUSES, MAPPING_STATUS_LABEL,
@@ -29,9 +29,9 @@ const chip = (active: boolean) =>
 export default function MappingEditor() {
   const store = useMappings();
   const productStore = useProducts();
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const by = user?.email ?? "reviewer";
-  const isReviewer = user?.role === "admin";
+  const isReviewer = isAdmin;
 
   const [params, setParams] = useSearchParams();
   const mappings = useMemo(() => store.mappings(), [store.mappingOverrides, store.customMappings]);

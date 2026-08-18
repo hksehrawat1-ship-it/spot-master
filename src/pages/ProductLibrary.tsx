@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/store/useProducts";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import {
   currentVersion, documentsFor, evaluateScorecard, detectConflicts, filterProducts,
   productCard, OVERALL_LABEL,
@@ -22,8 +22,8 @@ const chip = (active: boolean) =>
 
 export default function ProductLibrary() {
   const store = useProducts();
-  const user = useApp((s) => s.user);
-  const isProfessional = user?.role === "admin";
+  const { user, isAdmin } = useAuth();
+  const isProfessional = isAdmin;
 
   const products = useMemo(() => store.products(), [store.productOverrides, store.customProducts]);
   const companies = useMemo(() => store.companies(), [store.companyOverrides, store.customCompanies]);

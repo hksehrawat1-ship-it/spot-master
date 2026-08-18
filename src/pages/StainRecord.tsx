@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useMasterStains } from "@/store/useMasterStains";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { publicView, professionalView } from "@/lib/masterStainEngine";
 import { CATEGORY_LABEL } from "@/data/stainKnowledge";
 import { FABRIC_LABEL, COLOUR_LABEL, PROHIBITION_LABEL, STAGE_LABEL, OUTCOME_LABEL } from "@/data/masterStains";
@@ -18,11 +18,11 @@ export default function StainRecord() {
   const { stainKey } = useParams();
   const store = useMasterStains();
   const all = useMemo(() => store.all(), [store.overrides, store.custom]);
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const [showTechnical, setShowTechnical] = useState(false);
 
   const record = useMemo(() => all.find((s) => s.key === stainKey || s.stainId === stainKey), [all, stainKey]);
-  const role: AudienceRole = user?.role === "admin" ? "technical_reviewer" : "domestic_user";
+  const role: AudienceRole = isAdmin ? "technical_reviewer" : "domestic_user";
 
   if (!record) {
     return (

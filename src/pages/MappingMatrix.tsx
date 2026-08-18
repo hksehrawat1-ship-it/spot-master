@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useMappings } from "@/store/useMappings";
 import { useProducts } from "@/store/useProducts";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { TREATMENT_STAGES } from "@/data/treatmentStages";
 import {
   DECISION_LABEL, EVIDENCE_LEVEL_LABEL, MAPPING_STATUS_LABEL, STAS_MAPPING_GAP,
@@ -33,8 +33,8 @@ const decisionTone = (d: ProductStageMapping["decision"]) =>
 export default function MappingMatrix() {
   const store = useMappings();
   const products = useProducts();
-  const user = useApp((s) => s.user);
-  const isReviewer = user?.role === "admin";
+  const { user, isAdmin } = useAuth();
+  const isReviewer = isAdmin;
   const audience = audienceForRole("domestic_user", isReviewer);
 
   const all = useMemo(

@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useProducts } from "@/store/useProducts";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import {
   currentVersion, documentsFor, evaluateScorecard, detectConflicts, detectIdentityConflicts,
   exportProductsCsv, canPublishExtraction, isSafetyCritical, kitsForProduct,
@@ -22,7 +22,7 @@ import { ArrowLeft, Download, ShieldAlert } from "lucide-react";
 
 export default function ProductAdmin() {
   const store = useProducts();
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const by = user?.email ?? "admin";
 
   const products = useMemo(() => store.products(), [store.productOverrides, store.customProducts]);
@@ -74,7 +74,7 @@ export default function ProductAdmin() {
     }
   };
 
-  if (user?.role !== "admin") {
+  if (!isAdmin) {
     return (
       <div className="p-4 space-y-2">
         <p className="text-muted-foreground">Product administration is restricted to content maintainers.</p>
