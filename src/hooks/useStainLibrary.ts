@@ -55,11 +55,9 @@ export type StainRecordRow = {
   source_section: string | null;
 };
 
-/** Categories 11 and 12 are not imported yet (Import Batch 2). */
-export const PENDING_CATEGORIES = [
-  { category_number: 11, canonical_name: "Metal / Rust / Mineral Stains" },
-  { category_number: 12, canonical_name: "Chemical Stains / Fabric Damage" },
-];
+/** All 12 categories are imported; nothing is pending. */
+export const PENDING_CATEGORIES: { category_number: number; canonical_name: string }[] = [];
+
 
 const RECORD_FIELDS =
   "id, canonical_name, primary_category_id, typical_chemistry, initial_outcome_class, " +
