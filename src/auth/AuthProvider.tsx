@@ -23,6 +23,10 @@ type AuthValue = {
   can: (permission: Permission) => boolean;
   signInWithPassword: (email: string, password: string) => Promise<{ error?: string }>;
   signUpWithPassword: (email: string, password: string, fullName: string, phone: string) => Promise<{ error?: string }>;
+  /** Sends a one-time code to the email address, creating the account if needed. */
+  sendEmailOtp: (email: string, fullName?: string, phone?: string) => Promise<{ error?: string }>;
+  /** Verifies the emailed one-time code and starts the session. */
+  verifyEmailOtp: (email: string, code: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   refreshRoles: () => Promise<void>;
 };
@@ -124,6 +128,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await supabase.auth.signOut();
         setRoles([]);
       },
+      sendEmailOtp: async (email, fullName, phone) => {
+        const { error } = await supabase.auth.signInWithOtp({
+          email: email.trim(),
+          options: {
+            shouldCreateUser: true,
+            emailRedirectTo: `${window.location.origin}/`,
+            data: fullName || phone ? { full_name: fullName, phone } : undefined,
+          },
+        });
+        return error ? { error: friendlyAuthError(error.message) } : {};
+      },
+      verifyEmailOtp: async (email, code) => {
+        const { error } = await supabase.auth.verifyOtp({
+          email: email.trim(),
+          token: code.trim(),
+          type: "email",
+        });
+        return error ? { error: friendlyAuthError(error.message) } : {};
+      },
       refreshRoles: async () => loadRoles(session?.user?.id),
     };
   }, [status, session, roles, rolesLoaded, backendUnavailable, loadRoles]);
@@ -137,6 +160,8 @@ export function friendlyAuthError(message: string): string {
   if (m.includes("invalid login")) return "That email address or password is not correct.";
   if (m.includes("already registered")) return "An account already exists for this email address. Please sign in.";
   if (m.includes("email not confirmed")) return "Please confirm your email address, then sign in.";
+  if (m.includes("token") || m.includes("otp") || m.includes("expired"))
+    return "That code is not valid or has expired. Please request a new one.";
   if (m.includes("password")) return "Please use a password of at least 8 characters.";
   if (m.includes("rate") || m.includes("too many")) return "Too many attempts. Please wait a minute and try again.";
   return "We could not complete that just now. Please try again.";
