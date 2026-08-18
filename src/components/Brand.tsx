@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/gilm-logo.png";
+import logo from "@/assets/stain-master-mark.png";
 
 export default function Brand({ to = "/", subdued = false }: { to?: string; subdued?: boolean }) {
   return (
