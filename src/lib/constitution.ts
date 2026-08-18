@@ -28,7 +28,7 @@ export const CONSTITUTION_RULES = [
   { id: "R21", rule: "India first, with future countries, languages and regional availability supported." },
   { id: "R22", rule: "The database is authoritative; hardcoded records are marked demonstration data." },
   { id: "R23", rule: "Safety-critical guidance fails closed." },
-  { id: "R24", rule: "Legacy course platform stays behind a feature flag." },
+  { id: "R24", rule: "Legacy learning-platform code is retired and must never surface in production UI." },
 ] as const;
 
 /** Rule 10 — the only permitted text when an approved instruction is missing. */

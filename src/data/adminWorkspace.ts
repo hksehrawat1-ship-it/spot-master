@@ -188,7 +188,7 @@ export const ADMIN_SECTION_META: Record<AdminSection, AdminSectionMeta> = {
   },
   users: {
     key: "users", label: "Users", description: "Roles, mode access, competency, suspension and access history.",
-    route: "/admin/users", consolidates: ["/admin (students tab)"],
+    route: "/admin/users", consolidates: ["/admin (users tab)"],
     modes: ["system", "organization"], primary: true,
   },
   inventory: {
