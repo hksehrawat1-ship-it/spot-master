@@ -107,35 +107,6 @@ function CategoryIndex() {
       <StainLibraryIndex />
 
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {PRIMARY_CATEGORIES.map((c) => (
-          <Link key={c.key} to={`/stain-categories/${c.key}`} className="block">
-            <Card className="h-full p-4 transition-colors hover:bg-accent">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl" aria-hidden>{c.icon}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="font-semibold">{c.name}</p>
-                    {c.technicalOnly && <Badge variant="outline" className="text-[10px]">Technical</Badge>}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{c.oneLine}</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">
-                    {c.examples.slice(0, 4).join(" · ")}
-                  </p>
-                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <Chip>{counts[c.key]} published stain{counts[c.key] === 1 ? "" : "s"}</Chip>
-                    {c.heatWarning && (
-                      <Chip tone="warn">
-                        <Flame className="mr-1 inline h-3 w-3" aria-hidden />Heat warning
-                      </Chip>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
 
       <Card className="border-dashed p-4">
         <div className="flex items-start gap-3">
