@@ -9572,8 +9572,6 @@ export type Database = {
           typical_chemistry: string
         }[]
       }
-      show_limit: { Args: never; Returns: number }
-      show_trgm: { Args: { "": string }; Returns: string[] }
       stain_category_counts: {
         Args: never
         Returns: {
