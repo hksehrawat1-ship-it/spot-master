@@ -23,6 +23,10 @@ type AuthValue = {
   can: (permission: Permission) => boolean;
   signInWithPassword: (email: string, password: string) => Promise<{ error?: string }>;
   signUpWithPassword: (email: string, password: string, fullName: string, phone: string) => Promise<{ error?: string }>;
+  /** Sends a one-time code to the email address, creating the account if needed. */
+  sendEmailOtp: (email: string, fullName?: string, phone?: string) => Promise<{ error?: string }>;
+  /** Verifies the emailed one-time code and starts the session. */
+  verifyEmailOtp: (email: string, code: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   refreshRoles: () => Promise<void>;
 };
