@@ -169,7 +169,6 @@ const App = () => (
             <Route path="/domestic-treatment" element={<DomesticTreatmentPage />} />
             <Route path="/kit-comparison" element={<KitComparison />} />
             <Route path="/treatment-outcome" element={<TreatmentOutcome />} />
-            <Route path="/sign-in" element={<SignIn />} />
 
           </Route>
           <Route path="*" element={<NotFound />} />
