@@ -13,6 +13,7 @@ import {
   RELEVANCE_LABEL, CATEGORY_BY_KEY,
 } from "@/data/taxonomy";
 import { categoryCounts, filterLibrary, sourcesForCategory } from "@/lib/classification";
+import { StainLibraryIndex, StainLibraryCategoryDetail } from "@/components/stains/StainLibrary";
 import type { LibraryClassification } from "@/data/stainClassifications";
 
 /* ------------------------------------------------------------------ */
