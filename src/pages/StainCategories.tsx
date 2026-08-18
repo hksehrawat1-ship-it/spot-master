@@ -300,7 +300,8 @@ function CategoryDetail({ categoryKey }: { categoryKey: PrimaryCategoryKey }) {
 
 export default function StainCategories() {
   const { categoryKey } = useParams<{ categoryKey: string }>();
-  const valid = PRIMARY_CATEGORIES.some((c) => c.key === categoryKey);
-  if (categoryKey && valid) return <CategoryDetail categoryKey={categoryKey as PrimaryCategoryKey} />;
+  const legacy = PRIMARY_CATEGORIES.some((c) => c.key === categoryKey);
+  if (categoryKey && legacy) return <CategoryDetail categoryKey={categoryKey as PrimaryCategoryKey} />;
+  if (categoryKey) return <StainLibraryCategoryDetail slug={categoryKey} />;
   return <CategoryIndex />;
 }
