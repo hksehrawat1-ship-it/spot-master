@@ -9580,6 +9580,7 @@ export type Database = {
         }[]
       }
       stain_norm: { Args: { t: string }; Returns: string }
+      stain_stem: { Args: { tok: string }; Returns: string }
     }
     Enums: {
       app_role:
