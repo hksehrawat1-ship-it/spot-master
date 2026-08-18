@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   CheckCircle2,
+  ClipboardCheck,
   ClipboardList,
   FlaskConical,
-  Layers,
+  Microscope,
   Search,
   ShieldCheck,
   Sparkles,
+  Store,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePricingPlan } from "@/hooks/usePricingPlan";
