@@ -7,7 +7,6 @@ const isProd = import.meta.env.PROD;
 
 export const FEATURES = {
   /** "Acting as" role simulation inside the admin workspace. Never on in production. */
-  /** "Acting as" role simulation inside the admin workspace. Never on in production. */
   roleSimulation: !isProd,
   /** Demo sign-in shortcut. Never on in production. */
   demoAuth: !isProd,
