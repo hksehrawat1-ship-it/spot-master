@@ -13,6 +13,7 @@ import {
   RELEVANCE_LABEL, CATEGORY_BY_KEY,
 } from "@/data/taxonomy";
 import { categoryCounts, filterLibrary, sourcesForCategory } from "@/lib/classification";
+import { StainLibraryIndex, StainLibraryCategoryDetail } from "@/components/stains/StainLibrary";
 import type { LibraryClassification } from "@/data/stainClassifications";
 
 /* ------------------------------------------------------------------ */
@@ -95,14 +96,6 @@ function StainRow({ rec }: { rec: LibraryClassification }) {
 /* ------------------------------------------------------------------ */
 
 function CategoryIndex() {
-  const counts = categoryCounts();
-  const [query, setQuery] = useState("");
-
-  const matches = useMemo(
-    () => (query.trim() ? filterLibrary({ query, includeDamage: true }) : []),
-    [query],
-  );
-
   return (
     <div className="space-y-4 p-4 pb-24">
       <header>
@@ -112,55 +105,9 @@ function CategoryIndex() {
         </p>
       </header>
 
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-        <Input
-          className="pl-9"
-          placeholder="Search stains by name"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search stains by name"
-        />
-      </div>
+      <StainLibraryIndex />
 
-      {query.trim() && (
-        <div className="space-y-2">
-          <p className="text-xs text-muted-foreground">{matches.length} match(es)</p>
-          {matches.map((m) => (
-            <StainRow key={m.key} rec={m} />
-          ))}
-        </div>
-      )}
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {PRIMARY_CATEGORIES.map((c) => (
-          <Link key={c.key} to={`/stain-categories/${c.key}`} className="block">
-            <Card className="h-full p-4 transition-colors hover:bg-accent">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl" aria-hidden>{c.icon}</span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <p className="font-semibold">{c.name}</p>
-                    {c.technicalOnly && <Badge variant="outline" className="text-[10px]">Technical</Badge>}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{c.oneLine}</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">
-                    {c.examples.slice(0, 4).join(" · ")}
-                  </p>
-                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <Chip>{counts[c.key]} published stain{counts[c.key] === 1 ? "" : "s"}</Chip>
-                    {c.heatWarning && (
-                      <Chip tone="warn">
-                        <Flame className="mr-1 inline h-3 w-3" aria-hidden />Heat warning
-                      </Chip>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
 
       <Card className="border-dashed p-4">
         <div className="flex items-start gap-3">
@@ -353,7 +300,8 @@ function CategoryDetail({ categoryKey }: { categoryKey: PrimaryCategoryKey }) {
 
 export default function StainCategories() {
   const { categoryKey } = useParams<{ categoryKey: string }>();
-  const valid = PRIMARY_CATEGORIES.some((c) => c.key === categoryKey);
-  if (categoryKey && valid) return <CategoryDetail categoryKey={categoryKey as PrimaryCategoryKey} />;
+  const legacy = PRIMARY_CATEGORIES.some((c) => c.key === categoryKey);
+  if (categoryKey && legacy) return <CategoryDetail categoryKey={categoryKey as PrimaryCategoryKey} />;
+  if (categoryKey) return <StainLibraryCategoryDetail slug={categoryKey} />;
   return <CategoryIndex />;
 }
