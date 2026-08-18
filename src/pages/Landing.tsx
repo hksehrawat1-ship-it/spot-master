@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   CheckCircle2,
+  ClipboardCheck,
   ClipboardList,
   FlaskConical,
-  Layers,
+  Microscope,
   Search,
   ShieldCheck,
   Sparkles,
+  Store,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePricingPlan } from "@/hooks/usePricingPlan";
@@ -35,14 +37,17 @@ const BENEFITS = [
 
 const LEVELS = [
   {
+    icon: Store,
     title: "Retail Spotting",
     body: "Simple daily guidance for retail dry cleaners and wet-cleaning operators.",
   },
   {
+    icon: ClipboardCheck,
     title: "Professional Spotting",
     body: "Detailed garment assessment, treatment stages and verified product instructions.",
   },
   {
+    icon: Microscope,
     title: "Master Spotter",
     body: "Advanced diagnosis, technical evidence, chemistry pathways and product-transition controls.",
   },
@@ -155,10 +160,10 @@ export default function Landing() {
             Choose the level that matches the operator. You can change it at any time.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {LEVELS.map((l) => (
+            {LEVELS.map(({ icon: Icon, ...l }) => (
               <article key={l.title} className="sm-card">
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-primary">
-                  <Layers aria-hidden className="h-5 w-5" />
+                  <Icon aria-hidden className="h-5 w-5" />
                 </span>
                 <h3 className="mt-3">{l.title}</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{l.body}</p>
