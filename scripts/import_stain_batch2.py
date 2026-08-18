@@ -290,18 +290,7 @@ WHERE NOT EXISTS (
     return "\n".join(out)
 
 
-        if reroute:
-            for num in re.findall(r"\d+", reroute):
-                out.append(f"""
-INSERT INTO category_relationships (from_category_id, to_category_number, to_category_id, relationship_type, status, note)
-SELECT (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])}), {num},
-  (SELECT id FROM stain_categories WHERE category_number = {num}), 'reroute', 'active',
-  'Derived from approved category document routing guidance.'
-WHERE NOT EXISTS (
-  SELECT 1 FROM category_relationships c
-  WHERE c.from_category_id = (SELECT id FROM stain_categories WHERE slug = {q(meta['slug'])})
-    AND c.to_category_number = {num} AND c.relationship_type = 'reroute');""")
-    return "\n".join(out)
+
 
 
 def main():
