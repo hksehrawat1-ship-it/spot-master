@@ -98,7 +98,7 @@ export default function Setup() {
                 type="button"
                 onClick={() => setLevel(l.value)}
                 aria-pressed={level === l.value}
-                className={`sm-card-button ${level === l.value ? "border-primary ring-2 ring-primary/25" : ""}`}
+                className={`sm-action-card ${level === l.value ? "border-primary ring-2 ring-primary/25" : ""}`}
               >
                 <span className="flex items-start justify-between gap-3">
                   <span>
@@ -128,7 +128,7 @@ export default function Setup() {
                   type="button"
                   onClick={() => setKits((k) => (on ? k.filter((x) => x !== kit) : [...k, kit]))}
                   aria-pressed={on}
-                  className={`sm-card-button ${on ? "border-primary ring-2 ring-primary/25" : ""}`}
+                  className={`sm-action-card ${on ? "border-primary ring-2 ring-primary/25" : ""}`}
                 >
                   <span className="flex items-center justify-between gap-3 font-medium">
                     {kit}
@@ -152,7 +152,7 @@ export default function Setup() {
                 type="button"
                 onClick={() => setUnits(u)}
                 aria-pressed={units === u}
-                className={`sm-card-button ${units === u ? "border-primary ring-2 ring-primary/25" : ""}`}
+                className={`sm-action-card ${units === u ? "border-primary ring-2 ring-primary/25" : ""}`}
               >
                 <span className="flex items-center justify-between gap-3 font-medium">
                   {u}
