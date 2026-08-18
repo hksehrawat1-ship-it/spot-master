@@ -100,7 +100,7 @@ export default function Landing() {
             <span className="sm-eyebrow inline-flex items-center gap-2">
               <Sparkles aria-hidden className="h-4 w-4" /> For dry cleaners and wet-cleaning professionals
             </span>
-            <h1 className="mt-3">Spot with confidence. Protect every garment.</h1>
+            <h1 className="mt-3">Identify the stain. Choose the safer next step.</h1>
             <p className="mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
               Stain Master gives dry cleaners and wet-cleaning professionals simple, safety-first guidance based on
               the stain, garment and spotting kit they use.

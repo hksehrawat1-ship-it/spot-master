@@ -8,14 +8,14 @@ const en = {
   },
   brand: {
     name: "Stain Master",
-    descriptor: "Professional Spotting Guidance",
-    tagline: "Spot with confidence. Protect every garment.",
+    descriptor: "Identify the stain. Choose the safer next step.",
+    tagline: "Identify the stain. Choose the safer next step.",
     company: "A professional solution from the Global Institute of Laundry Management (GILM).",
   },
   stainMaster: {
     badge: "Stain Master",
     title: "Find the stain. Protect the garment.",
-    subtitle: "Spot with confidence. Protect every garment.",
+    subtitle: "Identify the stain. Choose the safer next step.",
     searchPlaceholder: "Search stains: blood, coffee, oil…",
     resultsFor: "{{count}} results for \"{{query}}\"",
     resultFor: "{{count}} result for \"{{query}}\"",
