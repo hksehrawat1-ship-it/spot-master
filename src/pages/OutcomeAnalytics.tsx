@@ -15,13 +15,13 @@ import {
   assessOutcome, computeMetrics, outcomeComparability, visibleOutcomes, canViewAnalytics,
 } from "@/lib/outcomeEngine";
 import { useOutcomes } from "@/store/useOutcomes";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { runOutcomeScenarios } from "@/lib/outcomeScenarios";
 
 export default function OutcomeAnalytics() {
   const store = useOutcomes();
-  const user = useApp((s) => s.user);
-  const role = user?.role === "admin" ? "technical_reviewer" : "professional_spotter";
+  const { user, isAdmin } = useAuth();
+  const role = isAdmin ? "technical_reviewer" : "professional_spotter";
   const [org, setOrg] = useState("org_alpha");
   const [scenarios, setScenarios] = useState<ReturnType<typeof runOutcomeScenarios> | null>(null);
 

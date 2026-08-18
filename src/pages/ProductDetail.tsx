@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useProducts } from "@/store/useProducts";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import {
   currentVersion, documentsFor, evaluateScorecard, detectConflicts, chemistryDisplay,
   textileSuitability, processPermission, instructionValue, professionalAccess, publicProductView,
@@ -29,7 +29,7 @@ const Unverified = () => (
 export default function ProductDetail() {
   const { productKey } = useParams();
   const store = useProducts();
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const [country, setCountry] = useState<string | undefined>(undefined);
 
   const products = useMemo(() => store.products(), [store.productOverrides, store.customProducts]);
@@ -55,7 +55,7 @@ export default function ProductDetail() {
   const conflicts = detectConflicts(product, version, docs);
   const card = evaluateScorecard(product, version, docs, company, conflicts);
 
-  const audience = user?.role === "admin" ? "technical_reviewer" : "domestic_user";
+  const audience = isAdmin ? "technical_reviewer" : "domestic_user";
   const access = professionalAccess(audience, product, version, card, { country });
   const chem = chemistryDisplay(version.chemistry);
   const pub = publicProductView(product, company, card);

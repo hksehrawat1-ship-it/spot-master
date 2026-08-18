@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import PhotoCapture from "@/components/PhotoCapture";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { useFabricCheck, type Assessment } from "@/store/useFabricCheck";
 import {
   BLACK_SAFETY_MESSAGE, CLEANING_HISTORY, COLOUR_FLAGS, COLOUR_OPTIONS, CONSTRUCTION_OPTIONS,
@@ -60,7 +60,7 @@ function YesNo({ label, value, onChange }: { label: string; value: boolean | und
 
 export default function FabricCheck() {
   const navigate = useNavigate();
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const owner = user?.email ?? "guest";
   const { assessments, currentId, start, resume, clearCurrent, patchAnswers, complete, addTest, removePhoto, track } = useFabricCheck();
 

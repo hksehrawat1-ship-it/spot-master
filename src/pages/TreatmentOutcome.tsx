@@ -25,7 +25,7 @@ import type {
 } from "@/data/outcomes";
 import { assessOutcome, validateClosure, remainingMarkGuidance } from "@/lib/outcomeEngine";
 import { useOutcomes } from "@/store/useOutcomes";
-import { useApp } from "@/store/useApp";
+import { useAuth } from "@/auth/AuthProvider";
 import { makeContext, makeAttempt, makeApproved, fullBaseline } from "@/lib/outcomeScenarios";
 
 const Chip = ({ on, children, onClick }: { on: boolean; children: React.ReactNode; onClick: () => void }) => (
@@ -40,7 +40,7 @@ const Chip = ({ on, children, onClick }: { on: boolean; children: React.ReactNod
 
 export default function TreatmentOutcome() {
   const store = useOutcomes();
-  const user = useApp((s) => s.user);
+  const { user, isAdmin } = useAuth();
   const reporter = user?.email ?? "demo-operator";
 
   const [recordType, setRecordType] = useState<OutcomeRecordType>("technical_professional_attempt");
@@ -101,7 +101,7 @@ export default function TreatmentOutcome() {
     syncState: "local_draft",
     superseded: false,
   }), [recordType, garment, stainKey, fabricKey, attempts, baselinePhotos, existingDyeLoss, rinseDone,
-    removalUncertain, driedInspected, ring, observations, mark, interval, findings, hypotheses, note, reporter, user?.role, store]);
+    removalUncertain, driedInspected, ring, observations, mark, interval, findings, hypotheses, note, reporter, isAdmin, store]);
 
   const history = useMemo(
     () => store.records
