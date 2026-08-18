@@ -3273,6 +3273,148 @@ export type Database = {
           },
         ]
       }
+      master_case_events: {
+        Row: {
+          case_id: string
+          created_at: string
+          event_kind: string
+          id: string
+          owner_id: string
+          payload: Json
+          status: string | null
+          summary: string | null
+        }
+        Insert: {
+          case_id: string
+          created_at?: string
+          event_kind: string
+          id?: string
+          owner_id?: string
+          payload?: Json
+          status?: string | null
+          summary?: string | null
+        }
+        Update: {
+          case_id?: string
+          created_at?: string
+          event_kind?: string
+          id?: string
+          owner_id?: string
+          payload?: Json
+          status?: string | null
+          summary?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "master_case_events_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "master_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      master_cases: {
+        Row: {
+          adverse_event: string | null
+          case_reference: string
+          construction: Json
+          created_at: string
+          customer_notes: string | null
+          dye_colour: Json
+          escalation_reason: string | null
+          evidence: Json
+          fibre: Json
+          final_disposition: string | null
+          garment: Json
+          id: string
+          operator_notes: string | null
+          organization_id: string | null
+          outcome: string | null
+          owner_id: string
+          photographs: Json
+          record_version: number
+          safety_decisions: Json
+          selected_kits: Json
+          selected_products: Json
+          source_versions: Json
+          stain_diagnosis: Json
+          supervisor_notes: string | null
+          test_results: Json
+          trims_finishes: Json
+          updated_at: string
+          working_level: string
+        }
+        Insert: {
+          adverse_event?: string | null
+          case_reference: string
+          construction?: Json
+          created_at?: string
+          customer_notes?: string | null
+          dye_colour?: Json
+          escalation_reason?: string | null
+          evidence?: Json
+          fibre?: Json
+          final_disposition?: string | null
+          garment?: Json
+          id?: string
+          operator_notes?: string | null
+          organization_id?: string | null
+          outcome?: string | null
+          owner_id?: string
+          photographs?: Json
+          record_version?: number
+          safety_decisions?: Json
+          selected_kits?: Json
+          selected_products?: Json
+          source_versions?: Json
+          stain_diagnosis?: Json
+          supervisor_notes?: string | null
+          test_results?: Json
+          trims_finishes?: Json
+          updated_at?: string
+          working_level?: string
+        }
+        Update: {
+          adverse_event?: string | null
+          case_reference?: string
+          construction?: Json
+          created_at?: string
+          customer_notes?: string | null
+          dye_colour?: Json
+          escalation_reason?: string | null
+          evidence?: Json
+          fibre?: Json
+          final_disposition?: string | null
+          garment?: Json
+          id?: string
+          operator_notes?: string | null
+          organization_id?: string | null
+          outcome?: string | null
+          owner_id?: string
+          photographs?: Json
+          record_version?: number
+          safety_decisions?: Json
+          selected_kits?: Json
+          selected_products?: Json
+          source_versions?: Json
+          stain_diagnosis?: Json
+          supervisor_notes?: string | null
+          test_results?: Json
+          trims_finishes?: Json
+          updated_at?: string
+          working_level?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "master_cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       master_stains: {
         Row: {
           added_components: string[]
@@ -3421,6 +3563,120 @@ export type Database = {
             columns: ["canonical_parent_id"]
             isOneToOne: false
             referencedRelation: "master_stains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      master_treatment_ledger: {
+        Row: {
+          amount: string | null
+          case_id: string
+          colour_movement: string | null
+          component_key: string | null
+          contact_time: string | null
+          created_at: string
+          dilution: string | null
+          drying_or_heat: string | null
+          entry_order: number
+          id: string
+          inspection_result: string | null
+          manufacturer: string | null
+          mechanical_action: string | null
+          neutralization_performed: boolean
+          notes: string | null
+          operator_observation: boolean
+          owner_id: string
+          performed_at: string
+          product_id: string | null
+          product_name: string | null
+          rinse_performed: boolean
+          spotting_board_used: boolean
+          stage_key: string | null
+          stage_number: number | null
+          steam_used: boolean
+          temperature: string | null
+          texture_change: string | null
+          updated_at: string
+          vacuum_used: boolean
+          visible_response: string | null
+        }
+        Insert: {
+          amount?: string | null
+          case_id: string
+          colour_movement?: string | null
+          component_key?: string | null
+          contact_time?: string | null
+          created_at?: string
+          dilution?: string | null
+          drying_or_heat?: string | null
+          entry_order?: number
+          id?: string
+          inspection_result?: string | null
+          manufacturer?: string | null
+          mechanical_action?: string | null
+          neutralization_performed?: boolean
+          notes?: string | null
+          operator_observation?: boolean
+          owner_id?: string
+          performed_at?: string
+          product_id?: string | null
+          product_name?: string | null
+          rinse_performed?: boolean
+          spotting_board_used?: boolean
+          stage_key?: string | null
+          stage_number?: number | null
+          steam_used?: boolean
+          temperature?: string | null
+          texture_change?: string | null
+          updated_at?: string
+          vacuum_used?: boolean
+          visible_response?: string | null
+        }
+        Update: {
+          amount?: string | null
+          case_id?: string
+          colour_movement?: string | null
+          component_key?: string | null
+          contact_time?: string | null
+          created_at?: string
+          dilution?: string | null
+          drying_or_heat?: string | null
+          entry_order?: number
+          id?: string
+          inspection_result?: string | null
+          manufacturer?: string | null
+          mechanical_action?: string | null
+          neutralization_performed?: boolean
+          notes?: string | null
+          operator_observation?: boolean
+          owner_id?: string
+          performed_at?: string
+          product_id?: string | null
+          product_name?: string | null
+          rinse_performed?: boolean
+          spotting_board_used?: boolean
+          stage_key?: string | null
+          stage_number?: number | null
+          steam_used?: boolean
+          temperature?: string | null
+          texture_change?: string | null
+          updated_at?: string
+          vacuum_used?: boolean
+          visible_response?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "master_treatment_ledger_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "master_cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "master_treatment_ledger_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
             referencedColumns: ["id"]
           },
         ]
