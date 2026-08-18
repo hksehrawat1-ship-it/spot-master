@@ -932,6 +932,54 @@ export type Database = {
         }
         Relationships: []
       }
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          discount_percent: number | null
+          discount_type: string
+          discount_value_minor: number
+          id: string
+          is_active: boolean
+          max_redemptions: number | null
+          redemption_count: number
+          updated_at: string
+          valid_from: string
+          valid_until: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          discount_percent?: number | null
+          discount_type?: string
+          discount_value_minor?: number
+          id?: string
+          is_active?: boolean
+          max_redemptions?: number | null
+          redemption_count?: number
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          discount_percent?: number | null
+          discount_type?: string
+          discount_value_minor?: number
+          id?: string
+          is_active?: boolean
+          max_redemptions?: number | null
+          redemption_count?: number
+          updated_at?: string
+          valid_from?: string
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       damage_interpretations: {
         Row: {
           created_at: string
@@ -3681,6 +3729,75 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          access_ends_at: string | null
+          access_starts_at: string | null
+          coupon_code: string | null
+          created_at: string
+          currency: string
+          discount_minor: number
+          id: string
+          invoice_number: string | null
+          list_price_minor: number
+          offer_price_minor: number
+          paid_at: string | null
+          plan_code: string
+          provider: string | null
+          provider_order_id: string | null
+          provider_payment_id: string | null
+          status: string
+          tax_minor: number
+          total_minor: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_ends_at?: string | null
+          access_starts_at?: string | null
+          coupon_code?: string | null
+          created_at?: string
+          currency?: string
+          discount_minor?: number
+          id?: string
+          invoice_number?: string | null
+          list_price_minor: number
+          offer_price_minor: number
+          paid_at?: string | null
+          plan_code: string
+          provider?: string | null
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          status?: string
+          tax_minor?: number
+          total_minor: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_ends_at?: string | null
+          access_starts_at?: string | null
+          coupon_code?: string | null
+          created_at?: string
+          currency?: string
+          discount_minor?: number
+          id?: string
+          invoice_number?: string | null
+          list_price_minor?: number
+          offer_price_minor?: number
+          paid_at?: string | null
+          plan_code?: string
+          provider?: string | null
+          provider_order_id?: string | null
+          provider_payment_id?: string | null
+          status?: string
+          tax_minor?: number
+          total_minor?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       organization_product_inventory: {
         Row: {
           batch_number: string | null
@@ -4079,6 +4196,50 @@ export type Database = {
           },
         ]
       }
+      payment_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          is_duplicate: boolean
+          order_id: string | null
+          payload: Json | null
+          provider: string
+          provider_event_id: string | null
+          signature_verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          is_duplicate?: boolean
+          order_id?: string | null
+          payload?: Json | null
+          provider: string
+          provider_event_id?: string | null
+          signature_verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          is_duplicate?: boolean
+          order_id?: string | null
+          payload?: Json | null
+          provider?: string
+          provider_event_id?: string | null
+          signature_verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_events_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       previous_cleaning_events: {
         Row: {
           assessment_id: string
@@ -4128,6 +4289,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      pricing_plans: {
+        Row: {
+          access_period_days: number
+          created_at: string
+          currency: string
+          id: string
+          is_active: boolean
+          list_price_minor: number
+          offer_price_minor: number
+          plan_code: string
+          plan_name: string
+          tax_label: string
+          tax_rate_percent: number
+          updated_at: string
+        }
+        Insert: {
+          access_period_days?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          list_price_minor: number
+          offer_price_minor: number
+          plan_code: string
+          plan_name: string
+          tax_label?: string
+          tax_rate_percent?: number
+          updated_at?: string
+        }
+        Update: {
+          access_period_days?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          list_price_minor?: number
+          offer_price_minor?: number
+          plan_code?: string
+          plan_name?: string
+          tax_label?: string
+          tax_rate_percent?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       prior_chemical_checks: {
         Row: {
@@ -6081,40 +6287,76 @@ export type Database = {
       }
       profiles: {
         Row: {
+          available_products: string[]
           country: string | null
           created_at: string
+          currency_display: string
           display_name: string | null
+          full_name: string | null
           id: string
+          marketing_consent: boolean
+          measurement_units: string
           organization_id: string | null
+          phone_country_code: string | null
+          phone_national_number: string | null
+          preferred_kits: string[]
           preferred_language: string
+          setup_completed_at: string | null
+          setup_step: number
           status: string
+          time_zone: string | null
           training_level: string
           updated_at: string
           user_id: string
+          working_level: string | null
         }
         Insert: {
+          available_products?: string[]
           country?: string | null
           created_at?: string
+          currency_display?: string
           display_name?: string | null
+          full_name?: string | null
           id?: string
+          marketing_consent?: boolean
+          measurement_units?: string
           organization_id?: string | null
+          phone_country_code?: string | null
+          phone_national_number?: string | null
+          preferred_kits?: string[]
           preferred_language?: string
+          setup_completed_at?: string | null
+          setup_step?: number
           status?: string
+          time_zone?: string | null
           training_level?: string
           updated_at?: string
           user_id: string
+          working_level?: string | null
         }
         Update: {
+          available_products?: string[]
           country?: string | null
           created_at?: string
+          currency_display?: string
           display_name?: string | null
+          full_name?: string | null
           id?: string
+          marketing_consent?: boolean
+          measurement_units?: string
           organization_id?: string | null
+          phone_country_code?: string | null
+          phone_national_number?: string | null
+          preferred_kits?: string[]
           preferred_language?: string
+          setup_completed_at?: string | null
+          setup_step?: number
           status?: string
+          time_zone?: string | null
           training_level?: string
           updated_at?: string
           user_id?: string
+          working_level?: string | null
         }
         Relationships: [
           {
@@ -8255,6 +8497,50 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          access_ends_at: string | null
+          access_starts_at: string | null
+          created_at: string
+          id: string
+          order_id: string | null
+          plan_code: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_ends_at?: string | null
+          access_starts_at?: string | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          plan_code: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_ends_at?: string | null
+          access_starts_at?: string | null
+          created_at?: string
+          id?: string
+          order_id?: string | null
+          plan_code?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tags: {
         Row: {
           created_at: string
@@ -8700,6 +8986,7 @@ export type Database = {
     Functions: {
       can_publish_content: { Args: { _user_id: string }; Returns: boolean }
       ensure_default_role: { Args: never; Returns: undefined }
+      has_active_access: { Args: { _user_id: string }; Returns: boolean }
       has_any_role: {
         Args: {
           _roles: Database["public"]["Enums"]["app_role"][]

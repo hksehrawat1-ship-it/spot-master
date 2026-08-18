@@ -1,10 +1,19 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-import MobileShell from "@/layouts/MobileShell";
+import PublicShell from "@/layouts/PublicShell";
+import AppShell from "@/layouts/AppShell";
+import Landing from "@/pages/Landing";
+import Legal from "@/pages/Legal";
+import Install from "@/pages/Install";
+import Register from "@/pages/Register";
+import Checkout from "@/pages/Checkout";
+import Setup from "@/pages/Setup";
+import Workspace from "@/pages/Workspace";
+import Cases from "@/pages/Cases";
 import Courses from "@/pages/Courses";
 import CourseDetail from "@/pages/CourseDetail";
 import LessonPlayer from "@/pages/LessonPlayer";
@@ -73,8 +82,27 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
         <Routes>
-          <Route element={<MobileShell />}>
-            <Route path="/" element={<Navigate to="/stain-master" replace />} />
+          {/* Public website */}
+          <Route element={<PublicShell />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/install" element={<Install />} />
+            <Route path="/legal/:slug" element={<Legal />} />
+            <Route element={<RequireSignIn />}>
+              <Route path="/setup" element={<Setup />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Route>
+          </Route>
+
+          {/* Operational workspace */}
+          <Route element={<AppShell />}>
+            <Route element={<RequireSignIn />}>
+              <Route path="/home" element={<Workspace />} />
+              <Route path="/cases" element={<Cases />} />
+              <Route path="/cases/new" element={<StainIdentifyFlow />} />
+            </Route>
+
 
             {/* Legacy GILM course platform — isolated behind a feature flag (Constitution R24). */}
             {FEATURES.legacyCourses && (
@@ -140,7 +168,6 @@ const App = () => (
             <Route path="/domestic-treatment" element={<DomesticTreatmentPage />} />
             <Route path="/kit-comparison" element={<KitComparison />} />
             <Route path="/treatment-outcome" element={<TreatmentOutcome />} />
-            <Route path="/sign-in" element={<SignIn />} />
 
           </Route>
           <Route path="*" element={<NotFound />} />

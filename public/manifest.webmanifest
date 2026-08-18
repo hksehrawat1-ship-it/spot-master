@@ -1,0 +1,24 @@
+{
+  "name": "Stain Master — Professional Spotting Guidance",
+  "short_name": "Stain Master",
+  "description": "Safety-first spotting guidance for dry cleaners and wet-cleaning professionals.",
+  "id": "/",
+  "start_url": "/home",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F5F7FA",
+  "theme_color": "#12304A",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Start a new stain case", "url": "/cases/new" },
+    { "name": "Saved cases", "url": "/cases" }
+  ]
+}

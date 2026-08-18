@@ -19,6 +19,35 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        surface: "hsl(var(--surface))",
+        navy: {
+          DEFAULT: "hsl(var(--navy))",
+          foreground: "hsl(var(--navy-foreground))",
+        },
+        teal: {
+          DEFAULT: "hsl(var(--teal))",
+          foreground: "hsl(var(--teal-foreground))",
+        },
+        proceed: {
+          DEFAULT: "hsl(var(--proceed))",
+          foreground: "hsl(var(--proceed-foreground))",
+          surface: "hsl(var(--proceed-surface))",
+        },
+        caution: {
+          DEFAULT: "hsl(var(--caution))",
+          foreground: "hsl(var(--caution-foreground))",
+          surface: "hsl(var(--caution-surface))",
+        },
+        stop: {
+          DEFAULT: "hsl(var(--stop))",
+          foreground: "hsl(var(--stop-foreground))",
+          surface: "hsl(var(--stop-surface))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+          surface: "hsl(var(--info-surface))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
