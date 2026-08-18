@@ -105,6 +105,19 @@ export default function Landing() {
               Stain Master gives dry cleaners and wet-cleaning professionals simple, safety-first guidance based on
               the stain, garment and spotting kit they use.
             </p>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-sm font-semibold text-navy">
+                <span className="text-lg font-bold text-primary">12</span>
+                <span>categories</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-sm font-semibold text-navy">
+                <span className="text-lg font-bold text-primary">826</span>
+                <span>stain records</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full bg-proceed-surface px-3 py-1.5 text-sm font-bold text-proceed">
+                <CheckCircle2 aria-hidden className="h-4 w-4" /> Highest in the world
+              </div>
+            </div>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/register" className="sm-btn-primary">
                 Start Stain Master <ArrowRight aria-hidden className="h-4 w-4" />
