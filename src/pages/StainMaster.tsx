@@ -80,6 +80,23 @@ export default function StainMaster() {
         </Link>
       )}
 
+      {!q && !activeCategory && (
+        <Link
+          to="/professional-spotting"
+          className="flex items-center gap-3 rounded-xl border-2 border-border bg-card p-4 text-left shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elevated"
+        >
+          <span className="rounded-full bg-secondary/40 p-2.5">
+            <ShieldCheck className="h-5 w-5 text-foreground" aria-hidden />
+          </span>
+          <span className="flex-1">
+            <span className="block text-base font-semibold">Professional Spotting</span>
+            <span className="block text-xs text-muted-foreground">
+              Verified products, treatment stages and previous-chemical control for trained operators
+            </span>
+          </span>
+        </Link>
+      )}
+
       {/* Fabric safety check */}
       {!q && !activeCategory && (
         <Link

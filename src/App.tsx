@@ -20,6 +20,7 @@ import ProductAdmin from "./pages/ProductAdmin";
 import MasterStainAdmin from "./pages/MasterStainAdmin";
 import StainMaster from "@/pages/StainMaster";
 import RetailSpotting from "@/pages/RetailSpotting";
+import ProfessionalSpotting from "@/pages/ProfessionalSpotting";
 import StainIdentify from "@/pages/StainIdentify";
 import StainIdentifyFlow from "@/pages/StainIdentifyFlow";
 import StainIdAdmin from "@/pages/StainIdAdmin";
@@ -118,6 +119,7 @@ const App = () => (
             </Route>
             <Route path="/stain-master" element={<StainMaster />} />
             <Route path="/retail-spotting" element={<RetailSpotting />} />
+            <Route path="/professional-spotting" element={<ProfessionalSpotting />} />
             <Route path="/stain-master/identify" element={<StainIdentify />} />
             <Route path="/stain-id" element={<StainIdentifyFlow />} />
             <Route path="/treatment-readiness" element={<TreatmentReadiness />} />
