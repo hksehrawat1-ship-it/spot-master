@@ -45,7 +45,7 @@ export default function LayerKitBar() {
                 return;
               }
               setLayer(l.key);
-              navigate(l.key === "professional" ? "/professional-spotting" : "/retail-spotting");
+              navigate(l.key === "professional" ? "/professional-spotting" : l.key === "master" ? "/master-spotter" : "/retail-spotting");
             }}
             className={`min-h-[36px] rounded-full px-3 text-xs font-semibold transition-colors ${
               layer === l.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
