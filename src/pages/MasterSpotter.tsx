@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import LayerKitBar from "@/components/retail/LayerKitBar";
 import MasterCasePanel from "@/components/master/MasterCasePanel";
@@ -51,6 +50,10 @@ export default function MasterSpotter() {
     [current, products.data, transitions.data],
   );
 
+  useEffect(() => {
+    document.title = "Master Spotter — advanced stain treatment workspace";
+  }, []);
+
   const panels: Record<string, JSX.Element> = {
     case: <MasterCasePanel />,
     diagnosis: <MasterDiagnosisPanel />,
@@ -62,14 +65,6 @@ export default function MasterSpotter() {
 
   return (
     <div className="pb-24">
-      <Helmet>
-        <title>Master Spotter — advanced stain treatment workspace</title>
-        <meta
-          name="description"
-          content="Master Spotter: advanced, evidence-controlled stain treatment workspace with verified chemistry pathways, transition safety and full case records."
-        />
-      </Helmet>
-
       <header className="sticky top-0 z-30 space-y-2 border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-base font-black tracking-tight">Stain Master · Master Spotter</h1>
