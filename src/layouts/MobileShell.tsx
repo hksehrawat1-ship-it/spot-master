@@ -1,17 +1,14 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { Sparkles, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/gilm-logo.png";
 import { useAuth } from "@/auth/AuthProvider";
-import { FEATURES } from "@/config/features";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function MobileShell() {
-  const { status, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   const location = useLocation();
   const { t } = useTranslation();
-
-  const tabs = [{ to: "/stain-master", label: t("nav.stains"), icon: Sparkles }];
 
   // Hide chrome on lesson player for immersive view
   const immersive = /^\/courses\/[^/]+\/lesson\//.test(location.pathname);
