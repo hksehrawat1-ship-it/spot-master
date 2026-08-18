@@ -9,7 +9,7 @@ export default function Brand({ to = "/", subdued = false }: { to?: string; subd
         <span className="block text-[17px] font-bold text-navy">Stain Master</span>
         {!subdued && (
           <span className="block text-[11px] font-medium text-muted-foreground">
-            Professional spotting guidance
+            A Products By GILM
           </span>
         )}
       </span>
