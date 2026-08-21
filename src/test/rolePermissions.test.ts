@@ -285,10 +285,10 @@ describe("database authorization suite", () => {
       professional_products: 32,
       kit_products: 32,
       product_versions: 32,
-      source_documents: 17,
-      product_source_documents: 14,
+      source_documents: 18, // +1 Seitz manufacturer brochure (controlled pilot)
+      product_source_documents: 21, // +7 brochure links (controlled pilot)
       pending_reroutes: 4,
-      guidance_mappings: 0,
+      guidance_mappings: 1, // the single provisional Purasol pilot mapping
     });
   });
 
