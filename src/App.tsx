@@ -43,6 +43,7 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminOrganizations from "@/pages/admin/AdminOrganizations";
 import AdminDocuments from "@/pages/admin/AdminDocuments";
+import RequireAccess from "@/components/auth/RequireAccess";
 import AdminTraining from "@/pages/admin/AdminTraining";
 import AdminTranslations from "@/pages/admin/AdminTranslations";
 import AdminCountries from "@/pages/admin/AdminCountries";
@@ -113,7 +114,7 @@ const App = () => (
               <Route path="/admin/fabric-check" element={<FabricCheckAdmin />} />
               <Route path="/admin/stain-id" element={<StainIdAdmin />} />
               <Route path="/admin/readiness" element={<ReadinessAdmin />} />
-              <Route path="/admin/safety" element={<SafetyAdmin />} />
+              <Route path="/admin/safety" element={<RequireAccess capability="productDrafts"><SafetyAdmin /></RequireAccess>} />
               <Route path="/admin/domestic" element={<DomesticAdmin />} />
               <Route path="/admin/comparison" element={<ComparisonAdmin />} />
               <Route path="/admin/outcome-analytics" element={<OutcomeAnalytics />} />
@@ -128,12 +129,12 @@ const App = () => (
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/admin/organizations" element={<AdminOrganizations />} />
-              <Route path="/admin/documents" element={<AdminDocuments />} />
+              <Route path="/admin/documents" element={<RequireAccess capability="productDrafts"><AdminDocuments /></RequireAccess>} />
               <Route path="/admin/training" element={<AdminTraining />} />
               <Route path="/admin/translations" element={<AdminTranslations />} />
               <Route path="/admin/countries" element={<AdminCountries />} />
               <Route path="/admin/import-export" element={<AdminImportExport />} />
-              <Route path="/admin/audit" element={<AdminAudit />} />
+              <Route path="/admin/audit" element={<RequireAccess capability="productAudit"><AdminAudit /></RequireAccess>} />
               <Route path="/admin/system-health" element={<AdminSystemHealth />} />
               <Route path="/admin/foundation" element={<FoundationCheck />} />
             </Route>
