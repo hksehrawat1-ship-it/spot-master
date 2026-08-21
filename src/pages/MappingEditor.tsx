@@ -41,8 +41,9 @@ const STOP_CONDITIONS = [
 export default function MappingEditor() {
   const access = useAccess();
   const isReviewer = access.productDrafts;
-  // The database gate (approve_guidance_mapping) requires publication authority.
-  const canApprove = access.publish;
+  // Technical approval and publication are separate authorities in the database.
+  const canTechnicallyApprove = access.technicalApprove;
+  const canPublish = access.publish;
 
   const products = useCatalogProducts();
   const documents = useSourceDocuments();
@@ -253,9 +254,14 @@ export default function MappingEditor() {
           <Textarea
             value={approvalReason}
             onChange={(e) => setApprovalReason(e.target.value)}
-            placeholder="Approval reason (required to approve a mapping)."
-            disabled={!canApprove}
+            placeholder="Written reason (required for technical approval or publication)."
+            disabled={!canTechnicallyApprove && !canPublish}
           />
+          {!canTechnicallyApprove && !canPublish && (
+            <p className="text-[11px] text-muted-foreground">
+              Your role may prepare draft mappings. Technical approval and publication are carried out by other roles.
+            </p>
+          )}
           {(mappings.data ?? []).length === 0 ? (
             <p className="text-xs text-muted-foreground">No guidance mappings exist yet.</p>
           ) : (
@@ -270,21 +276,43 @@ export default function MappingEditor() {
                     {m.professional_products?.display_name ?? m.professional_products?.product_name} ·{" "}
                     {m.product_versions?.version_ref} · {m.country} · {m.decision}
                   </p>
-                  {canApprove && !["approved", "published"].includes(m.approval_status) && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={approve.isPending}
-                      onClick={async () => {
-                        if (approvalReason.trim().length < 10) return toast.error("A written approval reason is required.");
-                        const res = await approve.mutateAsync({ id: m.id, target: "approved", reason: approvalReason.trim() });
-                        if (res.ok) toast.success("Mapping approved.");
-                        else toast.error(res.blockers[0] ?? "Approval refused by the publication gate.");
-                      }}
-                    >
-                      Approve
-                    </Button>
-                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {canTechnicallyApprove && !["approved", "published"].includes(m.approval_status) && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={approve.isPending}
+                        onClick={async () => {
+                          if (approvalReason.trim().length < 10) return toast.error("A written reason is required.");
+                          const res = await approve.mutateAsync({ id: m.id, target: "approved", reason: approvalReason.trim() });
+                          if (res.ok) toast.success("Mapping technically approved.");
+                          else toast.error(res.blockers[0] ?? "Technical approval refused by the publication gate.");
+                        }}
+                      >
+                        Technically approve
+                      </Button>
+                    )}
+                    {canPublish && m.approval_status === "approved" && (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        disabled={approve.isPending}
+                        onClick={async () => {
+                          if (approvalReason.trim().length < 10) return toast.error("A written reason is required.");
+                          const res = await approve.mutateAsync({ id: m.id, target: "published", reason: approvalReason.trim() });
+                          if (res.ok) toast.success("Mapping published.");
+                          else toast.error(res.blockers[0] ?? "Publication refused by the publication gate.");
+                        }}
+                      >
+                        Publish
+                      </Button>
+                    )}
+                    {canPublish && !["approved", "published"].includes(m.approval_status) && (
+                      <span className="self-center text-[11px] text-muted-foreground">
+                        Publication becomes available after technical approval.
+                      </span>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>

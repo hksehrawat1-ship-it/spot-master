@@ -131,6 +131,42 @@ export type Database = {
           },
         ]
       }
+      authorization_test_runs: {
+        Row: {
+          aborted_with: string | null
+          created_at: string
+          failed: number
+          id: string
+          passed: number
+          results: Json
+          run_at: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          aborted_with?: string | null
+          created_at?: string
+          failed: number
+          id?: string
+          passed: number
+          results: Json
+          run_at?: string
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          aborted_with?: string | null
+          created_at?: string
+          failed?: number
+          id?: string
+          passed?: number
+          results?: Json
+          run_at?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       case_classifications: {
         Row: {
           block_reason: string | null
@@ -6563,6 +6599,8 @@ export type Database = {
           sds_version: string | null
           superseded_by: string | null
           tds_version: string | null
+          technically_approved_at: string | null
+          technically_approved_by: string | null
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
           version_ref: string
@@ -6589,6 +6627,8 @@ export type Database = {
           sds_version?: string | null
           superseded_by?: string | null
           tds_version?: string | null
+          technically_approved_at?: string | null
+          technically_approved_by?: string | null
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
           version_ref: string
@@ -6615,6 +6655,8 @@ export type Database = {
           sds_version?: string | null
           superseded_by?: string | null
           tds_version?: string | null
+          technically_approved_at?: string | null
+          technically_approved_by?: string | null
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
           version_ref?: string
@@ -9958,8 +10000,28 @@ export type Database = {
         Args: { _company_id: string; _stain_record_id: string }
         Returns: boolean
       }
+      product_publicly_releasable: {
+        Args: { _product_id: string }
+        Returns: boolean
+      }
       product_version_publication_readiness: {
         Args: { _version_id: string }
+        Returns: Json
+      }
+      product_version_releasable: {
+        Args: { _version_id: string }
+        Returns: boolean
+      }
+      publish_guidance_mapping: {
+        Args: { _mapping_id: string; _reason: string }
+        Returns: Json
+      }
+      publish_product_version: {
+        Args: {
+          _reason: string
+          _source_document_id?: string
+          _version_id: string
+        }
         Returns: Json
       }
       search_stains: {
@@ -9984,6 +10046,10 @@ export type Database = {
           typical_chemistry: string
         }[]
       }
+      source_document_releasable: {
+        Args: { _document_id: string }
+        Returns: boolean
+      }
       stain_category_counts: {
         Args: never
         Returns: {
@@ -9993,6 +10059,18 @@ export type Database = {
       }
       stain_norm: { Args: { t: string }; Returns: string }
       stain_stem: { Args: { tok: string }; Returns: string }
+      technically_approve_guidance_mapping: {
+        Args: { _mapping_id: string; _reason: string }
+        Returns: Json
+      }
+      technically_approve_product_version: {
+        Args: {
+          _reason: string
+          _source_document_id?: string
+          _version_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role:
