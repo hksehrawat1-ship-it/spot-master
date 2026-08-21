@@ -162,16 +162,20 @@ describe("database authorization suite", () => {
     );
   }
 
+  /** The role-contract run stores a bare array of results (no suite label). */
+  const LATEST_AUTHZ =
+    `(select id from public.authorization_test_runs where jsonb_typeof(results) = 'array' order by run_at desc limit 1)`;
+
   dbIt("the recorded authorization run completed without aborting", () => {
     const aborted = sql(
-      `select coalesce(aborted_with, '') from public.authorization_test_runs order by run_at desc limit 1`,
+      `select coalesce(aborted_with, '') from public.authorization_test_runs where id = ${LATEST_AUTHZ}`,
     );
     expect(aborted).toBe("");
   });
 
   dbIt("every authorization test passed", () => {
     const row = sql(
-      `select total || '|' || passed || '|' || failed from public.authorization_test_runs order by run_at desc limit 1`,
+      `select total || '|' || passed || '|' || failed from public.authorization_test_runs where id = ${LATEST_AUTHZ}`,
     );
     const [total, passed, failed] = row.split("|").map(Number);
     expect(failed).toBe(0);
@@ -183,7 +187,7 @@ describe("database authorization suite", () => {
     const names = sql(
       `select string_agg(e->>'test', ' ') from public.authorization_test_runs,
         lateral jsonb_array_elements(results) e
-       where id = (select id from public.authorization_test_runs order by run_at desc limit 1)`,
+       where id = ${LATEST_AUTHZ}`,
     );
     expect(names).toMatch(/technical reviewer cannot publish/);
     expect(names).toMatch(/administrator cannot technically approve/);
@@ -192,6 +196,38 @@ describe("database authorization suite", () => {
     expect(names).toMatch(/a second bootstrap attempt is rejected/);
     expect(names).toMatch(/advisory lock/);
   });
+
+  /* ------------------------------------------------ Seitz pilot suite */
+
+  const LATEST_PILOT =
+    `(select id from public.authorization_test_runs where results->>'suite' = 'SEITZ-PILOT' order by run_at desc limit 1)`;
+
+  dbIt("the Seitz pilot acceptance run completed and passed", () => {
+    const row = sql(
+      `select coalesce(aborted_with,'') || '|' || total || '|' || passed || '|' || failed
+         from public.authorization_test_runs where id = ${LATEST_PILOT}`,
+    );
+    const [aborted, total, passed, failed] = row.split("|");
+    expect(aborted).toBe("");
+    expect(Number(failed)).toBe(0);
+    expect(Number(passed)).toBe(Number(total));
+    expect(Number(total)).toBeGreaterThanOrEqual(70);
+  });
+
+  dbIt("the Seitz pilot run covers identity, safety, roles and rollback", () => {
+    const names = sql(
+      `select string_agg(e->>'test', ' ') from public.authorization_test_runs,
+        lateral jsonb_array_elements(results->'tests') e
+       where id = ${LATEST_PILOT}`,
+    );
+    expect(names).toMatch(/826 stain records unchanged/);
+    expect(names).toMatch(/no duplicates/);
+    expect(names).toMatch(/hard-stop in hydrocarbon or silicone machines/);
+    expect(names).toMatch(/cannot see the provisional pilot mapping/);
+    expect(names).toMatch(/publisher cannot bypass technical approval/);
+    expect(names).toMatch(/creates no second source document/);
+  });
+
 
   /* ------------------------------------------- real privilege checks */
 
