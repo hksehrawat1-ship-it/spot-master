@@ -10,7 +10,8 @@
 -- public.authorization_test_runs (results tagged "SEITZ-PILOT").
 --
 -- Run with trusted database authority:
---   psql -f supabase/tests/seitz_pilot.test.sql
+--   run with service authority (auth schema access is required for the
+--   temporary identities); psql alone cannot create test accounts
 -- =====================================================================
 
 DO $suite$
