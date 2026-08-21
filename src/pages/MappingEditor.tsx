@@ -41,7 +41,8 @@ const STOP_CONDITIONS = [
 export default function MappingEditor() {
   const access = useAccess();
   const isReviewer = access.productDrafts;
-  const canApprove = access.technicalApprove || access.publish;
+  // The database gate (approve_guidance_mapping) requires publication authority.
+  const canApprove = access.publish;
 
   const products = useCatalogProducts();
   const documents = useSourceDocuments();
@@ -253,6 +254,7 @@ export default function MappingEditor() {
             value={approvalReason}
             onChange={(e) => setApprovalReason(e.target.value)}
             placeholder="Approval reason (required to approve a mapping)."
+            disabled={!canApprove}
           />
           {(mappings.data ?? []).length === 0 ? (
             <p className="text-xs text-muted-foreground">No guidance mappings exist yet.</p>
@@ -268,7 +270,7 @@ export default function MappingEditor() {
                     {m.professional_products?.display_name ?? m.professional_products?.product_name} ·{" "}
                     {m.product_versions?.version_ref} · {m.country} · {m.decision}
                   </p>
-                  {!["approved", "published"].includes(m.approval_status) && (
+                  {canApprove && !["approved", "published"].includes(m.approval_status) && (
                     <Button
                       size="sm"
                       variant="outline"
