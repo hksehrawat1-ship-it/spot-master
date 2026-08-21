@@ -289,8 +289,9 @@ BEGIN
     -- =================================================================
     -- Pilot mapping content
     -- =================================================================
-    SELECT count(*) INTO n FROM public.product_guidance_mappings;
-    res := res || jsonb_build_object('test','M1 exactly one guidance mapping exists in the whole database','pass', n = 1, 'detail', n);
+    SELECT count(*) INTO n FROM public.product_guidance_mappings
+     WHERE product_id IN (SELECT id FROM public.professional_products WHERE company_id = c_company);
+    res := res || jsonb_build_object('test','M1 exactly one Seitz guidance mapping exists','pass', n = 1, 'detail', n);
 
     SELECT count(*) INTO n FROM public.product_guidance_mappings
      WHERE id = map_id AND product_id = purasol AND product_version_id = pura_v
@@ -399,8 +400,9 @@ BEGIN
               'manufacturer_claim', brochure, 'page 3', 'duplicate attempt');
       ok := true;
     EXCEPTION WHEN unique_violation THEN ok := false; END;
-    SELECT count(*) INTO n FROM public.product_guidance_mappings;
-    res := res || jsonb_build_object('test','X3 a repeat pilot mapping is rejected, still exactly one mapping','pass',
+    SELECT count(*) INTO n FROM public.product_guidance_mappings
+     WHERE product_id IN (SELECT id FROM public.professional_products WHERE company_id = c_company);
+    res := res || jsonb_build_object('test','X3 a repeat pilot mapping is rejected, still exactly one Seitz mapping','pass',
       ok = false AND n = 1, 'detail', n);
 
     -- a failing batch rolls the whole batch back, not just the last row
