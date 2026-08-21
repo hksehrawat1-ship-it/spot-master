@@ -16,6 +16,7 @@ import Workspace from "@/pages/Workspace";
 import Cases from "@/pages/Cases";
 import StainDetailPage from "./pages/StainDetail";
 import ProductLibrary from "./pages/ProductLibrary";
+import KitOnboarding from "./pages/admin/KitOnboarding";
 import TreatmentStages from "./pages/TreatmentStages";
 import MappingMatrix from "./pages/MappingMatrix";
 import KitComparison from "./pages/KitComparison";
@@ -104,6 +105,7 @@ const App = () => (
             {/* Every administration route passes through one protected gate. */}
             <Route element={<ProtectedRoute label="the administration area" />}>
               <Route path="/admin/products" element={<ProductAdmin />} />
+              <Route path="/admin/kit-onboarding" element={<KitOnboarding />} />
               <Route path="/admin/mapping-matrix" element={<MappingMatrix />} />
               <Route path="/admin/mapping-editor" element={<MappingEditor />} />
               <Route path="/admin/stain-database" element={<MasterStainAdmin />} />
@@ -146,7 +148,7 @@ const App = () => (
             <Route path="/stain-categories/:categoryKey" element={<StainCategories />} />
             <Route path="/classify" element={<StainClassify />} />
             <Route path="/products" element={<ProductLibrary />} />
-            <Route path="/products/:productKey" element={<ProductDetail />} />
+            <Route path="/products/:productRef" element={<ProductDetail />} />
             <Route path="/treatment-stages" element={<TreatmentStages />} />
             <Route path="/treatment-stages/:stageNumber" element={<TreatmentStages />} />
             <Route path="/stain/:stainKey" element={<StainDetailPage />} />
