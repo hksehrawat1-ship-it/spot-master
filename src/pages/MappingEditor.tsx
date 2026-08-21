@@ -1,24 +1,28 @@
-/** STEP 8 — reviewer tool for creating, justifying and approving product-to-stage mappings. */
+/**
+ * Guidance-mapping editor — canonical `product_guidance_mappings` only.
+ * A mapping cannot be created without: exact stain record, product version, decision,
+ * country, evidence level, source document, source section, stop conditions and a review note.
+ */
 
 import { useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useMappings } from "@/store/useMappings";
-import { useProducts } from "@/store/useProducts";
 import { useAuth } from "@/auth/AuthProvider";
-import { TREATMENT_STAGES } from "@/data/treatmentStages";
+import { useCatalogProducts, useSourceDocuments } from "@/hooks/useProductCatalog";
 import {
-  DECISION_LABEL, MAPPING_DECISIONS, MAPPING_STATUSES, MAPPING_STATUS_LABEL,
-  MAPPING_EVIDENCE_LEVELS, EVIDENCE_LEVEL_LABEL,
-} from "@/data/productMappings";
-import type { MappingDecision, MappingEvidenceLevel, MappingStatus } from "@/data/productMappings";
-import { validateMapping, REVIEW_TRIGGERS, REVIEW_TRIGGER_LABEL } from "@/lib/mappingEngine";
-import type { ReviewTrigger } from "@/lib/mappingEngine";
+  EVIDENCE_LEVELS,
+  MAPPING_DECISIONS,
+  useApproveGuidanceMapping,
+  useCreateGuidanceMapping,
+  useGuidanceMappings,
+  useStainSearch,
+  validateMappingInput,
+} from "@/hooks/useGuidanceMappings";
 import { ArrowLeft, PencilRuler, ShieldAlert } from "lucide-react";
 
 const chip = (active: boolean) =>
@@ -26,231 +30,258 @@ const chip = (active: boolean) =>
     active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-muted/40 text-muted-foreground"
   }`;
 
+const STOP_CONDITIONS = [
+  "hidden_test_failed",
+  "colour_bleeding_observed",
+  "existing_damage_present",
+  "previous_chemical_unknown",
+  "fibre_unidentified",
+];
+
 export default function MappingEditor() {
-  const store = useMappings();
-  const productStore = useProducts();
-  const { user, isAdmin } = useAuth();
-  const by = user?.email ?? "reviewer";
-  const isReviewer = isAdmin;
+  const { can } = useAuth();
+  const isReviewer = can("content.technical.approve") || can("products.manage") || can("content.draft.edit");
 
-  const [params, setParams] = useSearchParams();
-  const mappings = useMemo(() => store.mappings(), [store.mappingOverrides, store.customMappings]);
-  const products = useMemo(() => productStore.products(), [productStore.productOverrides, productStore.customProducts]);
+  const products = useCatalogProducts();
+  const documents = useSourceDocuments();
+  const mappings = useGuidanceMappings({ includeDrafts: true });
+  const create = useCreateGuidanceMapping();
+  const approve = useApproveGuidanceMapping();
 
-  const activeId = params.get("mapping") ?? mappings[0]?.mappingId;
-  const mapping = mappings.find((m) => m.mappingId === activeId);
+  const [productId, setProductId] = useState<string>("");
+  const [versionId, setVersionId] = useState<string>("");
+  const [stainQuery, setStainQuery] = useState("");
+  const [stain, setStain] = useState<{ id: string; stable_id: string; canonical_name: string } | null>(null);
+  const [decision, setDecision] = useState<string>("not_assessed");
+  const [country, setCountry] = useState("IN");
+  const [evidenceLevel, setEvidenceLevel] = useState<string>("none");
+  const [documentId, setDocumentId] = useState("");
+  const [section, setSection] = useState("");
+  const [note, setNote] = useState("");
+  const [stops, setStops] = useState<string[]>([]);
+  const [approvalReason, setApprovalReason] = useState("");
 
-  const [justification, setJustification] = useState("");
-  const [trigger, setTrigger] = useState<ReviewTrigger>(REVIEW_TRIGGERS[0]);
+  const stainResults = useStainSearch(stainQuery);
+  const product = useMemo(() => (products.data ?? []).find((p) => p.id === productId), [products.data, productId]);
 
   if (!isReviewer) {
     return (
-      <div className="p-4 space-y-3 pb-24">
+      <div className="space-y-3 p-4 pb-24">
         <Link to="/stain-master" className="inline-flex items-center gap-1 text-sm text-muted-foreground">
           <ArrowLeft className="h-4 w-4" /> Stain Master
         </Link>
-        <Card className="p-4 border-amber-500/40 space-y-1">
+        <Card className="space-y-1 border-amber-500/40 p-4">
           <div className="flex items-center gap-2 text-amber-600">
-            <ShieldAlert className="h-4 w-4" /><p className="font-semibold text-sm">Reviewer access only</p>
+            <ShieldAlert className="h-4 w-4" />
+            <p className="text-sm font-semibold">Reviewer access only</p>
           </div>
-          <p className="text-sm">Mapping records can only be created or changed by an authorised technical reviewer.</p>
+          <p className="text-sm">Guidance mappings can only be created or changed by an authorised technical reviewer.</p>
         </Card>
       </div>
     );
   }
 
-  const issues = mapping ? validateMapping(mapping) : [];
-
-  const update = (patch: Parameters<typeof store.updateMapping>[1]) => {
-    if (!mapping) return;
-    const res = store.updateMapping(mapping.mappingId, patch, { by, justification });
-    toast[res.ok ? "success" : "error"](res.message);
-    if (res.ok) setJustification("");
+  const draft = {
+    productId,
+    productVersionId: versionId,
+    stainRecordId: stain?.id ?? "",
+    stainStableId: stain?.stable_id ?? "",
+    decision,
+    country,
+    evidenceLevel,
+    sourceDocumentId: documentId,
+    sourceSection: section,
+    reviewNote: note,
+    stopConditions: stops,
+    approvalStatus: "draft" as const,
   };
+  const missing = validateMappingInput(draft);
 
-  const setStatus = (status: MappingStatus) => {
-    if (!mapping) return;
-    const res = store.setStatus(mapping.mappingId, status, { by, justification });
+  const submit = async () => {
+    const res = await create.mutateAsync(draft);
     toast[res.ok ? "success" : "error"](res.message);
-    if (res.ok) setJustification("");
+    if (res.ok) {
+      setStain(null);
+      setStainQuery("");
+      setNote("");
+      setSection("");
+      setStops([]);
+      setDecision("not_assessed");
+      setEvidenceLevel("none");
+    }
   };
 
   return (
     <div className="pb-24">
-      <div className="bg-gradient-to-br from-primary/15 to-accent/10 p-4 space-y-2">
+      <div className="space-y-2 bg-gradient-to-br from-primary/15 to-accent/10 p-4">
         <Link to="/admin/mapping-matrix" className="inline-flex items-center gap-1 text-sm text-muted-foreground">
           <ArrowLeft className="h-4 w-4" /> Mapping matrix
         </Link>
         <div className="flex items-center gap-2">
           <PencilRuler className="h-6 w-6 text-primary" />
           <div>
-            <h1 className="text-xl font-bold">Product-mapping editor</h1>
+            <h1 className="text-xl font-bold">Guidance-mapping editor</h1>
             <p className="text-xs text-muted-foreground">
-              Every mapping is tied to one product version, one country and recorded evidence.
+              One product version, one exact stain record, one country, one cited document.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            onClick={() => {
-              const product = products[0];
-              if (!product) return toast.error("No products available.");
-              const created = store.createMapping(
-                { productKey: product.key, productVersionKey: product.currentVersionKey, companyKey: product.companyKey },
-                by,
-              );
-              setParams({ mapping: created.mappingId });
-              toast.success(`Draft ${created.mappingId} created.`);
-            }}
-          >
-            New draft mapping
-          </Button>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {mappings.slice(0, 40).map((m) => (
-            <button key={m.mappingId} className={chip(m.mappingId === activeId)} onClick={() => setParams({ mapping: m.mappingId })}>
-              {m.mappingId}
-            </button>
-          ))}
-        </div>
-
-        {!mapping ? (
-          <p className="text-sm text-muted-foreground">Select a mapping to edit.</p>
-        ) : (
-          <>
-            <Card className="p-4 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <div>
-                  <p className="font-semibold">{products.find((p) => p.key === mapping.productKey)?.displayName ?? mapping.productKey}</p>
-                  <p className="text-[11px] text-muted-foreground">
-                    {mapping.mappingId} · version {mapping.version} · {mapping.productVersionKey}
-                  </p>
-                </div>
-                <Badge variant="outline">{MAPPING_STATUS_LABEL[mapping.status]}</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Stage {mapping.stageNumber} — {TREATMENT_STAGES.find((s) => s.stageNumber === mapping.stageNumber)?.name}
-              </p>
-              {mapping.manufacturerClaim && (
-                <p className="text-xs">Manufacturer claim: {mapping.manufacturerClaim}</p>
-              )}
-            </Card>
-
-            <Card className="p-4 space-y-3">
-              <p className="text-sm font-semibold">Stage</p>
-              <div className="flex flex-wrap gap-2">
-                {TREATMENT_STAGES.filter((s) => s.actionable).map((s) => (
-                  <button key={s.stageId} className={chip(s.stageNumber === mapping.stageNumber)} onClick={() => update({ stageNumber: s.stageNumber })}>
-                    {s.stageNumber}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-sm font-semibold">Decision</p>
-              <div className="flex flex-wrap gap-2">
-                {MAPPING_DECISIONS.map((d: MappingDecision) => (
-                  <button key={d} className={chip(d === mapping.decision)} onClick={() => update({ decision: d })}>
-                    {DECISION_LABEL[d]}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-sm font-semibold">Evidence level</p>
-              <div className="flex flex-wrap gap-2">
-                {MAPPING_EVIDENCE_LEVELS.map((e: MappingEvidenceLevel) => (
-                  <button key={e} className={chip(e === mapping.evidenceLevel)} onClick={() => update({ evidenceLevel: e })}>
-                    {EVIDENCE_LEVEL_LABEL[e]}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-sm font-semibold">Country</p>
-              <Input
-                defaultValue={mapping.country}
-                onBlur={(e) => e.target.value !== mapping.country && update({ country: e.target.value })}
-                className="max-w-40"
-              />
-
-              <p className="text-sm font-semibold">Reviewer notes</p>
-              <Textarea
-                defaultValue={mapping.notes ?? ""}
-                onBlur={(e) => e.target.value !== (mapping.notes ?? "") && update({ notes: e.target.value })}
-              />
-            </Card>
-
-            <Card className="p-4 space-y-2">
-              <p className="text-sm font-semibold">Justification (required for safety-critical changes)</p>
-              <Textarea value={justification} onChange={(e) => setJustification(e.target.value)}
-                placeholder="Cite the document, version and reason for this change." />
-              <div className="flex flex-wrap gap-2">
-                {MAPPING_STATUSES.map((s: MappingStatus) => (
-                  <Button key={s} size="sm" variant={s === mapping.status ? "default" : "outline"} onClick={() => setStatus(s)}>
-                    {MAPPING_STATUS_LABEL[s]}
-                  </Button>
-                ))}
-              </div>
-            </Card>
-
-            <Card className={`p-4 space-y-2 ${issues.some((i) => i.severity === "error") ? "border-destructive/50" : ""}`}>
-              <p className="text-sm font-semibold">Validation</p>
-              {issues.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No blocking issues.</p>
-              ) : (
-                <ul className="list-disc pl-5 text-xs space-y-1">
-                  {issues.map((i) => (
-                    <li key={i.field + i.message} className={i.severity === "error" ? "text-destructive" : "text-muted-foreground"}>
-                      <span className="font-medium capitalize">{i.field.replace(/_/g, " ")}: </span>{i.message}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {mapping.flags.length > 0 && (
-                <ul className="list-disc pl-5 text-[11px] text-muted-foreground space-y-0.5">
-                  {mapping.flags.map((f) => <li key={f}>{f}</li>)}
-                </ul>
-              )}
-            </Card>
-          </>
-        )}
-
-        <Card className="p-4 space-y-2">
-          <p className="text-sm font-semibold">Review trigger</p>
+      <div className="space-y-4 p-4">
+        <Card className="space-y-3 p-4">
+          <p className="text-sm font-semibold">Product</p>
           <div className="flex flex-wrap gap-2">
-            {REVIEW_TRIGGERS.map((t) => (
-              <button key={t} className={chip(t === trigger)} onClick={() => setTrigger(t)}>
-                {REVIEW_TRIGGER_LABEL[t]}
+            {(products.data ?? []).slice(0, 60).map((p) => (
+              <button
+                key={p.id}
+                className={chip(p.id === productId)}
+                onClick={() => {
+                  setProductId(p.id);
+                  setVersionId(p.currentVersion?.id ?? "");
+                }}
+              >
+                {p.name}
               </button>
             ))}
           </div>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => {
-              const n = store.triggerReview(trigger, mapping ? { productKey: mapping.productKey } : {}, by);
-              toast.success(`${n} mapping(s) returned to review. Previous versions are retained.`);
-            }}
-          >
-            Apply trigger to this product's mappings
+
+          {product && (
+            <>
+              <p className="text-sm font-semibold">Product version</p>
+              <div className="flex flex-wrap gap-2">
+                {product.versions.map((v) => (
+                  <button key={v.id} className={chip(v.id === versionId)} onClick={() => setVersionId(v.id)}>
+                    {v.version_ref} · {v.country} · {v.approval_status}
+                  </button>
+                ))}
+                {product.versions.length === 0 && (
+                  <p className="text-xs text-muted-foreground">This product has no version record yet.</p>
+                )}
+              </div>
+            </>
+          )}
+        </Card>
+
+        <Card className="space-y-3 p-4">
+          <p className="text-sm font-semibold">Exact stain record</p>
+          <Input
+            placeholder="Search the stain library (minimum 2 characters)"
+            value={stainQuery}
+            onChange={(e) => setStainQuery(e.target.value)}
+          />
+          {stain && (
+            <p className="text-xs">
+              Selected: <span className="font-medium">{stain.canonical_name}</span> ({stain.stable_id})
+            </p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {(stainResults.data ?? []).map((s: any) => (
+              <button
+                key={s.id}
+                className={chip(stain?.id === s.id)}
+                onClick={() => setStain({ id: s.id, stable_id: s.stable_id, canonical_name: s.canonical_name })}
+              >
+                {s.canonical_name}
+              </button>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="space-y-3 p-4">
+          <p className="text-sm font-semibold">Decision</p>
+          <div className="flex flex-wrap gap-2">
+            {MAPPING_DECISIONS.map((d) => (
+              <button key={d} className={chip(d === decision)} onClick={() => setDecision(d)}>
+                {d.replace(/_/g, " ")}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-sm font-semibold">Evidence level</p>
+          <div className="flex flex-wrap gap-2">
+            {EVIDENCE_LEVELS.map((e) => (
+              <button key={e} className={chip(e === evidenceLevel)} onClick={() => setEvidenceLevel(e)}>
+                {e.replace(/_/g, " ")}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-sm font-semibold">Mandatory stop conditions</p>
+          <div className="flex flex-wrap gap-2">
+            {STOP_CONDITIONS.map((s) => (
+              <button
+                key={s}
+                className={chip(stops.includes(s))}
+                onClick={() => setStops((cur) => (cur.includes(s) ? cur.filter((x) => x !== s) : [...cur, s]))}
+              >
+                {s.replace(/_/g, " ")}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-sm font-semibold">Country</p>
+          <Input value={country} onChange={(e) => setCountry(e.target.value.toUpperCase())} className="max-w-40" />
+
+          <p className="text-sm font-semibold">Source document</p>
+          <div className="flex flex-wrap gap-2">
+            {(documents.data ?? []).map((d: any) => (
+              <button key={d.id} className={chip(d.id === documentId)} onClick={() => setDocumentId(d.id)}>
+                {d.document_title}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-sm font-semibold">Source section</p>
+          <Input value={section} onChange={(e) => setSection(e.target.value)} placeholder="Page, table or section reference" />
+
+          <p className="text-sm font-semibold">Review note</p>
+          <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Why this mapping is justified by the cited source." />
+
+          {missing.length > 0 && (
+            <p className="text-xs text-destructive">Incomplete: {missing.join(", ")}. A partial mapping cannot be saved.</p>
+          )}
+          <Button size="sm" disabled={missing.length > 0 || create.isPending} onClick={submit}>
+            Save draft mapping
           </Button>
         </Card>
 
-        <Card className="p-4 space-y-2">
-          <p className="text-sm font-semibold">Change history</p>
-          {store.audit.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No changes recorded yet.</p>
+        <Card className="space-y-2 p-4">
+          <p className="text-sm font-semibold">Existing mappings</p>
+          <Textarea
+            value={approvalReason}
+            onChange={(e) => setApprovalReason(e.target.value)}
+            placeholder="Approval reason (required to approve a mapping)."
+          />
+          {(mappings.data ?? []).length === 0 ? (
+            <p className="text-xs text-muted-foreground">No guidance mappings exist yet.</p>
           ) : (
-            <ul className="space-y-1 text-[11px]">
-              {store.audit.slice(0, 20).map((a) => (
-                <li key={a.id} className="flex justify-between gap-2 border-b border-border pb-1">
-                  <span>
-                    {a.mappingId} · {a.action}{a.safetyCritical ? " · safety-critical" : ""} — {a.justification}
-                  </span>
-                  <span className="text-muted-foreground">{new Date(a.at).toLocaleString()}</span>
+            <ul className="space-y-2 text-xs">
+              {(mappings.data ?? []).map((m) => (
+                <li key={m.id} className="space-y-1 rounded-md border border-border p-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium">{m.stain_records?.canonical_name ?? m.stain_record_id}</span>
+                    <Badge variant="outline">{m.approval_status}</Badge>
+                  </div>
+                  <p className="text-muted-foreground">
+                    {m.professional_products?.display_name ?? m.professional_products?.product_name} ·{" "}
+                    {m.product_versions?.version_ref} · {m.country} · {m.decision}
+                  </p>
+                  {!["approved", "published"].includes(m.approval_status) && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={approve.isPending}
+                      onClick={async () => {
+                        if (approvalReason.trim().length < 10) return toast.error("A written approval reason is required.");
+                        const res = await approve.mutateAsync({ id: m.id, target: "approved", reason: approvalReason.trim() });
+                        if (res.ok) toast.success("Mapping approved.");
+                        else toast.error(res.blockers[0] ?? "Approval refused by the publication gate.");
+                      }}
+                    >
+                      Approve
+                    </Button>
+                  )}
                 </li>
               ))}
             </ul>

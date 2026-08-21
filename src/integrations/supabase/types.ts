@@ -2848,6 +2848,62 @@ export type Database = {
         }
         Relationships: []
       }
+      import_staging_rows: {
+        Row: {
+          batch_id: string | null
+          confirmed_at: string | null
+          confirmed_by: string | null
+          created_at: string
+          duplicate_of: string | null
+          entity_kind: string
+          id: string
+          missing_fields: string[]
+          payload: Json
+          row_number: number
+          staging_status: string
+          updated_at: string
+          validation_errors: string[]
+        }
+        Insert: {
+          batch_id?: string | null
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string
+          duplicate_of?: string | null
+          entity_kind: string
+          id?: string
+          missing_fields?: string[]
+          payload?: Json
+          row_number?: number
+          staging_status?: string
+          updated_at?: string
+          validation_errors?: string[]
+        }
+        Update: {
+          batch_id?: string | null
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string
+          duplicate_of?: string | null
+          entity_kind?: string
+          id?: string
+          missing_fields?: string[]
+          payload?: Json
+          row_number?: number
+          staging_status?: string
+          updated_at?: string
+          validation_errors?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_staging_rows_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kit_products: {
         Row: {
           bottle_label: string | null
@@ -5001,6 +5057,182 @@ export type Database = {
           },
         ]
       }
+      product_guidance_mappings: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["content_status"]
+          colour_condition: string | null
+          country: string
+          created_at: string
+          created_by: string | null
+          decision: string
+          effective_date: string | null
+          end_date: string | null
+          evidence_level: Database["public"]["Enums"]["evidence_level"]
+          evidence_note: string | null
+          fabric_id: string | null
+          garment_construction: string | null
+          id: string
+          language: string
+          mandatory_hidden_test: boolean
+          mandatory_stop_conditions: string[]
+          mapping_ref: string
+          material_family: string | null
+          process_condition: string | null
+          product_id: string
+          product_version_id: string
+          provisional: boolean
+          required_neutralisation: string | null
+          required_rinse: string | null
+          restriction: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          reviewer: string | null
+          risk_level: Database["public"]["Enums"]["risk_level"]
+          source_document_id: string | null
+          source_section: string | null
+          stain_category_id: string | null
+          stain_record_id: string
+          suitability: Database["public"]["Enums"]["suitability_decision"]
+          treatment_stage_id: string | null
+          treatment_stage_number: number | null
+          updated_at: string
+          user_capability: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          colour_condition?: string | null
+          country?: string
+          created_at?: string
+          created_by?: string | null
+          decision?: string
+          effective_date?: string | null
+          end_date?: string | null
+          evidence_level?: Database["public"]["Enums"]["evidence_level"]
+          evidence_note?: string | null
+          fabric_id?: string | null
+          garment_construction?: string | null
+          id?: string
+          language?: string
+          mandatory_hidden_test?: boolean
+          mandatory_stop_conditions?: string[]
+          mapping_ref: string
+          material_family?: string | null
+          process_condition?: string | null
+          product_id: string
+          product_version_id: string
+          provisional?: boolean
+          required_neutralisation?: string | null
+          required_rinse?: string | null
+          restriction?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
+          risk_level?: Database["public"]["Enums"]["risk_level"]
+          source_document_id?: string | null
+          source_section?: string | null
+          stain_category_id?: string | null
+          stain_record_id: string
+          suitability?: Database["public"]["Enums"]["suitability_decision"]
+          treatment_stage_id?: string | null
+          treatment_stage_number?: number | null
+          updated_at?: string
+          user_capability?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["content_status"]
+          colour_condition?: string | null
+          country?: string
+          created_at?: string
+          created_by?: string | null
+          decision?: string
+          effective_date?: string | null
+          end_date?: string | null
+          evidence_level?: Database["public"]["Enums"]["evidence_level"]
+          evidence_note?: string | null
+          fabric_id?: string | null
+          garment_construction?: string | null
+          id?: string
+          language?: string
+          mandatory_hidden_test?: boolean
+          mandatory_stop_conditions?: string[]
+          mapping_ref?: string
+          material_family?: string | null
+          process_condition?: string | null
+          product_id?: string
+          product_version_id?: string
+          provisional?: boolean
+          required_neutralisation?: string | null
+          required_rinse?: string | null
+          restriction?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
+          risk_level?: Database["public"]["Enums"]["risk_level"]
+          source_document_id?: string | null
+          source_section?: string | null
+          stain_category_id?: string | null
+          stain_record_id?: string
+          suitability?: Database["public"]["Enums"]["suitability_decision"]
+          treatment_stage_id?: string | null
+          treatment_stage_number?: number | null
+          updated_at?: string
+          user_capability?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_guidance_mappings_fabric_id_fkey"
+            columns: ["fabric_id"]
+            isOneToOne: false
+            referencedRelation: "fabrics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_stain_category_id_fkey"
+            columns: ["stain_category_id"]
+            isOneToOne: false
+            referencedRelation: "stain_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_stain_record_id_fkey"
+            columns: ["stain_record_id"]
+            isOneToOne: false
+            referencedRelation: "stain_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_guidance_mappings_treatment_stage_id_fkey"
+            columns: ["treatment_stage_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_incompatibilities: {
         Row: {
           approval_status: Database["public"]["Enums"]["content_status"]
@@ -5813,6 +6045,79 @@ export type Database = {
           },
         ]
       }
+      product_source_documents: {
+        Row: {
+          claim_scope: string
+          created_at: string
+          document_role: string
+          id: string
+          notes: string | null
+          page_reference: string | null
+          product_id: string
+          product_version_id: string | null
+          reviewed_at: string | null
+          reviewer: string | null
+          source_document_id: string
+          source_section: string | null
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          claim_scope?: string
+          created_at?: string
+          document_role: string
+          id?: string
+          notes?: string | null
+          page_reference?: string | null
+          product_id: string
+          product_version_id?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
+          source_document_id: string
+          source_section?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          claim_scope?: string
+          created_at?: string
+          document_role?: string
+          id?: string
+          notes?: string | null
+          page_reference?: string | null
+          product_id?: string
+          product_version_id?: string | null
+          reviewed_at?: string | null
+          reviewer?: string | null
+          source_document_id?: string
+          source_section?: string | null
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_source_documents_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_source_documents_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_source_documents_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_stage_mappings: {
         Row: {
           approval_status: string
@@ -6247,12 +6552,15 @@ export type Database = {
           known_formulation_change: boolean
           label_version: string | null
           market: string | null
+          notes: string | null
           product_code: string | null
           product_id: string
+          provisional: boolean
           reviewer: string | null
           sds_version: string | null
           superseded_by: string | null
           tds_version: string | null
+          updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
           version_ref: string
         }
@@ -6270,12 +6578,15 @@ export type Database = {
           known_formulation_change?: boolean
           label_version?: string | null
           market?: string | null
+          notes?: string | null
           product_code?: string | null
           product_id: string
+          provisional?: boolean
           reviewer?: string | null
           sds_version?: string | null
           superseded_by?: string | null
           tds_version?: string | null
+          updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
           version_ref: string
         }
@@ -6293,12 +6604,15 @@ export type Database = {
           known_formulation_change?: boolean
           label_version?: string | null
           market?: string | null
+          notes?: string | null
           product_code?: string | null
           product_id?: string
+          provisional?: boolean
           reviewer?: string | null
           sds_version?: string | null
           superseded_by?: string | null
           tds_version?: string | null
+          updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
           version_ref?: string
         }
@@ -9546,11 +9860,39 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      legacy_table_replacements: {
+        Row: {
+          canonical_replacement: string | null
+          legacy_table: string | null
+          note: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      approve_guidance_mapping: {
+        Args: {
+          _mapping_id: string
+          _reason: string
+          _target_status: Database["public"]["Enums"]["content_status"]
+        }
+        Returns: Json
+      }
+      approve_product_version: {
+        Args: {
+          _reason: string
+          _source_document_id?: string
+          _target_status: Database["public"]["Enums"]["content_status"]
+          _version_id: string
+        }
+        Returns: Json
+      }
       can_publish_content: { Args: { _user_id: string }; Returns: boolean }
       ensure_default_role: { Args: never; Returns: undefined }
+      guidance_mapping_publication_readiness: {
+        Args: { _mapping_id: string }
+        Returns: Json
+      }
       has_active_access: { Args: { _user_id: string }; Returns: boolean }
       has_any_role: {
         Args: {
@@ -9571,6 +9913,10 @@ export type Database = {
       product_guidance_available: {
         Args: { _company_id: string; _stain_record_id: string }
         Returns: boolean
+      }
+      product_version_publication_readiness: {
+        Args: { _version_id: string }
+        Returns: Json
       }
       search_stains: {
         Args: { lim?: number; off?: number; q: string }
