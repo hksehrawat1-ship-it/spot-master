@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePricingPlan } from "@/hooks/usePricingPlan";
-import { accessPeriodLabel, formatMoney, perDayStatement, savingsMinor } from "@/config/pricing";
+import { accessPeriodLabel, formatMoney, perDayStatement, savingsMinor, savingsPercent, shortPrice } from "@/config/pricing";
 import StatusNotice from "@/components/system/StatusNotice";
 
 const BENEFITS = [
@@ -62,8 +62,15 @@ const STEPS = [
 
 const FALLBACK_KITS = ["Seitz", "STAS", "Clean Craft", "Basic / domestic products"];
 
+const PLAN_FEATURES = [
+  "Full stain library with safety-first pathways",
+  "Fabric checks and concealed-area testing",
+  "Verified treatment stages and stop conditions",
+  "Save cases, stains and treatment history",
+];
+
 export default function Landing() {
-  const { plan } = usePricingPlan();
+  const { annual, monthly, intlAnnual } = usePricingPlan();
   const [kits, setKits] = useState<string[] | null>(null);
 
   useEffect(() => {
@@ -88,8 +95,9 @@ export default function Landing() {
     };
   }, []);
 
-  const perDay = perDayStatement(plan);
+  const perDay = perDayStatement(annual);
   const shownKits = kits ?? FALLBACK_KITS;
+  const annualDiscount = savingsPercent(annual);
 
   return (
     <>
@@ -122,8 +130,8 @@ export default function Landing() {
               <Link to="/register" className="sm-btn-primary">
                 Start Stain Master <ArrowRight aria-hidden className="h-4 w-4" />
               </Link>
-              <a href="#how-it-works" className="sm-btn-secondary">
-                See how it works
+              <a href="#pricing" className="sm-btn-secondary">
+                See pricing
               </a>
             </div>
           </div>
@@ -227,47 +235,104 @@ export default function Landing() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="sm-container py-12">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-center">{plan.planName}</h2>
-          <div className="sm-card mt-6">
-            <div className="flex flex-wrap items-baseline gap-3">
-              <span className="text-lg text-muted-foreground line-through">
-                {formatMoney(plan.listPriceMinor, plan.currency)}
-              </span>
-              <span className="text-3xl font-bold text-navy">{formatMoney(plan.offerPriceMinor, plan.currency)}</span>
-              <span className="rounded-full bg-proceed-surface px-3 py-1 text-sm font-semibold text-proceed">
-                Save {formatMoney(savingsMinor(plan), plan.currency)}
-              </span>
-            </div>
-            <p className="mt-2 text-sm font-medium text-foreground">{accessPeriodLabel(plan)}</p>
-            {perDay && <p className="mt-3 text-sm text-muted-foreground">{perDay}</p>}
-
-            <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
-              <li>Applicable {plan.taxLabel}/taxes are shown during payment.</li>
-              <li>Secure payment. {plan.taxLabel} invoice available after purchase.</li>
-              <li>
-                Access period: {accessPeriodLabel(plan)}. See our{" "}
-                <Link to="/legal/refund" className="text-primary underline">
-                  refund and cancellation policy
-                </Link>{" "}
-                and{" "}
-                <Link to="/legal/terms" className="text-primary underline">
-                  Terms of Use
-                </Link>
-                .
-              </li>
-            </ul>
-
-            <Link to="/register" className="sm-btn-primary mt-6 w-full">
-              Get Stain Master
-            </Link>
+      <section id="pricing" className="border-y border-border bg-surface py-14">
+        <div className="sm-container">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="sm-eyebrow inline-flex items-center gap-2 text-proceed">
+              <Sparkles aria-hidden className="h-4 w-4" /> Founding price — guaranteed for the first 12 months
+            </span>
+            <h2 className="mt-3">Simple, safety-first pricing</h2>
+            <p className="mt-2 text-muted-foreground">
+              Pay monthly or save with the annual plan. All prices include taxes — no lifetime lock-in.
+            </p>
           </div>
+
+          <div className="mx-auto mt-8 grid max-w-3xl gap-4 md:grid-cols-2">
+            {/* Monthly */}
+            <article className="sm-card flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-primary">
+                  <ClipboardList aria-hidden className="h-4 w-4" />
+                </span>
+                <h3 className="text-lg">Monthly</h3>
+              </div>
+              <div className="mt-4 flex items-end gap-2">
+                <span className="text-4xl font-bold text-navy">
+                  {formatMoney(monthly.offerPriceMinor, monthly.currency)}
+                </span>
+                <span className="pb-1.5 text-sm text-muted-foreground">/ month</span>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {monthly.taxLabel} included · {accessPeriodLabel(monthly)} per billing cycle
+              </p>
+              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+                {PLAN_FEATURES.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <CheckCircle2 aria-hidden className="mt-0.5 h-4 w-4 flex-none text-teal" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link to="/register" className="sm-btn-secondary mt-6 w-full">
+                Start monthly
+              </Link>
+            </article>
+
+            {/* Annual — highlighted */}
+            <article className="relative flex flex-col rounded-[var(--radius)] border-2 border-primary bg-background p-4 shadow-[var(--shadow-raised)]">
+              <span className="absolute -top-3 left-4 inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground shadow-sm">
+                <Sparkles aria-hidden className="h-3.5 w-3.5" /> Best value · save {annualDiscount}%
+              </span>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <ShieldCheck aria-hidden className="h-4 w-4" />
+                </span>
+                <h3 className="text-lg">Annual (Founding)</h3>
+              </div>
+              <div className="mt-4 flex flex-wrap items-end gap-2">
+                <span className="text-lg text-muted-foreground line-through">
+                  {formatMoney(annual.listPriceMinor, annual.currency)}
+                </span>
+                <span className="text-4xl font-bold text-navy">
+                  {formatMoney(annual.offerPriceMinor, annual.currency)}
+                </span>
+                <span className="pb-1.5 text-sm text-muted-foreground">/ year</span>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {annual.taxLabel} included · {accessPeriodLabel(annual)} · you save {formatMoney(savingsMinor(annual), annual.currency)}
+              </p>
+              {perDay && <p className="mt-3 text-sm text-muted-foreground">{perDay}</p>}
+              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
+                {PLAN_FEATURES.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <CheckCircle2 aria-hidden className="mt-0.5 h-4 w-4 flex-none text-proceed" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link to="/register" className="sm-btn-primary mt-6 w-full">
+                Get Stain Master <ArrowRight aria-hidden className="h-4 w-4" />
+              </Link>
+            </article>
+          </div>
+
+          <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-muted-foreground">
+            International users:{" "}
+            <span className="font-semibold text-navy">
+              {shortPrice(intlAnnual.offerPriceMinor, intlAnnual.currency, "yr")}
+            </span>{" "}
+            plus applicable local taxes. Founding price is guaranteed for the first 12 months; renewals are at the
+            then-current price — no lifetime price protection. See our{" "}
+            <Link to="/legal/refund" className="text-primary underline">
+              refund and cancellation policy
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
       {/* Safety statement */}
-      <section className="sm-container pb-14">
+      <section className="sm-container py-14">
         <StatusNotice tone="info" title="Safety statement">
           Stain Master is a decision-support and safety-guidance system. It does not guarantee complete stain removal.
           Fabric safety always takes priority.

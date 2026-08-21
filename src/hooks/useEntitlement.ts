@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/auth/AuthProvider";
-import { PLAN_CODE } from "@/config/pricing";
 
 export type AccessState = "loading" | "none" | "active" | "expired" | "unavailable";
 
@@ -15,6 +14,9 @@ export type Entitlement = {
 /**
  * Paid access is decided by the server (subscriptions + has_active_access).
  * Nothing here reads entitlement from browser storage, and any failure fails closed.
+ *
+ * Any active subscription (monthly or annual) grants access, so the most recent
+ * subscription row is read regardless of plan_code.
  */
 export function useEntitlement(): Entitlement {
   const { user, status } = useAuth();
@@ -38,7 +40,8 @@ export function useEntitlement(): Entitlement {
         .from("subscriptions")
         .select("status, access_starts_at, access_ends_at")
         .eq("user_id", user.id)
-        .eq("plan_code", PLAN_CODE)
+        .order("access_ends_at", { ascending: false, nullsFirst: false })
+        .limit(1)
         .maybeSingle();
       if (error) throw error;
 

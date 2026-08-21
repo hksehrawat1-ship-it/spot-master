@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/store/useApp";
+import { usePricingPlan } from "@/hooks/usePricingPlan";
+import { accessPeriodLabel, formatMoney, savingsMinor, savingsPercent } from "@/config/pricing";
 import { toast } from "@/hooks/use-toast";
 
 const schema = z.object({
@@ -19,6 +21,13 @@ const schema = z.object({
     .regex(/^[0-9+\-\s()]+$/, "Phone can only contain digits and + - ( )"),
 });
 
+const FEATURES = [
+  "Full stain library with safety-first pathways",
+  "Identification & diagnosis flow",
+  "Expert mode: pH, chemistry, fiber reaction",
+  "Save stains & treatment history",
+];
+
 export default function StainMasterPaywall({
   open,
   onOpenChange,
@@ -27,9 +36,14 @@ export default function StainMasterPaywall({
   onOpenChange: (v: boolean) => void;
 }) {
   const unlock = useApp((s) => s.unlockStainMaster);
+  const { monthly, annual } = usePricingPlan();
+  const [planChoice, setPlanChoice] = useState<"monthly" | "annual">("annual");
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
   const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const plan = planChoice === "monthly" ? monthly : annual;
+  const annualDiscount = savingsPercent(annual);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,11 +59,14 @@ export default function StainMasterPaywall({
     }
     setErrors({});
     setSubmitting(true);
-    // Demo: simulate payment
+    // Demo: simulate checkout
     await new Promise((r) => setTimeout(r, 700));
     unlock({ name: parsed.data.name!, email: parsed.data.email!, phone: parsed.data.phone! });
     setSubmitting(false);
-    toast({ title: "Welcome, Stain Master! 🎉", description: "Lifetime access unlocked." });
+    toast({
+      title: "Welcome to Stain Master! 🎉",
+      description: `${planChoice === "annual" ? "Annual" : "Monthly"} access activated.`,
+    });
     onOpenChange(false);
   };
 
@@ -58,33 +75,64 @@ export default function StainMasterPaywall({
       <DialogContent className="max-w-sm overflow-hidden p-0">
         <div className="bg-gradient-to-br from-primary to-primary-glow p-5 text-primary-foreground">
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider opacity-90">
-            <Sparkles className="h-4 w-4" /> Stain Master · Lifetime
+            <Sparkles className="h-4 w-4" /> Stain Master · Founding price
           </div>
           <DialogHeader className="space-y-1 p-0 text-left">
             <DialogTitle className="text-2xl font-bold leading-tight text-primary-foreground">
-              Become a Stain Master
+              Unlock Stain Master
             </DialogTitle>
             <DialogDescription className="text-sm text-primary-foreground/90">
-              Unlock 500+ pro stain treatments, identification flow & expert mode — for life.
+              Safety-first stain guidance, identification flow and expert mode. Monthly or annual — your choice.
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-3 flex items-end gap-2">
-            <span className="text-3xl font-extrabold">₹9,999</span>
-            <span className="pb-1 text-xs opacity-80">one-time · lifetime</span>
-          </div>
-          <p className="mt-2 inline-block rounded-md bg-[hsl(140_70%_18%)] px-2.5 py-1 text-[12px] font-extrabold text-[hsl(140_85%_88%)] shadow-sm">
-            If you buy the Laundry Mastery Bundle it's free for lifetime
+          <p className="mt-3 inline-block rounded-md bg-[hsl(140_70%_18%)] px-2.5 py-1 text-[12px] font-extrabold text-[hsl(140_85%_88%)] shadow-sm">
+            Founding price — guaranteed for the first 12 months
           </p>
         </div>
 
         <form onSubmit={submit} className="space-y-3 p-5">
+          {/* Plan toggle */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setPlanChoice("monthly")}
+              className={`rounded-lg border p-3 text-left transition-colors ${
+                planChoice === "monthly" ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/40"
+              }`}
+            >
+              <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Monthly</span>
+              <span className="mt-1 block text-lg font-extrabold text-navy">
+                {formatMoney(monthly.offerPriceMinor, monthly.currency)}
+                <span className="text-xs font-medium text-muted-foreground">/mo</span>
+              </span>
+              <span className="mt-0.5 block text-[10px] text-muted-foreground">{monthly.taxLabel} included</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPlanChoice("annual")}
+              className={`relative rounded-lg border p-3 text-left transition-colors ${
+                planChoice === "annual" ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/40"
+              }`}
+            >
+              <span className="absolute -top-2 left-2 rounded-full bg-proceed px-2 py-0.5 text-[9px] font-bold text-proceed-foreground">
+                Save {annualDiscount}%
+              </span>
+              <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Annual</span>
+              <span className="mt-1 block text-lg font-extrabold text-navy">
+                {formatMoney(annual.offerPriceMinor, annual.currency)}
+                <span className="text-xs font-medium text-muted-foreground">/yr</span>
+              </span>
+              <span className="mt-0.5 block text-[10px] text-muted-foreground">
+                Save {formatMoney(savingsMinor(annual), annual.currency)}
+              </span>
+            </button>
+          </div>
+          <p className="text-center text-[10px] text-muted-foreground">
+            {accessPeriodLabel(plan)} · {plan.taxLabel} included · no lifetime lock-in
+          </p>
+
           <ul className="space-y-1.5 text-xs text-muted-foreground">
-            {[
-              "Full stain library with pro SOPs",
-              "Identification & diagnosis flow",
-              "Expert mode: pH, chemistry, fiber reaction",
-              "Save stains & treatment history",
-            ].map((f) => (
+            {FEATURES.map((f) => (
               <li key={f} className="flex items-start gap-2">
                 <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
                 <span>{f}</span>
@@ -130,10 +178,10 @@ export default function StainMasterPaywall({
 
           <Button type="submit" className="h-11 w-full text-base font-bold" disabled={submitting}>
             <Lock className="h-4 w-4" />
-            {submitting ? "Unlocking…" : "Pay ₹9,999 & Unlock"}
+            {submitting ? "Activating…" : `Start ${planChoice === "annual" ? "Annual" : "Monthly"} · ${formatMoney(plan.offerPriceMinor, plan.currency)}`}
           </Button>
           <p className="text-center text-[10px] text-muted-foreground">
-            Secure checkout · Lifetime access · Instant unlock
+            Secure checkout · {plan.taxLabel} included · Founding price guaranteed 12 months
           </p>
         </form>
       </DialogContent>
