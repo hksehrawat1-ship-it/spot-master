@@ -3,11 +3,13 @@
  *
  * Verifies both sides of the permission contract:
  *  1. the frontend permission map (pure functions), and
- *  2. the database permission helpers, RLS policies and bootstrap function,
- *     read from the live catalogues through psql.
+ *  2. the outcome of the real database authorization suite
+ *     (`supabase/tests/authorization.test.sql`), which exercises the live
+ *     functions and row-level security policies as real temporary identities
+ *     and rolls every test record back.
  *
- * Database assertions are skipped automatically when no database connection is
- * configured (PGHOST unset), so the suite stays runnable in any environment.
+ * When no database connection is configured (PGHOST unset) the database part
+ * is reported as an explicit outstanding item, never as a silent pass.
  */
 
 import { describe, expect, it } from "vitest";
@@ -32,20 +34,6 @@ const dbIt = hasDb ? it : it.skip;
 
 function sql(query: string): string {
   return execFileSync("psql", ["-t", "-A", "-c", query], { encoding: "utf8" }).trim();
-}
-
-function functionBody(name: string): string {
-  return sql(
-    `select pg_get_functiondef(p.oid) from pg_proc p join pg_namespace n on n.oid = p.pronamespace
-     where n.nspname='public' and p.proname='${name}'`,
-  );
-}
-
-function rolesInFunction(name: string): string[] {
-  const body = functionBody(name);
-  const list = body.match(/ARRAY\[([^\]]+)\]::app_role\[\]/);
-  if (!list) return [];
-  return [...list[1].matchAll(/'([a-z_]+)'/g)].map((m) => m[1]).sort();
 }
 
 /* ------------------------------------------------------- expected matrix */
