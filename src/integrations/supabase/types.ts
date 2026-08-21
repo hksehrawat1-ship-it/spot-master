@@ -7249,6 +7249,36 @@ export type Database = {
         }
         Relationships: []
       }
+      security_audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          metadata: Json
+          performed_by: string
+          reason: string
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          performed_by?: string
+          reason: string
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          performed_by?: string
+          reason?: string
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
       source_documents: {
         Row: {
           company_id: string | null
@@ -9890,7 +9920,17 @@ export type Database = {
         }
         Returns: Json
       }
+      bootstrap_first_owner: {
+        Args: { reason: string; target_user_id: string }
+        Returns: Json
+      }
       can_publish_content: { Args: { _user_id: string }; Returns: boolean }
+      can_read_product_audit: { Args: { _user_id: string }; Returns: boolean }
+      can_read_professional_guidance: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
+      can_technical_approve: { Args: { _user_id: string }; Returns: boolean }
       ensure_default_role: { Args: never; Returns: undefined }
       guidance_mapping_publication_readiness: {
         Args: { _mapping_id: string }
@@ -9913,6 +9953,7 @@ export type Database = {
       }
       is_content_maintainer: { Args: { _user_id: string }; Returns: boolean }
       is_platform_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_product_maintainer: { Args: { _user_id: string }; Returns: boolean }
       product_guidance_available: {
         Args: { _company_id: string; _stain_record_id: string }
         Returns: boolean

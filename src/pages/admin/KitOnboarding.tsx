@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useCatalogCompanies, useCatalogKits, useCatalogProducts, useSourceDocuments } from "@/hooks/useProductCatalog";
 import { useGuidanceMappings } from "@/hooks/useGuidanceMappings";
 import { recordProductAudit } from "@/lib/productCatalog";
@@ -24,8 +24,8 @@ import { ArrowLeft, CheckCircle2, Circle, ShieldAlert } from "lucide-react";
 type Step = { key: string; title: string; detail: string; done: boolean; count: string };
 
 export default function KitOnboarding() {
-  const { can } = useAuth();
-  const isMaintainer = can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isMaintainer = access.productDrafts;
 
   const companies = useCatalogCompanies();
   const kits = useCatalogKits();

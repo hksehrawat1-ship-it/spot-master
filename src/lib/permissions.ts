@@ -52,6 +52,7 @@ export const PERMISSIONS = [
   "content.publish",
   "content.translate",
   "products.manage",
+  "products.guidance.read",
   "safety.rules.manage",
   "safety.override.request",
   "outcomes.review",
@@ -73,17 +74,17 @@ const ROLE_PERMISSIONS: Record<AppRole, Permission[]> = {
   ],
   technical_reviewer: [
     "admin.access", "content.draft.edit", "content.technical.approve", "outcomes.review",
-    "safety.override.request",
+    "admin.audit.read", "safety.override.request",
   ],
   content_admin: ["admin.access", "content.draft.edit", "content.publish", "products.manage"],
   content_editor: ["admin.access", "content.draft.edit"],
   translator: ["admin.access", "content.translate"],
   auditor: ["admin.access", "admin.audit.read"],
   support: ["admin.access", "support.read"],
-  professional_spotter: ["safety.override.request"],
-  dry_cleaner: [],
-  laundry_employee: [],
-  trainer: [],
+  professional_spotter: ["products.guidance.read", "safety.override.request"],
+  dry_cleaner: ["products.guidance.read"],
+  laundry_employee: ["products.guidance.read"],
+  trainer: ["products.guidance.read"],
   learner: [],
   domestic_user: [],
 };
@@ -104,3 +105,65 @@ export function hasPermission(roles: readonly string[], permission: Permission):
 export function canAccessAdmin(roles: readonly string[]): boolean {
   return hasPermission(roles, "admin.access");
 }
+
+/* ------------------------------------------------------------------
+ * Authoritative role contract — these lists mirror the database
+ * helper functions exactly. The database remains the final authority;
+ * these exist so the interface never offers an action the database
+ * would reject, and never hides an action the database would allow.
+ *
+ *   product maintainers      -> public.is_product_maintainer()
+ *   technical approvers      -> public.can_technical_approve()
+ *   publishers               -> public.can_publish_content()
+ *   platform administrators  -> public.is_platform_admin()
+ *   professional readers     -> public.can_read_professional_guidance()
+ *   product audit readers    -> public.can_read_product_audit()
+ * ------------------------------------------------------------------ */
+
+export const PRODUCT_MAINTAINER_ROLES: AppRole[] = [
+  "owner", "administrator", "content_admin", "technical_reviewer", "content_editor",
+];
+export const TECHNICAL_APPROVER_ROLES: AppRole[] = ["owner", "technical_reviewer"];
+export const PUBLISHER_ROLES: AppRole[] = ["owner", "administrator", "content_admin"];
+export const PLATFORM_ADMIN_ROLES: AppRole[] = ["owner", "administrator", "system_admin"];
+export const PROFESSIONAL_GUIDANCE_ROLES: AppRole[] = [
+  "professional_spotter", "dry_cleaner", "laundry_employee", "trainer",
+];
+export const PRODUCT_AUDIT_ROLES: AppRole[] = [
+  "owner", "administrator", "auditor", "technical_reviewer",
+];
+
+function anyRole(roles: readonly string[], allowed: readonly AppRole[]): boolean {
+  return roles.some((r) => (allowed as readonly string[]).includes(r));
+}
+
+/** May read and edit draft product-domain records. */
+export function canEditProductDrafts(roles: readonly string[]): boolean {
+  return anyRole(roles, PRODUCT_MAINTAINER_ROLES);
+}
+
+/** May technically approve safety-critical product content. */
+export function canTechnicalApprove(roles: readonly string[]): boolean {
+  return anyRole(roles, TECHNICAL_APPROVER_ROLES);
+}
+
+/** May publish technically approved content. */
+export function canPublishContent(roles: readonly string[]): boolean {
+  return anyRole(roles, PUBLISHER_ROLES);
+}
+
+/** May reach system administration. */
+export function isPlatformAdmin(roles: readonly string[]): boolean {
+  return anyRole(roles, PLATFORM_ADMIN_ROLES);
+}
+
+/** May read approved and verified professional product guidance. */
+export function canReadProfessionalGuidance(roles: readonly string[]): boolean {
+  return anyRole(roles, PROFESSIONAL_GUIDANCE_ROLES) || canEditProductDrafts(roles);
+}
+
+/** May read product audit history. */
+export function canReadProductAudit(roles: readonly string[]): boolean {
+  return anyRole(roles, PRODUCT_AUDIT_ROLES);
+}
+

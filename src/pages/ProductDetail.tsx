@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { useCatalogProduct, useProductEvidence } from "@/hooks/useProductCatalog";
 import { DOCUMENT_ROLE_LABEL, STATUS_LABEL, UNKNOWN_STATES } from "@/lib/productCatalog";
@@ -26,9 +26,9 @@ function Row({ label, value }: { label: string; value: string | null | undefined
 
 export default function ProductDetail() {
   const { productRef } = useParams();
-  const { can } = useAuth();
-  const isProfessional = can("products.manage") || can("content.draft.edit") || can("safety.override.request");
-  const isMaintainer = can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isProfessional = access.professionalGuidance;
+  const isMaintainer = access.productDrafts;
 
   const product = useCatalogProduct(productRef);
   const p = product.data;

@@ -12,14 +12,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useCatalogProducts, useInvalidateCatalog } from "@/hooks/useProductCatalog";
 import { approveVersion, readinessForVersion, STATUS_LABEL } from "@/lib/productCatalog";
 import { ArrowLeft, ShieldAlert } from "lucide-react";
 
 export default function ProductAdmin() {
-  const { can } = useAuth();
-  const isMaintainer = can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isMaintainer = access.productDrafts;
+  // Version approval and publication are gated on publication authority in the database.
+  const canApprove = access.publish;
   const products = useCatalogProducts();
   const invalidate = useInvalidateCatalog();
 
@@ -92,10 +94,16 @@ export default function ProductAdmin() {
 
         <Card className="space-y-2 p-4">
           <p className="text-sm font-semibold">Approval reason (recorded in the audit log)</p>
+          {!canApprove && (
+            <p className="text-xs text-muted-foreground">
+              Your role may prepare draft records but may not approve or publish them.
+            </p>
+          )}
           <Textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Cite the document, section and reason for approving this version."
+            disabled={!canApprove}
           />
         </Card>
 
@@ -138,17 +146,21 @@ export default function ProductAdmin() {
                       <Button size="sm" variant="outline" disabled={busy === v.id} onClick={() => check(v.id)}>
                         Check publication gate
                       </Button>
-                      <Button size="sm" disabled={busy === v.id || v.immutable} onClick={() => approve(v.id, "approved")}>
-                        Approve version
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        disabled={busy === v.id}
-                        onClick={() => approve(v.id, "published")}
-                      >
-                        Publish version
-                      </Button>
+                      {canApprove && (
+                        <>
+                          <Button size="sm" disabled={busy === v.id || v.immutable} onClick={() => approve(v.id, "approved")}>
+                            Approve version
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            disabled={busy === v.id}
+                            onClick={() => approve(v.id, "published")}
+                          >
+                            Publish version
+                          </Button>
+                        </>
+                      )}
                     </div>
                     {(blockers[v.id] ?? []).length > 0 && (
                       <ul className="list-disc space-y-0.5 pl-5 text-[11px] text-destructive">
