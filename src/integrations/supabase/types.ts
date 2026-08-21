@@ -7027,6 +7027,73 @@ export type Database = {
           },
         ]
       }
+      quarantined_source_instructions: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          id: string
+          instruction_text: string
+          kit_id: string | null
+          operational_use_allowed: boolean
+          page_reference: string | null
+          quarantine_reason: string
+          source_document_id: string
+          storage_class: string
+          updated_at: string
+          user_visible: boolean
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          instruction_text: string
+          kit_id?: string | null
+          operational_use_allowed?: boolean
+          page_reference?: string | null
+          quarantine_reason: string
+          source_document_id: string
+          storage_class?: string
+          updated_at?: string
+          user_visible?: boolean
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          instruction_text?: string
+          kit_id?: string | null
+          operational_use_allowed?: boolean
+          page_reference?: string | null
+          quarantine_reason?: string
+          source_document_id?: string
+          storage_class?: string
+          updated_at?: string
+          user_visible?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quarantined_source_instructions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quarantined_source_instructions_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "product_kits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quarantined_source_instructions_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       readiness_overrides: {
         Row: {
           assessment_id: string
