@@ -5931,6 +5931,82 @@ export type Database = {
           },
         ]
       }
+      product_restrictions: {
+        Row: {
+          condition_key: string
+          created_at: string
+          id: string
+          notes: string | null
+          operator_override_allowed: boolean
+          page_reference: string | null
+          product_id: string
+          product_version_id: string
+          provisional: boolean
+          rule_kind: string
+          severity: string
+          source_document_id: string | null
+          statement: string
+          updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }
+        Insert: {
+          condition_key: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          operator_override_allowed?: boolean
+          page_reference?: string | null
+          product_id: string
+          product_version_id: string
+          provisional?: boolean
+          rule_kind: string
+          severity: string
+          source_document_id?: string | null
+          statement: string
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Update: {
+          condition_key?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          operator_override_allowed?: boolean
+          page_reference?: string | null
+          product_id?: string
+          product_version_id?: string
+          provisional?: boolean
+          rule_kind?: string
+          severity?: string
+          source_document_id?: string | null
+          statement?: string
+          updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_restrictions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "professional_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_restrictions_product_version_id_fkey"
+            columns: ["product_version_id"]
+            isOneToOne: false
+            referencedRelation: "product_versions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_restrictions_source_document_id_fkey"
+            columns: ["source_document_id"]
+            isOneToOne: false
+            referencedRelation: "source_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_safety_data: {
         Row: {
           created_at: string
@@ -7326,6 +7402,7 @@ export type Database = {
           company_id: string | null
           country: string | null
           created_at: string
+          currentness: string | null
           document_ref: string | null
           document_state: string
           document_title: string
@@ -7341,6 +7418,7 @@ export type Database = {
           kit_id: string | null
           language: string
           notes: string | null
+          printed_identifier: string | null
           product_id: string | null
           publication_date: string | null
           review_date: string | null
@@ -7348,6 +7426,7 @@ export type Database = {
           reviewed_by: string | null
           reviewer: string | null
           revision_date: string | null
+          source_role: string | null
           source_url: string | null
           superseded_by: string | null
           supersedes_document_id: string | null
@@ -7359,6 +7438,7 @@ export type Database = {
           company_id?: string | null
           country?: string | null
           created_at?: string
+          currentness?: string | null
           document_ref?: string | null
           document_state?: string
           document_title: string
@@ -7374,6 +7454,7 @@ export type Database = {
           kit_id?: string | null
           language?: string
           notes?: string | null
+          printed_identifier?: string | null
           product_id?: string | null
           publication_date?: string | null
           review_date?: string | null
@@ -7381,6 +7462,7 @@ export type Database = {
           reviewed_by?: string | null
           reviewer?: string | null
           revision_date?: string | null
+          source_role?: string | null
           source_url?: string | null
           superseded_by?: string | null
           supersedes_document_id?: string | null
@@ -7392,6 +7474,7 @@ export type Database = {
           company_id?: string | null
           country?: string | null
           created_at?: string
+          currentness?: string | null
           document_ref?: string | null
           document_state?: string
           document_title?: string
@@ -7407,6 +7490,7 @@ export type Database = {
           kit_id?: string | null
           language?: string
           notes?: string | null
+          printed_identifier?: string | null
           product_id?: string | null
           publication_date?: string | null
           review_date?: string | null
@@ -7414,6 +7498,7 @@ export type Database = {
           reviewed_by?: string | null
           reviewer?: string | null
           revision_date?: string | null
+          source_role?: string | null
           source_url?: string | null
           superseded_by?: string | null
           supersedes_document_id?: string | null
