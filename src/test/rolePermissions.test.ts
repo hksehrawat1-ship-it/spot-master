@@ -257,7 +257,7 @@ describe("database authorization suite", () => {
   });
 
   dbIt("no test record survived the authorization run", () => {
-    expect(sql("select count(*) from auth.users where email like 'zztest%'")).toBe("0");
+    expect(sql("select count(*) from public.product_kits where kit_name like 'ZZTEST%'")).toBe("0");
     expect(sql("select count(*) from public.companies where company_name like 'ZZTEST%'")).toBe("0");
   });
 
