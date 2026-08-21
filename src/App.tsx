@@ -12,6 +12,8 @@ import Install from "@/pages/Install";
 import Register from "@/pages/Register";
 import Checkout from "@/pages/Checkout";
 import Setup from "@/pages/Setup";
+import Preferences from "@/pages/Preferences";
+
 import Workspace from "@/pages/Workspace";
 import Cases from "@/pages/Cases";
 import StainDetailPage from "./pages/StainDetail";
@@ -97,6 +99,8 @@ const App = () => (
           <Route element={<AppShell />}>
             <Route element={<RequireSignIn />}>
               <Route path="/home" element={<Workspace />} />
+              <Route path="/preferences" element={<Preferences />} />
+
               <Route path="/cases" element={<Cases />} />
               <Route path="/cases/new" element={<StainIdentifyFlow />} />
             </Route>
