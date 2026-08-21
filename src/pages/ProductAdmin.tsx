@@ -20,8 +20,10 @@ import { ArrowLeft, ShieldAlert } from "lucide-react";
 export default function ProductAdmin() {
   const access = useAccess();
   const isMaintainer = access.productDrafts;
-  // Version approval and publication are gated on publication authority in the database.
-  const canApprove = access.publish;
+  // Technical approval and publication are two separate authorities, both
+  // enforced independently by the database.
+  const canTechnicallyApprove = access.technicalApprove;
+  const canPublish = access.publish;
   const products = useCatalogProducts();
   const invalidate = useInvalidateCatalog();
 
@@ -93,17 +95,28 @@ export default function ProductAdmin() {
         <Input placeholder="Search products" value={query} onChange={(e) => setQuery(e.target.value)} />
 
         <Card className="space-y-2 p-4">
-          <p className="text-sm font-semibold">Approval reason (recorded in the audit log)</p>
-          {!canApprove && (
+          <p className="text-sm font-semibold">Reason (recorded in the audit log)</p>
+          {!canTechnicallyApprove && !canPublish && (
             <p className="text-xs text-muted-foreground">
-              Your role may prepare draft records but may not approve or publish them.
+              Your role may prepare draft records. Technical approval and publication are carried out by other roles.
+            </p>
+          )}
+          {canTechnicallyApprove && !canPublish && (
+            <p className="text-xs text-muted-foreground">
+              Your role may technically approve a version. Publication is carried out by a separate role.
+            </p>
+          )}
+          {!canTechnicallyApprove && canPublish && (
+            <p className="text-xs text-muted-foreground">
+              Your role may publish a version that has already been technically approved. Technical approval is
+              carried out by a separate role.
             </p>
           )}
           <Textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="Cite the document, section and reason for approving this version."
-            disabled={!canApprove}
+            placeholder="Cite the document, section and reason for this decision."
+            disabled={!canTechnicallyApprove && !canPublish}
           />
         </Card>
 
@@ -146,22 +159,31 @@ export default function ProductAdmin() {
                       <Button size="sm" variant="outline" disabled={busy === v.id} onClick={() => check(v.id)}>
                         Check publication gate
                       </Button>
-                      {canApprove && (
-                        <>
-                          <Button size="sm" disabled={busy === v.id || v.immutable} onClick={() => approve(v.id, "approved")}>
-                            Approve version
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="secondary"
-                            disabled={busy === v.id}
-                            onClick={() => approve(v.id, "published")}
-                          >
-                            Publish version
-                          </Button>
-                        </>
+                      {canTechnicallyApprove && (
+                        <Button
+                          size="sm"
+                          disabled={busy === v.id || v.immutable}
+                          onClick={() => approve(v.id, "approved")}
+                        >
+                          Approve version
+                        </Button>
+                      )}
+                      {canPublish && (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          disabled={busy === v.id || v.approval_status !== "approved"}
+                          onClick={() => approve(v.id, "published")}
+                        >
+                          Publish version
+                        </Button>
                       )}
                     </div>
+                    {canPublish && v.approval_status !== "approved" && (
+                      <p className="text-[11px] text-muted-foreground">
+                        Publication becomes available once this version has been technically approved.
+                      </p>
+                    )}
                     {(blockers[v.id] ?? []).length > 0 && (
                       <ul className="list-disc space-y-0.5 pl-5 text-[11px] text-destructive">
                         {blockers[v.id].map((b) => (
