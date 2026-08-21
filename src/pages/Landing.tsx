@@ -191,7 +191,7 @@ export default function Landing() {
 
       {/* Supported kits */}
       <section id="supported-kits" className="sm-container py-12">
-        <h2>Supported spotting kits</h2>
+        <h2>Spotting kit libraries</h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
           Product libraries being prepared. Manufacturer products are being documented separately. Approved
           stain-to-product guidance is not yet available.
@@ -203,8 +203,9 @@ export default function Landing() {
               <span className="mt-1 block text-xs font-medium text-muted-foreground">Library being prepared</span>
             </li>
           ))}
-          <li className="sm-card text-center text-sm text-muted-foreground">More Spotting&nbsp;</li>
-          <li className="sm-card text-center text-sm text-muted-foreground">More companies are onboarding...&nbsp;</li>
+          <li className="sm-card text-center text-sm text-muted-foreground">
+            More spotting-kit companies are onboarding.
+          </li>
         </ul>
       </section>
 
