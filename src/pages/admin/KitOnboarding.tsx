@@ -136,9 +136,21 @@ export default function KitOnboarding() {
     const lines = rawRows.split("\n").map((l) => l.trim()).filter(Boolean);
     if (!batchName.trim() || lines.length === 0) return toast.error("A batch name and at least one row are required.");
 
+    const { data: last } = await supabase
+      .from("import_batches")
+      .select("batch_number")
+      .order("batch_number", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
     const { data: batch, error: batchError } = await supabase
       .from("import_batches")
-      .insert({ batch_name: batchName.trim(), status: "staged", validation_status: "pending_review" })
+      .insert({
+        batch_name: batchName.trim(),
+        batch_number: (last?.batch_number ?? 0) + 1,
+        status: "staged",
+        validation_status: "pending_review",
+      })
       .select("id")
       .single();
     if (batchError || !batch) return toast.error(batchError?.message ?? "Batch could not be created.");
