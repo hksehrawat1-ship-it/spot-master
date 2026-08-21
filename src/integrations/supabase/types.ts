@@ -4533,6 +4533,7 @@ export type Database = {
           offer_price_minor: number
           plan_code: string
           plan_name: string
+          tax_inclusive: boolean
           tax_label: string
           tax_rate_percent: number
           updated_at: string
@@ -4547,6 +4548,7 @@ export type Database = {
           offer_price_minor: number
           plan_code: string
           plan_name: string
+          tax_inclusive?: boolean
           tax_label?: string
           tax_rate_percent?: number
           updated_at?: string
@@ -4561,6 +4563,7 @@ export type Database = {
           offer_price_minor?: number
           plan_code?: string
           plan_name?: string
+          tax_inclusive?: boolean
           tax_label?: string
           tax_rate_percent?: number
           updated_at?: string
