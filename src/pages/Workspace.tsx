@@ -42,9 +42,10 @@ export default function Workspace() {
           {kits.slice(0, 3).map((k) => (
             <StatusPill key={k} tone="proceed" label={k} />
           ))}
-          <Link to="/account" className="text-sm text-primary underline">
-            Change
+          <Link to="/preferences" className="text-sm text-primary underline">
+            Change level & products
           </Link>
+
         </div>
       </header>
 
