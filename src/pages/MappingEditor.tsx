@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useCatalogProducts, useSourceDocuments } from "@/hooks/useProductCatalog";
 import {
   EVIDENCE_LEVELS,
@@ -39,8 +39,9 @@ const STOP_CONDITIONS = [
 ];
 
 export default function MappingEditor() {
-  const { can } = useAuth();
-  const isReviewer = can("content.technical.approve") || can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isReviewer = access.productDrafts;
+  const canApprove = access.technicalApprove || access.publish;
 
   const products = useCatalogProducts();
   const documents = useSourceDocuments();

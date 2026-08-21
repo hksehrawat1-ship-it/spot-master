@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useCatalogCompanies, useCatalogKits, useCatalogProducts } from "@/hooks/useProductCatalog";
 import { STATUS_LABEL, UNKNOWN_STATES } from "@/lib/productCatalog";
 import { ArrowLeft, FlaskConical, ShieldAlert } from "lucide-react";
@@ -21,8 +21,8 @@ const chip = (active: boolean) =>
   }`;
 
 export default function ProductLibrary() {
-  const { can } = useAuth();
-  const isMaintainer = can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isMaintainer = access.productDrafts;
 
   const products = useCatalogProducts();
   const companies = useCatalogCompanies();

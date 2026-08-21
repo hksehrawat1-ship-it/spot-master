@@ -12,14 +12,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useCatalogProducts, useInvalidateCatalog } from "@/hooks/useProductCatalog";
 import { approveVersion, readinessForVersion, STATUS_LABEL } from "@/lib/productCatalog";
 import { ArrowLeft, ShieldAlert } from "lucide-react";
 
 export default function ProductAdmin() {
-  const { can } = useAuth();
-  const isMaintainer = can("products.manage") || can("content.draft.edit");
+  const access = useAccess();
+  const isMaintainer = access.productDrafts;
   const products = useCatalogProducts();
   const invalidate = useInvalidateCatalog();
 

@@ -9,13 +9,13 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/auth/AuthProvider";
+import { useAccess } from "@/auth/useAccess";
 import { useGuidanceMappings } from "@/hooks/useGuidanceMappings";
 import { ArrowLeft, Grid3X3 } from "lucide-react";
 
 export default function MappingMatrix() {
-  const { can } = useAuth();
-  const isMaintainer = can("products.manage") || can("content.draft.edit") || can("content.technical.approve");
+  const access = useAccess();
+  const isMaintainer = access.productDrafts;
   const mappings = useGuidanceMappings({ includeDrafts: isMaintainer });
   const [query, setQuery] = useState("");
 
