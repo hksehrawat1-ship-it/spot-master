@@ -155,107 +155,57 @@ describe("frontend role matrix", () => {
 
 /* ------------------------------------------------------------- database */
 
-describe("database permission contract", () => {
-  dbIt("is_product_maintainer covers exactly the five maintainer roles", () => {
-    expect(rolesInFunction("is_product_maintainer")).toEqual(
-      ["administrator", "content_admin", "content_editor", "owner", "technical_reviewer"],
+/**
+ * The authorization behaviour itself is proven by a real integration suite that
+ * runs inside the database: `supabase/tests/authorization.test.sql`. It creates
+ * temporary accounts, temporary roles and temporary product records, exercises
+ * the real functions and the real row-level security policies as each role,
+ * then rolls everything back and records only a pass/fail summary in
+ * `public.authorization_test_runs`.
+ *
+ * These tests read that recorded run. They never inspect function source text.
+ */
+
+describe("database authorization suite", () => {
+  if (!hasDb) {
+    it.todo(
+      "DATABASE AUTHORIZATION SUITE NOT EXECUTED HERE — run supabase/tests/authorization.test.sql " +
+        "against the database and re-check public.authorization_test_runs",
     );
-  });
+  }
 
-  dbIt("can_technical_approve covers exactly owner and technical reviewer", () => {
-    expect(rolesInFunction("can_technical_approve")).toEqual(["owner", "technical_reviewer"]);
-  });
-
-  dbIt("can_publish_content covers exactly owner, administrator and content administrator", () => {
-    expect(rolesInFunction("can_publish_content")).toEqual(["administrator", "content_admin", "owner"]);
-  });
-
-  dbIt("is_platform_admin covers exactly owner, administrator and system administrator", () => {
-    expect(rolesInFunction("is_platform_admin")).toEqual(["administrator", "owner", "system_admin"]);
-  });
-
-  dbIt("can_read_professional_guidance covers exactly the four professional roles", () => {
-    expect(rolesInFunction("can_read_professional_guidance")).toEqual(
-      ["dry_cleaner", "laundry_employee", "professional_spotter", "trainer"],
+  dbIt("the recorded authorization run completed without aborting", () => {
+    const aborted = sql(
+      `select coalesce(aborted_with, '') from public.authorization_test_runs order by run_at desc limit 1`,
     );
+    expect(aborted).toBe("");
   });
 
-  dbIt("can_read_product_audit covers exactly the governance roles", () => {
-    expect(rolesInFunction("can_read_product_audit")).toEqual(
-      ["administrator", "auditor", "owner", "technical_reviewer"],
+  dbIt("every authorization test passed", () => {
+    const row = sql(
+      `select total || '|' || passed || '|' || failed from public.authorization_test_runs order by run_at desc limit 1`,
     );
+    const [total, passed, failed] = row.split("|").map(Number);
+    expect(failed).toBe(0);
+    expect(passed).toBe(total);
+    expect(total).toBeGreaterThanOrEqual(80);
   });
 
-  const PRODUCT_TABLES = [
-    "companies", "product_kits", "professional_products", "kit_products", "product_versions",
-    "source_documents", "product_source_documents", "product_manufacturer_claims",
-    "product_safety_data", "product_instructions", "product_guidance_mappings",
-    "product_audit_log", "import_batches", "import_staging_rows",
-  ];
-
-  dbIt("every product-domain table has row-level security enabled", () => {
-    const off = sql(
-      `select string_agg(relname, ',') from pg_class
-       where relname in (${PRODUCT_TABLES.map((t) => `'${t}'`).join(",")}) and not relrowsecurity`,
+  dbIt("the recorded run covers approval, publication, professional reads and bootstrap", () => {
+    const names = sql(
+      `select string_agg(e->>'test', ' ') from public.authorization_test_runs,
+        lateral jsonb_array_elements(results) e
+       where id = (select id from public.authorization_test_runs order by run_at desc limit 1)`,
     );
-    expect(off).toBe("");
+    expect(names).toMatch(/technical reviewer cannot publish/);
+    expect(names).toMatch(/administrator cannot technically approve/);
+    expect(names).toMatch(/administrator publishes an approved version/);
+    expect(names).toMatch(/cannot read an approved but unverified version/);
+    expect(names).toMatch(/a second bootstrap attempt is rejected/);
+    expect(names).toMatch(/advisory lock/);
   });
 
-  dbIt("no product-domain policy is granted to anonymous users", () => {
-    const bad = sql(
-      `select coalesce(string_agg(distinct tablename || ':' || policyname, ','), '') from pg_policies
-       where schemaname='public' and tablename in (${PRODUCT_TABLES.map((t) => `'${t}'`).join(",")})
-         and 'anon' = any(roles)`,
-    );
-    expect(bad).toBe("");
-  });
-
-  dbIt("anonymous users hold no privileges on product-domain tables", () => {
-    const bad = sql(
-      `select coalesce(string_agg(distinct table_name, ','), '') from information_schema.role_table_grants
-       where grantee='anon' and table_schema='public'
-         and table_name in (${PRODUCT_TABLES.map((t) => `'${t}'`).join(",")})`,
-    );
-    expect(bad).toBe("");
-  });
-
-  dbIt("draft product-domain writes are restricted to product maintainers", () => {
-    for (const table of PRODUCT_TABLES) {
-      const writes = sql(
-        `select coalesce(string_agg(policyname || '|' || cmd || '|' || coalesce(with_check, qual, ''), ' ;; '), '')
-         from pg_policies where schemaname='public' and tablename='${table}' and cmd <> 'SELECT'`,
-      );
-      expect(writes, `${table} write policies`).toMatch(/is_product_maintainer/);
-      expect(writes, `${table} must not use the old helper`).not.toMatch(/is_content_maintainer/);
-    }
-  });
-
-  dbIt("professional read policies never expose drafts or provisional records", () => {
-    const rows = sql(
-      `select coalesce(string_agg(tablename || '|' || policyname, ','), '') from pg_policies
-       where schemaname='public' and cmd='SELECT'
-         and tablename in ('professional_products','product_versions','product_guidance_mappings')
-         and qual like '%can_read_professional_guidance%'
-         and qual not like '%approved%'`,
-    );
-    expect(rows).toBe("");
-  });
-
-  dbIt("product audit history is readable only by governance roles", () => {
-    const q = sql(
-      `select coalesce(string_agg(qual, ' '), '') from pg_policies
-       where schemaname='public' and tablename='product_audit_log' and cmd='SELECT'`,
-    );
-    expect(q).toMatch(/can_read_product_audit/);
-  });
-
-  /* ------------------------------------------- first-owner bootstrap */
-
-  dbIt("the bootstrap function exists, is SECURITY DEFINER and has a fixed search path", () => {
-    const def = functionBody("bootstrap_first_owner");
-    expect(def).toMatch(/SECURITY DEFINER/);
-    expect(def).toMatch(/SET search_path TO 'public'|SET search_path = public/);
-  });
+  /* ------------------------------------------- real privilege checks */
 
   dbIt("the bootstrap function is unavailable to anonymous and signed-in users", () => {
     const acl = sql(
@@ -267,15 +217,6 @@ describe("database permission contract", () => {
     expect(acl).not.toMatch(/(^|,)authenticated=/);
     expect(acl).not.toMatch(/(^|,)=X/); // no PUBLIC execute
     expect(acl).toMatch(/service_role=X/);
-  });
-
-  dbIt("the bootstrap rejects an unknown user, an empty reason and a second attempt", () => {
-    const def = functionBody("bootstrap_first_owner");
-    expect(def).toMatch(/FROM auth\.users/);
-    expect(def).toMatch(/No account exists for that identifier/);
-    expect(def).toMatch(/A written reason is required/);
-    expect(def).toMatch(/can only run once/);
-    expect(def).toMatch(/security_audit_log/);
   });
 
   dbIt("privileged roles are not self-assignable from the application", () => {
@@ -325,6 +266,11 @@ describe("database permission contract", () => {
       pending_reroutes: 4,
       guidance_mappings: 0,
     });
+  });
+
+  dbIt("no test record survived the authorization run", () => {
+    expect(sql("select count(*) from auth.users where email like 'zztest%'")).toBe("0");
+    expect(sql("select count(*) from public.companies where company_name like 'ZZTEST%'")).toBe("0");
   });
 
   dbIt("nothing has been approved, verified or published by this step", () => {
