@@ -91,7 +91,7 @@ BEGIN
     SELECT count(*) INTO n FROM (
       SELECT product_ref FROM public.professional_products WHERE company_id = c_company
       GROUP BY product_ref HAVING count(*) > 1) d;
-    res := res || jsonb_build_object('test','I8 Seitz product references are unique','pass', n = 0, 'detail', n);
+    res := res || jsonb_build_object('test','I8 Seitz product references are unique, no duplicates','pass', n = 0, 'detail', n);
 
     SELECT count(*) INTO n FROM public.product_versions
      WHERE product_id IN (SELECT id FROM public.professional_products
@@ -239,7 +239,9 @@ BEGIN
     -- =================================================================
     FOREACH r IN ARRAY ARRAY['owner','technical_reviewer','administrator','content_admin',
                              'content_editor','dry_cleaner','professional_spotter','domestic_user'] LOOP
-      INSERT INTO auth.users(id, email) VALUES (gen_random_uuid(), 'zzseitz-'||r||'@example.invalid')
+      INSERT INTO auth.users(id, email, instance_id, aud, role)
+      VALUES (gen_random_uuid(), 'zzseitz-'||r||'@example.invalid',
+              '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated')
         RETURNING id INTO tmp;
       INSERT INTO public.user_roles(user_id, role) VALUES (tmp, r::public.app_role);
       u := u || jsonb_build_object(r, tmp::text);
@@ -257,7 +259,7 @@ BEGIN
     PERFORM pg_temp.as_trusted();
     res := res || jsonb_build_object('test','S6a technical approval is refused for all seven staging versions','pass', all_blocked);
     res := res || jsonb_build_object('test','S6b blocker list names the missing SDS or TDS evidence','pass',
-      err ILIKE '%SDS%' OR err ILIKE '%TDS%', 'detail', err);
+      (err ILIKE '%SDS%' OR err ILIKE '%TDS%') AND err NOT ILIKE '%malformed%', 'detail', err);
 
     SELECT count(*) INTO n FROM public.product_versions
      WHERE id = ANY(vids) AND (approval_status <> 'draft' OR verification_status = 'verified' OR provisional = false);
@@ -268,14 +270,21 @@ BEGIN
     EXCEPTION WHEN others THEN j := jsonb_build_object('ok', false, 'blockers', to_jsonb(ARRAY[SQLERRM])); END;
     PERFORM pg_temp.as_trusted();
     res := res || jsonb_build_object('test','S6d technical approval of the pilot mapping is refused','pass',
-      NOT coalesce((j->>'ok')::boolean, false), 'detail', j::text);
+      NOT coalesce((j->>'ok')::boolean, false) AND j::text NOT ILIKE '%malformed%', 'detail', j::text);
 
     PERFORM pg_temp.as_user((u->>'content_admin')::uuid);
     BEGIN j := public.publish_guidance_mapping(map_id, 'Publisher bypass attempt');
     EXCEPTION WHEN others THEN j := jsonb_build_object('ok', false, 'blockers', to_jsonb(ARRAY[SQLERRM])); END;
     PERFORM pg_temp.as_trusted();
     res := res || jsonb_build_object('test','R5 a publisher cannot bypass technical approval','pass',
-      NOT coalesce((j->>'ok')::boolean, false), 'detail', j::text);
+      NOT coalesce((j->>'ok')::boolean, false) AND j::text NOT ILIKE '%malformed%', 'detail', j::text);
+
+    PERFORM pg_temp.as_user((u->>'content_admin')::uuid);
+    BEGIN j := public.publish_product_version(pura_v, 'Publisher bypass attempt');
+    EXCEPTION WHEN others THEN j := jsonb_build_object('ok', false, 'blockers', to_jsonb(ARRAY[SQLERRM])); END;
+    PERFORM pg_temp.as_trusted();
+    res := res || jsonb_build_object('test','R5b a publisher cannot publish an unapproved staging version','pass',
+      NOT coalesce((j->>'ok')::boolean, false) AND j::text NOT ILIKE '%malformed%', 'detail', j::text);
 
     -- =================================================================
     -- Pilot mapping content
@@ -344,6 +353,7 @@ BEGIN
     BEGIN PERFORM public.technically_approve_product_version(pura_v,'Editor attempt'); ok := true;
     EXCEPTION WHEN others THEN ok := false; END;
     res := res || jsonb_build_object('test','R9 a content editor cannot technically approve','pass', ok = false);
+    PERFORM pg_temp.as_trusted();
 
     -- maintainer visibility
     PERFORM pg_temp.as_user((u->>'technical_reviewer')::uuid);
