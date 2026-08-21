@@ -243,7 +243,7 @@ function PlanOption({
       onClick={onSelect}
       aria-pressed={selected}
       className={`relative rounded-[var(--radius)] border p-4 text-left transition-[var(--transition-base)] ${
-        selected ? "border-primary bg-primary-soft shadow-[var(--shadow-card)]" : "border-border bg-surface hover:border-primary/40"
+        selected ? "border-primary bg-secondary shadow-[var(--shadow-card)]" : "border-border bg-surface hover:border-primary/40"
       }`}
     >
       {badge && (

@@ -97,7 +97,7 @@ export default function StainMasterPaywall({
               type="button"
               onClick={() => setPlanChoice("monthly")}
               className={`rounded-lg border p-3 text-left transition-colors ${
-                planChoice === "monthly" ? "border-primary bg-primary-soft" : "border-border bg-card hover:border-primary/40"
+                planChoice === "monthly" ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/40"
               }`}
             >
               <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Monthly</span>
@@ -111,7 +111,7 @@ export default function StainMasterPaywall({
               type="button"
               onClick={() => setPlanChoice("annual")}
               className={`relative rounded-lg border p-3 text-left transition-colors ${
-                planChoice === "annual" ? "border-primary bg-primary-soft" : "border-border bg-card hover:border-primary/40"
+                planChoice === "annual" ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/40"
               }`}
             >
               <span className="absolute -top-2 left-2 rounded-full bg-proceed px-2 py-0.5 text-[9px] font-bold text-proceed-foreground">

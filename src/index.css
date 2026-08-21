@@ -25,6 +25,7 @@
     --primary: 216 81% 48%;             /* #1769E0 professional blue */
     --primary-foreground: 0 0% 100%;
     --primary-soft: 217 81% 96%;        /* #EAF2FF */
+    --primary-glow: 217 90% 62%;        /* lighter blue for gradient ends */
     --teal: 174 88% 26%;                /* #087F73 verified professional */
     --teal-foreground: 0 0% 100%;
 
